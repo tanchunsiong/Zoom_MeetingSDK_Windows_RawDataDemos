@@ -105,7 +105,7 @@ The main method, or main entry point of this application is at `MSDK_GetVideoRaw
 From a high level point of view it will do the below
 
 - Join a meeting
-- Wait for callback or status update. There are some prerequistes before you can get audio raw data. The `CanIStartRecording()` method helps to check if you have fulfilled these requirements
+- Wait for callback or status update. There are some prerequistes before you can get video raw data. The `CanIStartRecording()` method helps to check if you have fulfilled these requirements
   - You need to have host, co-host or recording permissions
   - You need to be in-meeting. This is the status when you have fully joined a meeting.
 - Get the Meeting Recording Controller
@@ -136,3 +136,5 @@ What are some libraries I need to include in the main class?
 you will need to `#include <meeting_recording_interface.h>`
 
 What can i use to playback or convert the YUV file into something playable?
+
+Why does my app crash after running for a while?
