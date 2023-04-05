@@ -2,8 +2,8 @@
 
 A Windows C++ Application demonstrate Zoom Meeting SDK receiving audio raw data from a Zoom Meeting.
 
-## Install vcpkg for adding dependency libs.
-## You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
+# Install vcpkg for adding dependency libs.
+You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
 ```
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
@@ -11,17 +11,17 @@ cd vcpkg
 ./vcpkg integrate install
 ```
 
-## Add dependency libs
-## opencv might not be necessary if you are not going to do video/image processing before saving.
-## opencv might not be necessary if you are just saving raw audio to file..
-## opencv will take a while (10 mins) to complete
+# Add dependency libs
+opencv might not be necessary if you are not going to do video/image processing before saving.
+opencv might not be necessary if you are just saving raw audio to file..
+opencv will take a while (10 mins) to complete
 
 ```
 ./vcpkg install jsoncpp
 ./vcpkg install opencv 
 ```
 
-## Clone the project source code
+# Clone the project source code
 
 ```
 git clone https://github.com/tanchunsiong/MSDK_RawDataDemos
@@ -100,22 +100,31 @@ From a high level point of view it will do the below
   - You need to be in-meeting. This is the status when you have fully joined a meeting.
 - Get the Meeting Recording Controller
   - Use the Meeting Recording Controller to call `StartRawRecording()`. Do note that you can only either run `StartRecording()` or `StartRawRecording()`. You cannot run them both at once.
-- Thereafter, you should be able to GetAudioRawdataHelper(), which is used to subscribe to your AudioSource (An implementation of IZoomSDKAudioRawDataDelegate). If you encounter error calling `GetAudioRawdataHelper(), you might be calling it without the prequisites. 
-  - In the implementation(in this demo AudioSource.cpp), onMixedAudioRawDataReceived and onOneWayAudioRawDataReceived will start to receive callbacks.
-  - Save the PCM buffer into a file. You will need to use a converter such as ffmpeg to convert this PCM file into a playable wav or mp3 file.
+- Thereafter, you should be able to `GetAudioRawdataHelper()`, which is used to subscribe to your `AudioSource.cpp` (An implementation of `IZoomSDKAudioRawDataDelegate`). If you encounter error calling `GetAudioRawdataHelper(), you might be calling it without the prequisites. 
+  - In the implementation(`AudioSource.cpp`), `onMixedAudioRawDataReceived` and `onOneWayAudioRawDataReceived` will start to receive callbacks.
+  - I'm using `onMixedAudioRawDataReceived` to save the PCM buffer into a file. You will need to use a converter such as ffmpeg to convert this PCM file into a playable wav or mp3 file.
 
-#TODO change this description
+# Upgrading Guide
 
-1. add AudioSource.h header file
-2. add AudioSource.cpp delegate file
-3. explain the folder structure, upgrading guide
-4. resolving errors (a strategy)
-5. requirements to get raw audio
-6. audio guide
+You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
 
-you might need to in some files if it complains
+Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
+
+You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
+
+Some classes might need additional libraries, depending on your development environment, example...
+```
 #include <cstdint>
 #include <windows.h>
+```
+# Resolving Errors
 
-in the main class you will need to include
-#include <meeting_recording_interface.h>
+What are the specs of the returned PCM audio?
+Mono, 16 bits and 32000khz.
+
+Does both onMixedAudioRawDataReceived and onOneWayAudioRawDataReceived run at the same time?
+
+Yes. You use onOneWayAudioRawDataReceived to get a specific person's audio stream. You use onMixedAudioRawDataReceived to get the entire party's audio stream.
+
+What are some libraries I need to include in the main class? 
+you will need to `#include <meeting_recording_interface.h>`
