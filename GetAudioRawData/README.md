@@ -1,6 +1,6 @@
-# MSDK_GetAudioRawData
+# Meeting SDK for Windows - Get Audio Raw Data
 
-A Windows C++ Application demostrate Zoom Meeting SDK receiving audio raw data as user's audio source to a Zoom Meeting.
+A Windows C++ Application demonstrate Zoom Meeting SDK receiving audio raw data from a Zoom Meeting.
 
 ## Install vcpkg for adding dependency libs.
 ## You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
@@ -18,33 +18,34 @@ cd vcpkg
 
 ```
 ./vcpkg install jsoncpp
-./vcpkg install opencv
+./vcpkg install opencv 
 ```
 
 ## Clone the project source code
 
 ```
-git clone https://git.zoom.us/chunsiong.tan/MSDK_GetAudioRawData
+git clone https://github.com/tanchunsiong/MSDK_RawDataDemos
 ```
 
-## Add config to config.json
+## Add a configuration file named `config.json`
 
 ```
 {
   "sdk_jwt": "<your_sdk_jwt>",
   "meeting_number": <meeting_number_to_join>,
   "passcode": "<passcode>",
-  "video_source": "Big_Buck_Bunny_1080_10s_1MB.mp4"
+  "video_source": "Big_Buck_Bunny_1080_10s_1MB.mp4",
+  "zak":""
 }
 ```
 
-The app will try to join the meeting follow the Meeting Number you specified in the config.json. Specify a video source for sending to the meeting as a vitual video source. The video source could be a file path or a stream url. A video file name, "Big_Buck_Bunny_1080_10s_1MB.mp4" is set by default, which is video file's name included in project source code.
+The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
 
 ## Open and Run Project
 
-Open "MSDK_SendVideoRawData.vcxproj" file from Visual Studio 2022.
+Open "MSDK_GetAudioRawData.vcxproj" file from Visual Studio 2022.
 
-Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 to launch the application.
+Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
 
 
 ## Error
@@ -87,13 +88,26 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
   ```
   ./vcpkg install opencv[contrib,ffmpeg,nonfree,opengl,openmp,world]
   ```
- 
+## Getting Started
 
+The main method, or main entry point of this application is at `MSDK_GetAudioRawData.cpp`
+
+From a high level point of view it will do the below
+
+- Join a meeting
+- Wait for callback or status update. There are some prerequistes before you can get audio raw data. The `CanIStartRecording()` method helps to check if you have fulfilled these requirements
+  - You need to have host, co-host or recording permissions
+  - You need to be in-meeting. This is the status when you have fully joined a meeting.
+- Get the Meeting Recording Controller
+  - Use the Meeting Recording Controller to call `StartRawRecording()`. Do note that you can only either run `StartRecording()` or `StartRawRecording()`. You cannot run them both at once.
+- Thereafter, you should be able to GetAudioRawdataHelper(), which is used to subscribe to your AudioSource (An implementation of IZoomSDKAudioRawDataDelegate). If you encounter error calling `GetAudioRawdataHelper(), you might be calling it without the prequisites. 
+  - In the implementation(in this demo AudioSource.cpp), onMixedAudioRawDataReceived and onOneWayAudioRawDataReceived will start to receive callbacks.
+  - Save the PCM buffer into a file. You will need to use a converter such as ffmpeg to convert this PCM file into a playable wav or mp3 file.
 
 #TODO change this description
 
 1. add AudioSource.h header file
-2. add a delegate AudioSource.cpp file
+2. add AudioSource.cpp delegate file
 3. explain the folder structure, upgrading guide
 4. resolving errors (a strategy)
 5. requirements to get raw audio
