@@ -81,17 +81,15 @@ void prereqCheckForRawVideoSend() {
 		std::this_thread::sleep_for(duration);
 		printf("Finished sleeping for 3 second...\n");
 	}
-
+	//deprecated check, this is not necessary anymore
 	if (HasRawdataLicense() == true) {
-	//if both conditions above are true, start recording
-
 
 	}
 	else
 	{
 		printf("HasRawdataLicense==false. \n");
 	}
-
+	//if both conditions above are true, start sending
 	attemptToStartRawVideoSending();
 }
 
