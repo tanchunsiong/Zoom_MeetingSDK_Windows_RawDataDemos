@@ -1,0 +1,14 @@
+# ignore config.json
+config.json
+
+# ignore sdk and x64 folders
+sdk/
+x64/
+x86/
+.vs/
+
+#ignore media files
+#*.pcm
+#*.wav
+*.yuv
+#*.mp4
