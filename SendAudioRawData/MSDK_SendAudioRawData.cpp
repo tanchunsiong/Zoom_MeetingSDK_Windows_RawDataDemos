@@ -76,28 +76,6 @@ void attemptToStartRawAudioSending() {
 }
 
 
-bool CanIStartLocalRecording()
-{
-    //dreamtcs maybe can move this out
-    IMeetingRecordingController* m_pRecordController = meetingService->GetMeetingRecordingController();
-    if (m_pRecordController)
-    {
-
-
-        SDKError err = m_pRecordController->CanStartRecording(false, 0); //0 refers to current user
-        if (err != SDKERR_SUCCESS) {
-            cout << "Cannot start local recording...\n";
-            //handle error
-            return false;
-        }
-        else {
-            cout << "Can start local recording...\n";
-            return true;
-        }
-
-    }
-}
-
 void prereqCheck() {
 
     //check if you are already in a meeting
@@ -108,17 +86,9 @@ void prereqCheck() {
         std::this_thread::sleep_for(duration);
         printf("Finished sleeping for 3 second...\n");
     }
-    //check if you have host priviledges to start recording
-    //while (CanIStartLocalRecording() == false) {
+  
 
-    //    printf("Waiting for 3 second... Need host access\n");
-    //    std::chrono::seconds duration(3);
-    //    std::this_thread::sleep_for(duration);
-    //    printf("Finished sleeping for 3 second...\n");
-    //}
-
-
-    //if both conditions above are true, start recording
+    //if conditions above are true, start 
     attemptToStartRawAudioSending();
 
 }

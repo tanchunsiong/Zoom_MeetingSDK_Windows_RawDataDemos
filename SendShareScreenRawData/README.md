@@ -1,9 +1,9 @@
-# MSDK_GetVideoRawData
+# Meeting SDK for Windows - Send ScreenShare Raw Data
 
-A Windows C++ Application demostrate Zoom Meeting SDK receiving video raw data as user's video source to a Zoom Meeting.
+A Windows C++ Application demonstrate Zoom Meeting SDK sending ScrnenShare raw data to a Zoom Meeting.
 
-## Install vcpkg for adding dependency libs.
-## You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
+# Install vcpkg for adding dependency libs.
+You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
 ```
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
@@ -11,40 +11,51 @@ cd vcpkg
 ./vcpkg integrate install
 ```
 
-## Add dependency libs
-## opencv might not be necessary if you are not going to do video/image processing before saving.
-## opencv might not be necessary if you are just saving raw audio to file..
-## opencv will take a while (10 mins) to complete
+# Add dependency libs
+opencv might not be necessary if you are not going to do video/image processing before saving.
+opencv might not be necessary if you are just saving raw audio to file..
+opencv will take a while (10 mins) to complete
 
 ```
 ./vcpkg install jsoncpp
-./vcpkg install opencv
+./vcpkg install opencv 
 ```
 
-## Clone the project source code
+# Clone the project source code
 
 ```
-git clone https://git.zoom.us/chunsiong.tan/MSDK_GetVideoRawData
+git clone https://github.com/tanchunsiong/MSDK_RawDataDemos
 ```
 
-## Add config to config.json
+This project is in the SendShareScreenRawData folder
+
+## Add a configuration file named `config.json`
 
 ```
 {
   "sdk_jwt": "<your_sdk_jwt>",
   "meeting_number": <meeting_number_to_join>,
   "passcode": "<passcode>",
-  "video_source": "Big_Buck_Bunny_1080_10s_1MB.mp4"
+  "video_source": "Big_Buck_Bunny_1080_10s_1MB.mp4",
+  "zak":""
 }
 ```
 
-The app will try to join the meeting follow the Meeting Number you specified in the config.json. Specify a video source for sending to the meeting as a vitual video source. The video source could be a file path or a stream url. A video file name, "Big_Buck_Bunny_1080_10s_1MB.mp4" is set by default, which is video file's name included in project source code.
+The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
+
+## Add the sdk files into a folder name `SDK`
+
+
+//To be completed
+
+
+
 
 ## Open and Run Project
 
-Open "MSDK_SendVideoRawData.vcxproj" file from Visual Studio 2022.
+Open "MSDK_SendShareScreenRawData.vcxproj" file from Visual Studio 2022.
 
-Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 to launch the application.
+Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
 
 
 ## Error
@@ -87,19 +98,35 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
   ```
   ./vcpkg install opencv[contrib,ffmpeg,nonfree,opengl,openmp,world]
   ```
- 
- #TODO change this description
+## Getting Started
 
-1. add Video.h header file
-2. add a delegate Video.cpp file
-3. explain the folder structure, upgrading guide
-4. resolving errors (a strategy)
-5. requirements to get raw data
-6. video guide
+The main method, or main entry point of this application is at `MSDK_SendShareScreenRawData.cpp`
 
-you might need to in some files if it complains
+From a high level point of view it will do the below
+
+- Join a meeting
+- Wait for callback or status update. There are some prerequistes before you can get video raw data. The `prereqCheck()` method helps to check if you have fulfilled these requirements
+  - `CanStartShare()` check if no one else is sharing screen, and there are no permissions blocking youf from doing so.
+  - You need to be in-meeting. This is the status when you have fully joined a meeting.
+- Create virtual_share_source, which is an implementation of `IZoomSDKShareSource`
+	- Call `GetRawdataShareSourceHelper` to get `IZoomSDKShareSourceHelper` interface. This `IZoomSDKShareSourceHelper` is needed to assign the share source.
+	- Call `setExternalShareSource(virtual_share_source)` to set the virtual share source.
+- At this stage, the sharing should start to trigger the methods below.
+  - In `VirtualShareSource.cpp`, `onStartSend()`, you can implement your own logic to send video raw data to the meeting. I'm using an additional method `PlayVideoFileToShare` which reads a video file, converts it to YUV420 buffer, and sends it via `sendShareFrame` method.
+  
+# Upgrading Guide
+
+You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
+
+Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
+
+You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
+
+Some classes might need additional libraries, depending on your development environment, example...
+```
 #include <cstdint>
 #include <windows.h>
+```
+# Resolving Errors
 
-in the main class you will need to include
-#include <meeting_recording_interface.h>
+

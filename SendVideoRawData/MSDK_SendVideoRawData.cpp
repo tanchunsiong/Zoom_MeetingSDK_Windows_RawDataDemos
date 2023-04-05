@@ -58,11 +58,12 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 
 
 void attemptToStartRawVideoSending() {
+
 	IZoomSDKVideoSourceHelper*	p_videoSourceHelper = GetRawdataVideoSourceHelper();
 
 
 	if (p_videoSourceHelper) {
-		SDKError err = GetRawdataVideoSourceHelper()->setExternalVideoSource(virtual_camera_video_source);
+		SDKError err = p_videoSourceHelper->setExternalVideoSource(virtual_camera_video_source);
 		if (err != SDKERR_SUCCESS) {
 			printf("attemptToStartRawVideoSending(): Failed to set external video source, error code: %d\n", err);
 		}

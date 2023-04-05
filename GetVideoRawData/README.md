@@ -138,3 +138,5 @@ you will need to `#include <meeting_recording_interface.h>`
 What can i use to playback or convert the YUV file into something playable?
 
 Why does my app crash after running for a while?
+
+Do note that YUV raw buffers are huge in size, it is not recommended to save these raw buffer directly to disk. Do look up on how to use ffmpeg or opencv to convert these raw buffers into decently sized, playable video files.

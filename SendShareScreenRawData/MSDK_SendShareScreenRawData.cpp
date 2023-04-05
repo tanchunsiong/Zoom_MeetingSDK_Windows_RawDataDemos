@@ -75,35 +75,9 @@ uint32_t getUserID() {
 }
 
 
-void attemptToStartRawSending() {
-
-	//m_pRecordController = meetingService->GetMeetingRecordingController();
-
-	//SDKError err1 = m_pRecordController->StartRawRecording();
-	//if (err1 != SDKERR_SUCCESS) {
-	//	cout << "Error occurred";
-	//}
+void attemptToStartSendingShareScreenRaw() {
 
 
-
-	//SDKError err = createRenderer(&videoHelper, videoSource);
-	//if (err != SDKERR_SUCCESS) {
-	//	cout << "Error occurred";
-	//	//handle error
-	//}
-	//else {
-	//	videoHelper->subscribe(getUserID(), RAW_DATA_TYPE_VIDEO);
-	//	
-	//}
-	
-	
-		//else {
-
-		//	IMeetingShareController* m_pShareController = meetingService->GetMeetingShareController();
-		//	if (m_pShareController->CanStartShare()) {
-		//		m_pShareController->StartShareFrame();
-		//
-		//	}
 		IMeetingShareController* m_pShareController = meetingService->GetMeetingShareController();
 		if (m_pShareController->CanStartShare()) {
 			
@@ -136,47 +110,18 @@ bool CanIStartSharing() {
 	return m_pShareController->CanStartShare();
 }
 
-bool CanIStartLocalRecording()
-{
-	//dreamtcs maybe can move this out
-	IMeetingRecordingController* m_pRecordController = meetingService->GetMeetingRecordingController();
-	if (m_pRecordController)
-	{
 
-
-		SDKError err = m_pRecordController->CanStartRecording(false, 0); //0 refers to current user
-		if (err != SDKERR_SUCCESS) {
-			cout << "Cannot start local recording...\n";
-			//handle error
-			return false;
-		}
-		else {
-			cout << "Can start local recording...\n";
-			return true;
-		}
-
-	}
-}
-void prereqCheckForRawRecording() {
+void prereqCheck() {
 
 	//check if you are already in a meeting
-	/*while (IsInMeeting(meetingService->GetMeetingStatus()) == false) {
+	while (IsInMeeting(meetingService->GetMeetingStatus()) == false) {
 
 		printf("Waiting for 3 second... Need meeting status to be == inmeeting\n");
 		std::chrono::seconds duration(3);
 		std::this_thread::sleep_for(duration);
 		printf("Finished sleeping for 3 second...\n");
-	}*/
+	}
 
-
-	//check if you have host priviledges to start recording
-	/*while (CanIStartLocalRecording() == false) {
-
-		printf("Waiting for 3 second... Need host access\n");
-		std::chrono::seconds duration(3);
-		std::this_thread::sleep_for(duration);
-		printf("Finished sleeping for 3 second...\n");
-	}*/
 
 	while (CanIStartSharing() == false) {
 
@@ -189,8 +134,8 @@ void prereqCheckForRawRecording() {
 
 	
 
-	//if both conditions above are true, start recording
-	attemptToStartRawSending();
+	//if both conditions above are true, start 
+	attemptToStartSendingShareScreenRaw();
 
 }
 
@@ -216,7 +161,7 @@ void onMeetingEndsQuitApp() {
 void onMeetingJoined() {
 
 
-	std::thread t1(prereqCheckForRawRecording);
+	std::thread t1(prereqCheck);
 	t1.detach(); //run in different thread
 
 }
