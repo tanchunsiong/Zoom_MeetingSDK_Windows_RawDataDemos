@@ -2,7 +2,8 @@
 Consolidation of 1 Solution with multiple raw data projects
 
 
-Each folder will have a specific sample demo.
+Each folder will have a specific sample demo. (example GetAudioRawData, GetVideoRawData...)
+
 Within each of these folders you will need 2 addition items
 - a file named `config.json` . Here are some parameters which are expected within `config.json`
 ```
@@ -14,7 +15,7 @@ Within each of these folders you will need 2 addition items
   "zak": ""
 }
 ```
-- a folder named "SDK" with the Zoom SDK libraries. These are not included in the repo. They can be downloaded from the Zoom SDK website.
+- a folder named "SDK" with the Zoom SDK libraries. These are not included in the repo. They can be downloaded from the Zoom SDK website. The file/folder structure within the SDK folder should be as follows:
 	- x64
 	- x86
 	- CHANGELOG.MD
