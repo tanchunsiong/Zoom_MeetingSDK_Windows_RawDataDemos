@@ -18,9 +18,8 @@
 #include "VirtualAudioSource.h"
 #include <meeting_service_components/meeting_recording_interface.h>
 #include <thread>
-
 #include <chrono>
-#include <thread>
+
 
 using namespace std;
 using namespace Json;

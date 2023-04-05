@@ -16,12 +16,8 @@
 #include "json\json.h"
 #include <sstream>
 #include "VirtualShareSource.h"
-#include <meeting_service_components/meeting_recording_interface.h>
 #include <meeting_service_components/meeting_sharing_interface.h>
 #include <thread>
-
-#include <meeting_service_components/meeting_participants_ctrl_interface.h>
-
 #include <chrono>
 
 
@@ -61,27 +57,13 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 
 	return bInMeeting;
 }
-/// <summary>
-/// this method users gets a User ID which we will use for recording
-/// #include <meeting_participants_ctrl_interface.h>
-/// </summary>
-/// <returns></returns>
-uint32_t getUserID() {
-	m_pParticipantsController = meetingService->GetMeetingParticipantsController();
-	int returnvalue = m_pParticipantsController->GetParticipantsList()->GetItem(0);
-	return returnvalue;
-
-
-}
 
 
 void attemptToStartSendingShareScreenRaw() {
 
 
-		IMeetingShareController* m_pShareController = meetingService->GetMeetingShareController();
-		if (m_pShareController->CanStartShare()) {
-			
-		
+	
+	
 			IZoomSDKShareSourceHelper* pShareSourceHelper = GetRawdataShareSourceHelper();
 			if (pShareSourceHelper)
 			{
@@ -99,7 +81,7 @@ void attemptToStartSendingShareScreenRaw() {
 			}
 			
 
-		}
+		
 	
 }
 

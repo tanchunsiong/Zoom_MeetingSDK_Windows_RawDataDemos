@@ -18,9 +18,8 @@
 #include "AudioSource.h"
 #include <meeting_service_components/meeting_recording_interface.h>
 #include <thread>
-
 #include <chrono>
-#include <thread>
+
 
 using namespace std;
 using namespace Json;
@@ -56,8 +55,6 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
     return bInMeeting;
 }
 
-
-
 void attemptToStartRawRecording() {
 
     m_pRecordController = meetingService->GetMeetingRecordingController();
@@ -78,11 +75,9 @@ void attemptToStartRawRecording() {
 
 bool CanIStartLocalRecording()
 {
-    //dreamtcs maybe can move this out
     IMeetingRecordingController* m_pRecordController = meetingService->GetMeetingRecordingController();
     if (m_pRecordController)
     {
-	
 			
 			SDKError err = m_pRecordController->CanStartRecording(false,0); //0 refers to current user
             if (err != SDKERR_SUCCESS) {

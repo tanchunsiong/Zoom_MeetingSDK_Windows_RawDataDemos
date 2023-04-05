@@ -16,11 +16,7 @@
 #include "json\json.h"
 #include <sstream>
 #include "VirtualCameraVideoSource.h"
-#include <meeting_service_components/meeting_recording_interface.h>
 #include <thread>
-
-#include <meeting_service_components/meeting_participants_ctrl_interface.h>
-
 #include <chrono>
 
 

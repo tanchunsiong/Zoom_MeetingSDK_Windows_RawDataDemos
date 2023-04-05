@@ -18,10 +18,10 @@
 #include "VideoSource.h"
 #include <meeting_service_components/meeting_recording_interface.h>
 #include <thread>
-
+#include <chrono>
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
 
-#include <chrono>
+
 
 
 
@@ -68,8 +68,6 @@ uint32_t getUserID() {
 	m_pParticipantsController = meetingService->GetMeetingParticipantsController();
 	int returnvalue= m_pParticipantsController->GetParticipantsList()->GetItem(0);
 	return returnvalue;
-
-
 }
 
 
@@ -82,8 +80,6 @@ void attemptToStartRawRecording() {
 		cout << "Error occurred";
 	}
 
-
-
 	SDKError err = createRenderer(&videoHelper, videoSource);
 	if (err != SDKERR_SUCCESS) {
 		cout << "Error occurred";
@@ -91,7 +87,6 @@ void attemptToStartRawRecording() {
 	}
 	else {
 		videoHelper->subscribe(getUserID(), RAW_DATA_TYPE_VIDEO);
-		
 	}
 
 }

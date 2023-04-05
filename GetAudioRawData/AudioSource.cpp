@@ -3,11 +3,9 @@
 #include "AudioSource.h"
 #include "zoom_sdk_def.h" 
 #include <iostream>
-#include <cstdint>
-
 #include <fstream>
-#include <cstring>
-#include <cstdio>
+
+
 
 using namespace std;
 using namespace ZOOM_SDK_NAMESPACE;
