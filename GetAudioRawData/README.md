@@ -39,13 +39,15 @@ git clone https://github.com/tanchunsiong/MSDK_RawDataDemos
 }
 ```
 
+The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
+
 ## Add the sdk files into a folder name `SDK`
 
 
 //To be completed
 
 
-The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
+
 
 ## Open and Run Project
 
