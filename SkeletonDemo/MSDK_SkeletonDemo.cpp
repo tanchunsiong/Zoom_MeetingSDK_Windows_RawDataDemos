@@ -44,32 +44,16 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 	bool bInMeeting(false);
 	if (status == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING)
 	{
-		printf("In Meeting Now...\n");
-		bInMeeting = true;
-	IList<unsigned int>* participants=	meetingService->GetMeetingParticipantsController()->GetParticipantsList();
-		printf("Participants count: %d\n", participants->GetCount());
+	
 	}
 
 	return bInMeeting;
 }
 
-
-void attemptToStartRawVideoSending() {
-
-
-
-
-}
 void prereqCheckForRawVideoSend() {
 
 	//check if you are already in a meeting
-	while (IsInMeeting(meetingService->GetMeetingStatus()) == false) {
-
-		printf("Waiting for 3 second... Need meeting status to be == inmeeting\n");
-		std::chrono::seconds duration(3);
-		std::this_thread::sleep_for(duration);
-		printf("Finished sleeping for 3 second...\n");
-	}
+	
 	//deprecated check, this is not necessary anymore
 	if (HasRawdataLicense() == true) {
 
@@ -78,8 +62,7 @@ void prereqCheckForRawVideoSend() {
 	{
 		printf("HasRawdataLicense==false. \n");
 	}
-	//if both conditions above are true, start sending
-	attemptToStartRawVideoSending();
+	
 }
 
 
@@ -97,15 +80,30 @@ void ShowErrorAndExit(SDKError err) {
 	printf("SDK Error: %d%s\n", err, message.c_str());
 };
 
+void onInMeeting() {
+
+
+	printf("onInMeeting Invoked\n");
+
+	//double check if you are in a meeting
+	if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
+		printf("In Meeting Now...\n");
+		IList<unsigned int>* participants = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
+		printf("Participants count: %d\n", participants->GetCount());
+	
+	}
+
+}
+
 void onMeetingEndsQuitApp() {
 	g_exit = true;
 }
 
 void onMeetingJoined() {
 
-	
-	std::thread t1(prereqCheckForRawVideoSend);
-	t1.detach(); //run in different thread
+	printf("Joining Meeting...\n");
+	//std::thread t1(prereqCheckForRawVideoSend);
+	//t1.detach(); //run in different thread
 
 }
 
@@ -253,8 +251,10 @@ void JoinMeeting()
 	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
 
+
+	
 	// Set the event listener
-	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp));
+	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
 
 	//join meeting
 	if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);

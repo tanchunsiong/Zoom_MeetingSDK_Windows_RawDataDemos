@@ -10,8 +10,9 @@ class MeetingServiceEventListener :
 {
 	void (*onMeetingEnds_)();
 	void (*onMeetingStarts_)();
+	void (*onInMeeting_)();
 public:
-	MeetingServiceEventListener(void (*onMeetingStarts_)(), void (*onMeetingEnds_)());
+	MeetingServiceEventListener(void (*onMeetingStarts_)(), void (*onMeetingEnds_)(), void (*onInMeeting_)());
 	/// \brief Meeting status changed callback.
 	/// \param status The value of meeting. For more details, see \link MeetingStatus \endlink.
 	/// \param iResult Detailed reasons for special meeting status.
