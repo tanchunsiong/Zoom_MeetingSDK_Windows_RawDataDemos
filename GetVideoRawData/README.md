@@ -111,7 +111,7 @@ From a high level point of view it will do the below
 - Get the Meeting Recording Controller
   - Use the Meeting Recording Controller to call `StartRawRecording()`. Do note that you can only either run `StartRecording()` or `StartRawRecording()`. You cannot run them both at once.
 - Thereafter, you should be able to `createRenderer()`, which we will later use to subscribe a specific user's video stream. You will need to put in a videoHelper (implementation of IZoomSDKRenderer) and videoSource (implementation of IZoomSDKRendererDelegate). Thereafter use your videoHelper to subscribe to a user by their userID. If you encounter error calling `subscribe()`, you might be calling it without the prequisites. Note that there is a limit of number of users you can subscribe to. This is dependent on the resolution subscribed. //to be completed
-  - In the implementation(`VideoSource.cpp`), `onRawDataFrameReceived` will start to receive callbacks.
+  - In the implementation(`ZoomSDKRendererDelegate.cpp`), `onRawDataFrameReceived` will start to receive callbacks.
   - I'm using `onRawDataFrameReceived` to save the YUV420 buffer into a file. You will need to use a converter such as ffmpeg to convert this YUV file into a playable mp4 or other playable video file. Do note that if you encounter corruption in your playable file, you might not be processing the YUV420 buffer according to standards. Do note that there might be varied resolution returned from the callback. Do not mixed them into the same saved file without processing. You will encounter corrupted file in playback. YUV processing is out of scope for this sample app.
 
 # Upgrading Guide

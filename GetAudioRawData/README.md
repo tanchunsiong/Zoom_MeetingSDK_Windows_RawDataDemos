@@ -108,8 +108,8 @@ From a high level point of view it will do the below
   - You need to be in-meeting. This is the status when you have fully joined a meeting.
 - Get the Meeting Recording Controller
   - Use the Meeting Recording Controller to call `StartRawRecording()`. Do note that you can only either run `StartRecording()` or `StartRawRecording()`. You cannot run them both at once.
-- Thereafter, you should be able to `GetAudioRawdataHelper()`, which is used to subscribe to your `AudioSource.cpp` (An implementation of `IZoomSDKAudioRawDataDelegate`). If you encounter error calling `GetAudioRawdataHelper(), you might be calling it without the prequisites. 
-  - In the implementation(`AudioSource.cpp`), `onMixedAudioRawDataReceived` and `onOneWayAudioRawDataReceived` will start to receive callbacks.
+- Thereafter, you should be able to `GetAudioRawdataHelper()`, which is used to subscribe to your `ZoomSDKAudioRawDataDelegate.cpp` (An implementation of `IZoomSDKAudioRawDataDelegate`). If you encounter error calling `GetAudioRawdataHelper(), you might be calling it without the prequisites. 
+  - In the implementation(`ZoomSDKAudioRawDataDelegate.cpp`), `onMixedAudioRawDataReceived` and `onOneWayAudioRawDataReceived` will start to receive callbacks.
   - I'm using `onMixedAudioRawDataReceived` to save the PCM buffer into a file. You will need to use a converter such as ffmpeg to convert this PCM file into a playable wav or mp3 file.
 
 # Upgrading Guide

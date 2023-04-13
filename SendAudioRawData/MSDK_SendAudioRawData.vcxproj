@@ -200,14 +200,14 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="VirtualAudioSource.cpp" />
+    <ClCompile Include="ZoomSDKVirtualAudioMicEvent.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
     <ClCompile Include="MSDK_SendAudioRawData.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VirtualAudioSource.h" />
+    <ClInclude Include="ZoomSDKVirtualAudioMicEvent.h" />
     <ClInclude Include="AuthServiceEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />

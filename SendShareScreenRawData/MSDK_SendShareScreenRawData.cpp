@@ -15,7 +15,7 @@
 #include <fstream>
 #include "json\json.h"
 #include <sstream>
-#include "VirtualShareSource.h"
+#include "ZoomSDKShareSource.h"
 #include <meeting_service_components/meeting_sharing_interface.h>
 #include <thread>
 #include <chrono>
@@ -39,7 +39,7 @@ constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
 //references for share raw data
-VirtualShareSource* virtual_share_source;
+ZoomSDKShareSource* virtual_share_source;
 
 IZoomSDKRenderer* videoHelper;
 
@@ -253,7 +253,7 @@ void LoadConfig() {
 		video_source = DEFAULT_VIDEO_SOURCE;
 		printf("No video source provided, use the default video source: %s.\n", video_source.c_str());
 	}
-	virtual_share_source = new VirtualShareSource(video_source);
+	virtual_share_source = new ZoomSDKShareSource(video_source);
 }
 
 /// <summary>

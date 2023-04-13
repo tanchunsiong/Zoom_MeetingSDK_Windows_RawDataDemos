@@ -1,6 +1,6 @@
 #include "windows.h"
 #include "rawdata/rawdata_audio_helper_interface.h"
-#include "AudioSource.h"
+#include "ZoomSDKAudioRawDataDelegate.h"
 #include "zoom_sdk_def.h" 
 #include <iostream>
 #include <fstream>
@@ -9,12 +9,12 @@
 
 using namespace std;
 using namespace ZOOM_SDK_NAMESPACE;
-void AudioSource::onOneWayAudioRawDataReceived(AudioRawData* audioRawData, uint32_t node_id)
+void ZoomSDKAudioRawDataDelegate::onOneWayAudioRawDataReceived(AudioRawData* audioRawData, uint32_t node_id)
 {
 	//std::cout << "Received onOneWayAudioRawDataReceived" << std::endl;
 	//add your code here
 }
-void AudioSource::onMixedAudioRawDataReceived(AudioRawData* audioRawData)
+void ZoomSDKAudioRawDataDelegate::onMixedAudioRawDataReceived(AudioRawData* audioRawData)
 {
 	std::cout << "Received onMixedAudioRawDataReceived" << std::endl;
 	//add your code here

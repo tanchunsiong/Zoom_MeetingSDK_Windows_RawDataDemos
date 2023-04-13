@@ -112,7 +112,7 @@ From a high level point of view it will do the below
   - Call `GetRawdataVideoSourceHelper()` to get the IZoomSDKVideoSourceHelper interface. This interface is used to assigned / set a virtual camera video source.
   - Call `setExternalVideoSource(virtual_camera_video_source)` to set the virtual camera source.
 - At this stage, you should be able to see the virtual camera in your video conferencing application. You can use this virtual camera to send video raw data to the meeting.
-  - In `VirtualCameraVideoSource.cpp`, `onStartSend()`, you can implement your own logic to send video raw data to the meeting. I'm using an additional method `PlayVideoFileToVirtualCamera` which reads a video file, converts it to YUV420 buffer, and sens it via `sendVideoFrame` method.
+  - In `ZoomSDKVideoSource.cpp`, `onStartSend()`, you can implement your own logic to send video raw data to the meeting. I'm using an additional method `PlayVideoFileToVirtualCamera` which reads a video file, converts it to YUV420 buffer, and sens it via `sendVideoFrame` method.
 
 # Upgrading Guide
 

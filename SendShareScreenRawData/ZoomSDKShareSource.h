@@ -11,7 +11,7 @@ using namespace ZOOMSDK;
 
 
 
-class VirtualShareSource :
+class ZoomSDKShareSource :
 	public IZoomSDKShareSource
 {
 private:
@@ -23,5 +23,5 @@ protected:
 	virtual void onStopSend();
 
 public:
-	VirtualShareSource(std::string share_source);
+	ZoomSDKShareSource(std::string share_source);
 };

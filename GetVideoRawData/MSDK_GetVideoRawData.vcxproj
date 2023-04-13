@@ -204,13 +204,13 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClCompile Include="MSDK_GetVideoRawData.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
-    <ClCompile Include="VideoSource.cpp" />
+    <ClCompile Include="ZoomSDKRendererDelegate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthServiceEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
-    <ClInclude Include="VideoSource.h" />
+    <ClInclude Include="ZoomSDKRendererDelegate.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Big_Buck_Bunny_720_10s_1MB.mp4">

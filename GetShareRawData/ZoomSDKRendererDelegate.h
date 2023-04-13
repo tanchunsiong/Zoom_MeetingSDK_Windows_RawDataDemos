@@ -11,7 +11,7 @@
 using namespace std;
 using namespace ZOOMSDK;
 
-class VideoSource :
+class ZoomSDKRendererDelegate :
 	public IZoomSDKRendererDelegate
 {
 public:

@@ -1,6 +1,6 @@
 #include "windows.h"
 #include "rawdata/rawdata_audio_helper_interface.h"
-#include "VirtualAudioSource.h"
+#include "ZoomSDKVirtualAudioMicEvent.h"
 #include "zoom_sdk_def.h" 
 #include <iostream>
 #include <cstdint>
@@ -55,14 +55,14 @@ void PlayAudioFileToVirtualMic(IZoomSDKAudioRawDataSender* audio_sender, string 
 
 /// \brief Callback for virtual audio mic to do some initialization.
 /// \param pSender, You can send audio data based on this object, see \link IZoomSDKAudioRawDataSender \endlink.
-void VirtualAudioSource::onMicInitialize(IZoomSDKAudioRawDataSender* pSender) {
+void ZoomSDKVirtualAudioMicEvent::onMicInitialize(IZoomSDKAudioRawDataSender* pSender) {
 	//pSender->send();
 	pSender_=pSender;
 	printf("OnMicInitialize\n");
 }
 
 /// \brief Callback for virtual audio mic can send raw data with 'pSender'.
- void VirtualAudioSource::onMicStartSend() {
+ void ZoomSDKVirtualAudioMicEvent::onMicStartSend() {
  
 	 printf("onMicStartSend\n");
 
@@ -78,14 +78,14 @@ void VirtualAudioSource::onMicInitialize(IZoomSDKAudioRawDataSender* pSender) {
  }
 
 /// \brief Callback for virtual audio mic should stop send raw data.
- void VirtualAudioSource::onMicStopSend() {
+ void ZoomSDKVirtualAudioMicEvent::onMicStopSend() {
 	 printf("onMicStopSend\n");
 
 	
 	 audio_play_flag = 0;
  }
 /// \brief Callback for virtual audio mic is uninitialized.
- void VirtualAudioSource::onMicUninitialized() {
+ void ZoomSDKVirtualAudioMicEvent::onMicUninitialized() {
 	 cout << "onUninitialized" << endl;
 	 pSender_ = nullptr;
  }

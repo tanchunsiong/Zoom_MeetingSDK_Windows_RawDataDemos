@@ -1,6 +1,6 @@
 #include "windows.h"
 #include "rawdata/rawdata_video_source_helper_interface.h"
-#include "VideoSource.h"
+#include "ZoomSDKRendererDelegate.h"
 #include "zoom_sdk_def.h" 
 #include <iostream>
 #include <cstdint>
@@ -13,7 +13,7 @@ using namespace std;
 using namespace ZOOM_SDK_NAMESPACE;
 
 
-void VideoSource::onRawDataFrameReceived(YUVRawDataI420* data)
+void ZoomSDKRendererDelegate::onRawDataFrameReceived(YUVRawDataI420* data)
 {
 	cout << "onRawDataFrameReceived." << endl;
 	// Open the file for writing
@@ -55,12 +55,12 @@ void VideoSource::onRawDataFrameReceived(YUVRawDataI420* data)
 	outputFile.flush();
 	//cout << "YUV420 buffer saved to file." << endl;
 }
-void VideoSource::onRawDataStatusChanged(RawDataStatus status)
+void ZoomSDKRendererDelegate::onRawDataStatusChanged(RawDataStatus status)
 {
 	cout << "onRawDataStatusChanged." << endl;
 }
 
-void VideoSource::onRendererBeDestroyed()
+void ZoomSDKRendererDelegate::onRendererBeDestroyed()
 {
 	cout << "onRendererBeDestroyed ." << endl;
 }

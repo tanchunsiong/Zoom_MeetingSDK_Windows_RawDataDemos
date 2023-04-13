@@ -15,7 +15,7 @@
 #include <fstream>
 #include "json\json.h"
 #include <sstream>
-#include "VirtualCameraVideoSource.h"
+#include "ZoomSDKVideoSource.h"
 #include <thread>
 #include <chrono>
 
@@ -30,7 +30,7 @@ IMeetingService* meetingService;
 IAuthService* authService;
 INetworkConnectionHelper* network_connection_helper;
 //references for send raw video data
-VirtualCameraVideoSource* virtual_camera_video_source;
+ZoomSDKVideoSource* virtual_camera_video_source;
 wstring sdk_jwt;
 UINT64 meeting_number;
 wstring passcode;
@@ -46,7 +46,7 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 	{
 		printf("In Meeting Now...\n");
 		bInMeeting = true;
-		virtual_camera_video_source = new VirtualCameraVideoSource(video_source);
+		virtual_camera_video_source = new ZoomSDKVideoSource(video_source);
 	}
 
 	return bInMeeting;

@@ -27,7 +27,7 @@
     <ClCompile Include="MeetingServiceEventListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AudioSource.cpp">
+    <ClCompile Include="ZoomSDKAudioRawDataDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClInclude Include="MeetingServiceEventListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AudioSource.h">
+    <ClInclude Include="ZoomSDKAudioRawDataDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

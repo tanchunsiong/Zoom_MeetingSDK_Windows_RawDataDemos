@@ -100,19 +100,11 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
   ```
 ## Getting Started
 
-The main method, or main entry point of this application is at `MSDK_SendVideoRawData.cpp`
+The main method, or main entry point of this application is at `MSDK_SkeletonDemo.cpp`
 
-From a high level point of view it will do the below
+From a high level point of view it will do the below.
+This is the base, or skeleton code which all of the other projects in this solution are based on.
 
-- Join a meeting
-- Wait for callback or status update. There are some prerequistes before you can get video raw data. The `prereqCheckForRawVideoSend()` method helps to check if you have fulfilled these requirements
-  - `HasRawdataLicense()` <- this has been deprecated, you no longer need a license for raw data access.
-  - You need to be in-meeting. This is the status when you have fully joined a meeting.
-- Create virtual_camera_video_source, which is an implementation of IZoomSDKVideoSource
-  - Call `GetRawdataVideoSourceHelper()` to get the IZoomSDKVideoSourceHelper interface. This interface is used to assigned / set a virtual camera video source.
-  - Call `setExternalVideoSource(virtual_camera_video_source)` to set the virtual camera source.
-- At this stage, you should be able to see the virtual camera in your video conferencing application. You can use this virtual camera to send video raw data to the meeting.
-  - In `VirtualCameraVideoSource.cpp`, `onStartSend()`, you can implement your own logic to send video raw data to the meeting. I'm using an additional method `PlayVideoFileToVirtualCamera` which reads a video file, converts it to YUV420 buffer, and sens it via `sendVideoFrame` method.
 
 # Upgrading Guide
 

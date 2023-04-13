@@ -9,7 +9,7 @@
 using namespace std;
 using namespace ZOOMSDK;
 
-class AudioSource :
+class ZoomSDKAudioRawDataDelegate :
 	public IZoomSDKAudioRawDataDelegate
 {
 public:

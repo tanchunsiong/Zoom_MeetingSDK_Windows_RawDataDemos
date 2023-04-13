@@ -27,7 +27,7 @@
     <ClCompile Include="MeetingServiceEventListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VirtualCameraVideoSource.cpp">
+    <ClCompile Include="ZoomSDKVideoSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClInclude Include="MeetingServiceEventListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VirtualCameraVideoSource.h">
+    <ClInclude Include="ZoomSDKVideoSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

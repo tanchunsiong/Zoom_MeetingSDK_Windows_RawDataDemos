@@ -1,4 +1,4 @@
-#include "VirtualShareSource.h"
+#include "ZoomSDKShareSource.h"
 #include <iostream>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
@@ -63,7 +63,7 @@ void PlayVideoFileToShare(IZoomSDKShareSender* share_sender, string share_source
 
 
 
-void VirtualShareSource::onStartSend(IZoomSDKShareSender* pSender)
+void ZoomSDKShareSource::onStartSend(IZoomSDKShareSender* pSender)
 {
     cout << "onStartSend" << endl;
     if (pSender && video_play_flag != 1) {
@@ -73,7 +73,7 @@ void VirtualShareSource::onStartSend(IZoomSDKShareSender* pSender)
     }
 }
 
-void VirtualShareSource::onStopSend()
+void ZoomSDKShareSource::onStopSend()
 {
     cout << "onStopSend" << endl;
     video_play_flag = 0;
@@ -81,7 +81,7 @@ void VirtualShareSource::onStopSend()
 
 
 
-VirtualShareSource::VirtualShareSource(string video_source)
+ZoomSDKShareSource::ZoomSDKShareSource(string video_source)
 {
     share_source_ = video_source;
 }

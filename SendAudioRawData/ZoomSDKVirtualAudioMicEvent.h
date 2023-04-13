@@ -9,7 +9,7 @@
 using namespace std;
 using namespace ZOOMSDK;
 
-class VirtualAudioSource :
+class ZoomSDKVirtualAudioMicEvent :
 	public IZoomSDKVirtualAudioMicEvent
 {
 

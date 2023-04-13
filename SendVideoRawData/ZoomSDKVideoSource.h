@@ -9,7 +9,7 @@ constexpr auto HEIGHT = 480;
 using namespace std;
 using namespace ZOOMSDK;
 
-class VirtualCameraVideoSource :
+class ZoomSDKVideoSource :
 	public IZoomSDKVideoSource
 {
 private:
@@ -22,6 +22,6 @@ protected:
 	virtual void onStopSend();
 	virtual void onUninitialized();
 public:
-	VirtualCameraVideoSource(std::string video_source);
+	ZoomSDKVideoSource(std::string video_source);
 };
 
