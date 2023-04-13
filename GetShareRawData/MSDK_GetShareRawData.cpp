@@ -65,11 +65,12 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 /// </summary>
 /// <returns></returns>
 uint32_t getUserID() {
-	m_pParticipantsController = meetingService->GetMeetingParticipantsController();
-	int returnvalue= m_pParticipantsController->GetParticipantsList()->GetItem(0);
 	
+	
+	IMeetingShareController* sharecontroller = meetingService->GetMeetingShareController();
 
-	return returnvalue;
+	int returnvalue = sharecontroller->GetViewableShareSourceList()->GetItem(0);
+		return returnvalue;
 }
 
 
@@ -88,7 +89,7 @@ void attemptToStartRawRecording() {
 		//handle error
 	}
 	else {
-		videoHelper->subscribe(getUserID(), RAW_DATA_TYPE_VIDEO);
+		videoHelper->subscribe(getUserID(), RAW_DATA_TYPE_SHARE);
 	}
 
 }

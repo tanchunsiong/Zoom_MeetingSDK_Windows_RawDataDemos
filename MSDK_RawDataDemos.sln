@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkeletonDemo", "SkeletonDemo\MSDK_SkeletonDemo.vcxproj", "{F03EE105-2A12-4C1D-A647-01EC125E809E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GetShareRawData", "GetShareRawData\MSDK_GetShareRawData.vcxproj", "{D8C06002-D01F-4FFA-8067-3240454F3F02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -76,6 +78,14 @@ Global
 		{F03EE105-2A12-4C1D-A647-01EC125E809E}.Release|x64.Build.0 = Release|x64
 		{F03EE105-2A12-4C1D-A647-01EC125E809E}.Release|x86.ActiveCfg = Release|Win32
 		{F03EE105-2A12-4C1D-A647-01EC125E809E}.Release|x86.Build.0 = Release|Win32
+		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Debug|x64.ActiveCfg = Debug|x64
+		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Debug|x64.Build.0 = Debug|x64
+		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Debug|x86.ActiveCfg = Debug|Win32
+		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Debug|x86.Build.0 = Debug|Win32
+		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Release|x64.ActiveCfg = Release|x64
+		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Release|x64.Build.0 = Release|x64
+		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Release|x86.ActiveCfg = Release|Win32
+		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

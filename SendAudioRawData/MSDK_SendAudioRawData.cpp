@@ -67,6 +67,7 @@ void attemptToStartRawAudioSending() {
     }
   
     SDKError err = audioHelper->setExternalAudioSource(audio_source);
+
     if (err != SDKERR_SUCCESS) {
         cout << "Error occurred";
         //handle error

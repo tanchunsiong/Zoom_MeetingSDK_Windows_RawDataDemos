@@ -102,6 +102,7 @@ void onMeetingEndsQuitApp() {
 void onMeetingJoined() {
 
 	printf("Joining Meeting...\n");
+	
 	//std::thread t1(prereqCheckForRawVideoSend);
 	//t1.detach(); //run in different thread
 

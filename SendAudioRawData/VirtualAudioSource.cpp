@@ -73,6 +73,7 @@ void VirtualAudioSource::onMicInitialize(IZoomSDKAudioRawDataSender* pSender) {
 		 audio_play_flag = 1;
 		 std::string audio_source_ = "pcm1644m.wav";
 		 thread(PlayAudioFileToVirtualMic,pSender_, audio_source_).detach();
+		
 	 }
  }
 
