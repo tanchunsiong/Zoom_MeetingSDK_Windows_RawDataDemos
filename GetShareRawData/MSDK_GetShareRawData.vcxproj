@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{9792CD1E-487C-49A7-B462-3F8FF93AAA2A}</ProjectGuid>
+    <ProjectGuid>{D8C06002-D01F-4FFA-8067-3240454F3F02}</ProjectGuid>
     <RootNamespace>LaunchZoomMeeting</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>GetShareRawData</ProjectName>
