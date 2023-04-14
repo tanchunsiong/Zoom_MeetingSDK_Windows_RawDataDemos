@@ -201,12 +201,16 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AuthServiceEventListener.cpp" />
+    <ClCompile Include="DirectShareServiceHelper.cpp" />
+    <ClCompile Include="DirectShareServiceHelperEventListener.cpp" />
     <ClCompile Include="MSDK_SkeletonDemo.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthServiceEventListener.h" />
+    <ClInclude Include="DirectShareServiceHelper.h" />
+    <ClInclude Include="DirectShareServiceHelperEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
   </ItemGroup>

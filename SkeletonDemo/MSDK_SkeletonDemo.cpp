@@ -19,8 +19,8 @@
 #include <chrono>
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
 #include <list>
-
-
+#include "DirectShareServiceHelper.h"
+#include "DirectShareServiceHelperEventListener.h"
 
 using namespace std;
 using namespace Json;
@@ -44,7 +44,7 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 	bool bInMeeting(false);
 	if (status == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING)
 	{
-	
+
 	}
 
 	return bInMeeting;
@@ -53,7 +53,7 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 void prereqCheckForRawVideoSend() {
 
 	//check if you are already in a meeting
-	
+
 	//deprecated check, this is not necessary anymore
 	if (HasRawdataLicense() == true) {
 
@@ -62,7 +62,7 @@ void prereqCheckForRawVideoSend() {
 	{
 		printf("HasRawdataLicense==false. \n");
 	}
-	
+
 }
 
 
@@ -90,7 +90,20 @@ void onInMeeting() {
 		printf("In Meeting Now...\n");
 		IList<unsigned int>* participants = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
 		printf("Participants count: %d\n", participants->GetCount());
-	
+
+
+		DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
+		DirectShareServiceHelperEventListener* dsServiceEventListener = new DirectShareServiceHelperEventListener();
+		SDKError err = servicehelper->SetEvent(dsServiceEventListener);
+		cout << "servicehelper ->SetEvent(dsServiceEventListener);" << err << endl;
+
+		cout << " servicehelper->CanStartDirectShare() ? : " << servicehelper->CanStartDirectShare() << endl;
+		cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << endl;
+
+		err = servicehelper->StartDirectShare();
+		cout << "servicehelper->StartDirectShare()" << err << endl;
+
+
 	}
 
 }
@@ -102,7 +115,7 @@ void onMeetingEndsQuitApp() {
 void onMeetingJoined() {
 
 	printf("Joining Meeting...\n");
-	
+
 	//std::thread t1(prereqCheckForRawVideoSend);
 	//t1.detach(); //run in different thread
 
