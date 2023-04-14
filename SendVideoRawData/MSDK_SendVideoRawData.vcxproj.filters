@@ -52,4 +52,7 @@
   <ItemGroup>
     <Media Include="Big_Buck_Bunny_720_10s_1MB.mp4" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SDK\version.txt" />
+  </ItemGroup>
 </Project>

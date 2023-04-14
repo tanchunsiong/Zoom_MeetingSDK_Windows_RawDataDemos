@@ -43,4 +43,7 @@
     <None Include="config.json" />
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SDK\version.txt" />
+  </ItemGroup>
 </Project>

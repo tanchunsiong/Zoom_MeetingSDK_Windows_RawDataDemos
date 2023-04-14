@@ -55,4 +55,7 @@
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SDK\version.txt" />
+  </ItemGroup>
 </Project>

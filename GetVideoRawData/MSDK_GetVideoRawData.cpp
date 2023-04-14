@@ -15,7 +15,7 @@
 #include <fstream>
 #include "json\json.h"
 #include <sstream>
-#include "VideoSource.h"
+#include "ZoomSDKRendererDelegate.h"
 #include <meeting_service_components/meeting_recording_interface.h>
 #include <thread>
 #include <chrono>
@@ -42,7 +42,7 @@ constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
 //references for audio raw data
-VideoSource* videoSource = new VideoSource();
+ZoomSDKRendererDelegate* videoSource = new ZoomSDKRendererDelegate();
 IZoomSDKRenderer* videoHelper;
 
 IMeetingRecordingController* m_pRecordController;

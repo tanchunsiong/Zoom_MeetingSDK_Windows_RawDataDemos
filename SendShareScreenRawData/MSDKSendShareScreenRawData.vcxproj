@@ -221,6 +221,9 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <None Include="config.json" />
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SDK\version.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

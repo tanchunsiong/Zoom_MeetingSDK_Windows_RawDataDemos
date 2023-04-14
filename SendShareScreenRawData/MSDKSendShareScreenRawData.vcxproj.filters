@@ -46,4 +46,7 @@
       <UniqueIdentifier>{2a05643d-1a68-4ef3-9d24-5a8f0bbc0b02}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SDK\version.txt" />
+  </ItemGroup>
 </Project>
