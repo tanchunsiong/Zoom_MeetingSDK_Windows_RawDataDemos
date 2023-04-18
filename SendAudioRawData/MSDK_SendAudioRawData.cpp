@@ -262,8 +262,7 @@ void JoinMeeting()
     joinMeetingWithoutLoginParam.isVideoOff = false;
     joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
     joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
-    DirectShareViaMeetingIDOrPairingCodeHandler directShareViaMeetingIDOrPairingCodeHandler = new DirectShareViaMeetingIDOrPairingCodeHandler();
-
+    
     // Set the event listener
     meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined , &onMeetingEndsQuitApp));
     

@@ -200,17 +200,17 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ZoomSDKVirtualAudioMicEvent.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
     <ClCompile Include="MSDK_SendAudioRawData.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
+    <ClCompile Include="ZoomSDKVirtualAudioMicEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ZoomSDKVirtualAudioMicEvent.h" />
     <ClInclude Include="AuthServiceEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
+    <ClInclude Include="ZoomSDKVirtualAudioMicEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Big_Buck_Bunny_720_10s_1MB.mp4">

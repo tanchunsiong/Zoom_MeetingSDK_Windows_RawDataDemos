@@ -18,6 +18,7 @@
 #include <thread>
 #include <chrono>
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
+#include <meeting_service_components/meeting_sharing_interface.h>
 #include <list>
 #include "DirectShareServiceHelper.h"
 #include "DirectShareServiceHelperEventListener.h"
@@ -91,8 +92,9 @@ void onInMeeting() {
 		IList<unsigned int>* participants = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
 		printf("Participants count: %d\n", participants->GetCount());
 
-
-		DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
+		IDirectShareServiceHelper* servicehelper = authService->GetDirectShareServiceHeler();
+	
+		//DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
 		DirectShareServiceHelperEventListener* dsServiceEventListener = new DirectShareServiceHelperEventListener();
 		SDKError err = servicehelper->SetEvent(dsServiceEventListener);
 		cout << "servicehelper ->SetEvent(dsServiceEventListener);" << err << endl;
@@ -262,7 +264,7 @@ void JoinMeeting()
 	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
 	joinMeetingWithoutLoginParam.isAudioOff = true;
 	joinMeetingWithoutLoginParam.isVideoOff = true;
-	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
+	joinMeetingWithoutLoginParam.isDirectShareDesktop = true;
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
 
 
@@ -316,6 +318,7 @@ void SDKAuth()
 	authContext.jwt_token = sdk_jwt.c_str();
 	if ((err = authService->SDKAuth(authContext)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	else cout << "Auth call started, auth in progress." << endl;
+	
 }
 
 /// <summary>

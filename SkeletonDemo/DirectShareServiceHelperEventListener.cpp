@@ -15,6 +15,7 @@ void DirectShareServiceHelperEventListener::OnDirectShareStatusUpdate(DirectShar
 
 void DirectShareServiceHelperEventListener::OnDirectShareSpecifyContent(IDirectShareSpecifyContentHandler* handler)
 {
+
 	handler->GetSupportedDirectShareType();
 	handler->TryShareDesktop(L"1", true, true);
 }
