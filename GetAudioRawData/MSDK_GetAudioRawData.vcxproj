@@ -200,6 +200,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MeetingParticipantsCtrlEventListener.cpp" />
     <ClCompile Include="ZoomSDKAudioRawDataDelegate.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
     <ClCompile Include="MSDK_GetAudioRawData.cpp" />
@@ -207,6 +208,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClCompile Include="NetworkConnectionHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MeetingParticipantsCtrlEventListener.h" />
     <ClInclude Include="ZoomSDKAudioRawDataDelegate.h" />
     <ClInclude Include="AuthServiceEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />

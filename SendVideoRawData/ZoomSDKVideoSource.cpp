@@ -66,7 +66,7 @@ void PlayVideoFileToVirtualCamera(IZoomSDKVideoSender* video_sender, string vide
 
 void ZoomSDKVideoSource::onInitialize(IZoomSDKVideoSender* sender, IList<VideoSourceCapability>* support_cap_list, VideoSourceCapability& suggest_cap)
 {
-    cout << "onInitialize" << endl;
+    cout << "ZoomSDKVideoSource::onInitialize" << endl;
     video_sender_ = sender;
 }
 

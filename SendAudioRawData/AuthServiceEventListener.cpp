@@ -46,4 +46,6 @@ void AuthServiceEventListener::onZoomAuthIdentityExpired()
 
 void AuthServiceEventListener::onNotificationServiceStatus(SDKNotificationServiceStatus status)
 {
+    cout << "onNotificationServiceStatus: " << status << endl;
 }
+

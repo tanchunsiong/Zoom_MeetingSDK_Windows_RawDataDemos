@@ -10,8 +10,9 @@ class MeetingServiceEventListener :
 {
 	void (*onMeetingEnds_)();
 	void (*onMeetingStarts_)();
+	void (*onInMeeting_)();
 public:
-	MeetingServiceEventListener(void (*onMeetingStarts_)(), void (*onMeetingEnds_)());
+	MeetingServiceEventListener(void (*onMeetingStarts_)(), void (*onMeetingEnds_)(), void (*onInMeeting_)());
 	/// \brief Meeting status changed callback.
 	/// \param status The value of meeting. For more details, see \link MeetingStatus \endlink.
 	/// \param iResult Detailed reasons for special meeting status.
@@ -27,5 +28,8 @@ public:
 	/// \param meeting_param Meeting parameter. For more details, see \link MeetingParameter \endlink.
 	/// \remarks The callback will be triggered right before the meeting starts. The meeting_param will be destroyed once the function calls end.
 	virtual void onMeetingParameterNotification(const MeetingParameter* meeting_param);
+
+	/// \brief Callback event when a meeting is suspended.
+	virtual void onSuspendParticipantsActivities();
 };
 

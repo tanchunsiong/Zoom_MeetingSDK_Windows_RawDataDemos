@@ -28,5 +28,9 @@ public:
 
 	/// \brief Zoom authentication identity will be expired in 10 minutes, please re-auth.
 	virtual void onZoomAuthIdentityExpired();
+
+	/// \brief Notification service status changed callback.
+/// \param status The value of transfer meeting service. For more details, see \link SDKNotificationServiceStatus \endlink.
+	virtual void onNotificationServiceStatus(SDKNotificationServiceStatus status);
 };
 

@@ -30,6 +30,9 @@
     <ClCompile Include="ZoomSDKRendererDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MeetingParticipantsCtrlEventListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthServiceEventListener.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ZoomSDKRendererDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeetingParticipantsCtrlEventListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

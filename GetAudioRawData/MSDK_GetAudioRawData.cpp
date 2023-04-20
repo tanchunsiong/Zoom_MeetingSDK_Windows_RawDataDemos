@@ -12,11 +12,13 @@
 #include "AuthServiceEventListener.h"
 #include "NetworkConnectionHandler.h"
 #include "MeetingServiceEventListener.h"
+#include "MeetingParticipantsCtrlEventListener.h"
 #include <fstream>
 #include "json\json.h"
 #include <sstream>
 #include "ZoomSDKAudioRawDataDelegate.h"
 #include <meeting_service_components/meeting_recording_interface.h>
+#include <meeting_service_components/meeting_participants_ctrl_interface.h>
 #include <thread>
 #include <chrono>
 
@@ -40,8 +42,9 @@ constexpr auto CONFIG_FILE = "config.json";
 //references for audio raw data
 ZoomSDKAudioRawDataDelegate* audio_source= new ZoomSDKAudioRawDataDelegate();
 IZoomSDKAudioRawDataHelper* audioHelper; 
-IMeetingRecordingController* m_pRecordController;
 
+IMeetingRecordingController* m_pRecordController;
+IMeetingParticipantsController* m_pParticipantsController;
 
 inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 {
@@ -92,31 +95,7 @@ bool CanIStartLocalRecording()
 		
 	}
 }
-void prereqCheckForRawRecording() {
 
-    //check if you are already in a meeting
-    while (IsInMeeting(meetingService->GetMeetingStatus()) == false) {
-
-        printf("Waiting for 3 second... Need meeting status to be == inmeeting\n");
-        std::chrono::seconds duration(3);
-        std::this_thread::sleep_for(duration);
-        printf("Finished sleeping for 3 second...\n");
-    }
-
-
-    //check if you have host priviledges to start recording
-    while (CanIStartLocalRecording() == false) {
-
-        printf("Waiting for 3 second... Need host access\n");
-        std::chrono::seconds duration(3);
-        std::this_thread::sleep_for(duration);
-        printf("Finished sleeping for 3 second...\n");
-    }
-
-    //if both conditions above are true, start recording
-    attemptToStartRawRecording();
-
-}
 
 
 void ShowErrorAndExit(SDKError err) {
@@ -132,6 +111,28 @@ void ShowErrorAndExit(SDKError err) {
     printf("SDK Error: %d%s\n", err, message.c_str());
 };
 
+//dreamtcs to implement this
+void onInMeeting() {
+
+    printf("onInMeeting Invoked\n");
+
+    //double check if you are in a meeting
+    if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
+        printf("In Meeting Now...\n");
+        //might not have host permission yet
+        if (CanIStartLocalRecording()) {
+            attemptToStartRawRecording();
+        }
+        else {
+
+            printf("No host permission to record yet...\n");
+        }
+
+
+    }
+
+}
+
 void onMeetingEndsQuitApp() {
     g_exit = true;
 }
@@ -139,9 +140,29 @@ void onMeetingEndsQuitApp() {
 void onMeetingJoined() {
    
 
-    std::thread t1(prereqCheckForRawRecording);
-    t1.detach(); //run in different thread
  
+}
+
+
+void onIsHost() {
+
+    if (CanIStartLocalRecording()) {
+        printf("Is host now...\n");
+        attemptToStartRawRecording();
+    }
+}
+
+void onIsCoHost() {
+    if (CanIStartLocalRecording()) {
+        printf("Is co-host now...\n");
+        attemptToStartRawRecording();
+    }
+}
+void onIsGivenRecordingPermission() {
+    if (CanIStartLocalRecording()) {
+        printf("Is given recording permissions now...\n");
+        attemptToStartRawRecording();
+    }
 }
 
 wstring StringToWString(string input)
@@ -263,9 +284,8 @@ void JoinMeeting()
     //try to create the meetingservice object, this object will be used to join the meeting
     if ((err = CreateMeetingService(&meetingService)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
     cout << "MeetingService created." << endl;
-
-
-  
+    m_pParticipantsController =  meetingService->GetMeetingParticipantsController();
+   
 
     
     // try to create the meeting configuration object, this object will be used to configure the meeting
@@ -275,7 +295,7 @@ void JoinMeeting()
     joinMeetingParam.userType = SDK_UT_WITHOUT_LOGIN;
     joinMeetingWithoutLoginParam.meetingNumber = meeting_number;
     joinMeetingWithoutLoginParam.psw = passcode.c_str(); 
-    joinMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
+    joinMeetingWithoutLoginParam.userName = L"GetRawAudio(Bot)";
     joinMeetingWithoutLoginParam.userZAK = L"";
     joinMeetingWithoutLoginParam.join_token = NULL;
     joinMeetingWithoutLoginParam.vanityID = NULL;
@@ -289,8 +309,10 @@ void JoinMeeting()
     joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
 
     // Set the event listener
-    meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined , &onMeetingEndsQuitApp));
-    
+    meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
+    m_pParticipantsController->SetEvent(new MeetingParticipantsCtrlEventListener(&onIsHost, &onIsCoHost, &onIsGivenRecordingPermission));
+
+
     //join meeting
     if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
     else cout << "Joining Meeting..." << endl;

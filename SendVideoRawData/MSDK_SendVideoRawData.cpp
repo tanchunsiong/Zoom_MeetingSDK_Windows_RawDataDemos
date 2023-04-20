@@ -39,29 +39,22 @@ constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
 
-inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
-{
-	bool bInMeeting(false);
-	if (status == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING)
-	{
-		printf("In Meeting Now...\n");
-		bInMeeting = true;
-		virtual_camera_video_source = new ZoomSDKVideoSource(video_source);
-	}
-
-	return bInMeeting;
-}
 
 
+//dreamtcs TODO, video only start sending when video is "turned on" or "unmuted"
 void attemptToStartRawVideoSending() {
 
-	IZoomSDKVideoSourceHelper*	p_videoSourceHelper = GetRawdataVideoSourceHelper();
 
+	virtual_camera_video_source = new ZoomSDKVideoSource(video_source);
+	IZoomSDKVideoSourceHelper*	p_videoSourceHelper = GetRawdataVideoSourceHelper();
 
 	if (p_videoSourceHelper) {
 		SDKError err = p_videoSourceHelper->setExternalVideoSource(virtual_camera_video_source);
 		if (err != SDKERR_SUCCESS) {
 			printf("attemptToStartRawVideoSending(): Failed to set external video source, error code: %d\n", err);
+		}
+		else {
+		
 		}
 	}
 	else {
@@ -71,27 +64,8 @@ void attemptToStartRawVideoSending() {
 
 
 }
-void prereqCheckForRawVideoSend() {
 
-	//check if you are already in a meeting
-	while (IsInMeeting(meetingService->GetMeetingStatus()) == false) {
 
-		printf("Waiting for 3 second... Need meeting status to be == inmeeting\n");
-		std::chrono::seconds duration(3);
-		std::this_thread::sleep_for(duration);
-		printf("Finished sleeping for 3 second...\n");
-	}
-	//deprecated check, this is not necessary anymore
-	if (HasRawdataLicense() == true) {
-
-	}
-	else
-	{
-		printf("HasRawdataLicense==false. \n");
-	}
-	//if both conditions above are true, start sending
-	attemptToStartRawVideoSending();
-}
 
 
 
@@ -108,6 +82,32 @@ void ShowErrorAndExit(SDKError err) {
 	printf("SDK Error: %d%s\n", err, message.c_str());
 };
 
+//dreamtcs to implement this
+void onInMeeting() {
+
+
+	printf("onInMeeting Invoked\n");
+
+	//double check if you are in a meeting
+	if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
+		printf("In Meeting Now...\n");
+
+
+		//deprecated check, this is not necessary anymore
+		//if (HasRawdataLicense() == true) {
+
+		//}
+		//else
+		//{
+		//	printf("HasRawdataLicense==false. \n");
+		//}
+
+	
+		attemptToStartRawVideoSending();
+	}
+
+}
+
 void onMeetingEndsQuitApp() {
 	g_exit = true;
 }
@@ -115,8 +115,6 @@ void onMeetingEndsQuitApp() {
 void onMeetingJoined() {
 
 	
-	std::thread t1(prereqCheckForRawVideoSend);
-	t1.detach(); //run in different thread
 
 }
 
@@ -265,7 +263,7 @@ void JoinMeeting()
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
 
 	// Set the event listener
-	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp));
+	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
 
 	//join meeting
 	if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);

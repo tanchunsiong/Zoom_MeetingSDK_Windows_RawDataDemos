@@ -55,7 +55,7 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 }
 
 
-
+//dreamtcs TODO fix this, audio only sends when unmuting
 void attemptToStartRawAudioSending() {
 
  
@@ -75,24 +75,6 @@ void attemptToStartRawAudioSending() {
 }
 
 
-void prereqCheck() {
-
-    //check if you are already in a meeting
-    while (IsInMeeting(meetingService->GetMeetingStatus()) == false) {
-
-        printf("Waiting for 3 second... Need meeting status to be == inmeeting\n");
-        std::chrono::seconds duration(3);
-        std::this_thread::sleep_for(duration);
-        printf("Finished sleeping for 3 second...\n");
-    }
-  
-
-    //if conditions above are true, start 
-    attemptToStartRawAudioSending();
-
-}
-
-
 void ShowErrorAndExit(SDKError err) {
     g_exit = true;
     string message = "";
@@ -106,16 +88,27 @@ void ShowErrorAndExit(SDKError err) {
     printf("SDK Error: %d%s\n", err, message.c_str());
 };
 
+
+void onInMeeting() {
+
+
+    printf("onInMeeting Invoked\n");
+
+    //double check if you are in a meeting
+    if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
+        printf("In Meeting Now...\n");
+        attemptToStartRawAudioSending();
+
+    }
+
+}
+
 void onMeetingEndsQuitApp() {
     g_exit = true;
 }
 
 void onMeetingJoined() {
    
-
-
-    std::thread t1(prereqCheck);
-    t1.detach(); //run in different thread
  
 }
 
@@ -250,7 +243,7 @@ void JoinMeeting()
     joinMeetingParam.userType = SDK_UT_WITHOUT_LOGIN;
     joinMeetingWithoutLoginParam.meetingNumber = meeting_number;
     joinMeetingWithoutLoginParam.psw = passcode.c_str(); 
-    joinMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
+    joinMeetingWithoutLoginParam.userName = L"RawAudioDataSender";
     joinMeetingWithoutLoginParam.userZAK = L"";
     joinMeetingWithoutLoginParam.join_token = NULL;
     joinMeetingWithoutLoginParam.vanityID = NULL;
@@ -264,7 +257,7 @@ void JoinMeeting()
     joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
     
     // Set the event listener
-    meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined , &onMeetingEndsQuitApp));
+    meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
     
     //join meeting
     if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
