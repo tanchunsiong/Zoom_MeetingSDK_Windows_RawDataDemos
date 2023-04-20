@@ -105,7 +105,7 @@ From a high level point of view it will do the below
 - Join a meeting
 - Wait for callback or status update. There are some prerequistes before you can get audio raw data. The `CanIStartRecording()` method helps to check if you have fulfilled these requirements
   - You need to be in-meeting. This is the status when you have fully joined a meeting.
-- Create a `audio_source` object which implements `IZoomSDKAudioRawDataDelegate`. This is used to receive callbacks from the SDK is ready for you to send raw audio.
+- Create a `audio_source` object which implements `IZoomSDKVirtualAudioMicEvent`. This is used to receive callbacks from the SDK is ready for you to send raw audio.
   - Call `GetAudioRawdataHelper` to get the `IZoomSDKAudioRawDataHelper` object. This is used to set the external audio source to our virtual `audio_source`
   - Call `audioHelper->setExternalAudioSource(audio_source)` to set the external audio source to our virtual `audio_source`
 - Thereafter, you should be able to start getting callback in `VirtualAudioSource.cpp`, `onMicStartSend()`
