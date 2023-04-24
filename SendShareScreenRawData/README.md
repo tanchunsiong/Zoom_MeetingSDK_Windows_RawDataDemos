@@ -5,6 +5,8 @@ A Windows C++ Application demonstrate Zoom Meeting SDK sending ScrnenShare raw d
 # Install vcpkg for adding dependency libs.
 You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
 ```
+cd ~
+cd source
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 ./bootstrap-vcpkg.sh
@@ -21,11 +23,6 @@ opencv will take a while (10 mins) to complete
 ./vcpkg install opencv 
 ```
 
-# Clone the project source code
-
-```
-git clone https://github.com/tanchunsiong/MSDK_RawDataDemos
-```
 
 This project is in the SendShareScreenRawData folder
 
@@ -44,9 +41,6 @@ This project is in the SendShareScreenRawData folder
 The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
 
 ## Add the sdk files into a folder name `SDK`
-
-
-//To be completed
 
 
 
@@ -72,7 +66,7 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
  ### x86
  C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x86-windows\include
 
-  # Error
+ # Error
 
   what if i would like to use x64 environment?
 
@@ -80,7 +74,10 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
 
   VCPKG_DEFAULT_TRIPLET = x64-windows
 
-  and reinstall
+  you can use `setx VCPKG_DEFAULT_TRIPLET "x64-windows"` to set it via command line
+
+  and reinstall by using the command below
+
 
   ```
   ./vcpkg install jsoncpp
@@ -94,7 +91,7 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
   ./cvpkg list opencv
   ```
 
-  to install addition libraries, do something like this. This might take around 1 hour, depending on the number of libraries you install
+  to install addition libraries, do something like this. [Warning]This might take around 1 hour, depending on the number of libraries you install
   ```
   ./vcpkg install opencv[contrib,ffmpeg,nonfree,opengl,openmp,world]
   ```
