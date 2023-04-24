@@ -1,10 +1,7 @@
 # Zoom Meeting SDK for Windows Raw Data Demos
-Consolidation of 1 Solution with multiple raw data projects
-
-
 Each folder will have a specific sample demo. (example GetAudioRawData, GetVideoRawData...)
 
-Within each of these folders you will need 2 addition items
+Within each folder you will need 2 addition items
 - a file named `config.json` . Here are some parameters which are expected within `config.json`
 ```
 {
@@ -15,10 +12,14 @@ Within each of these folders you will need 2 addition items
   "zak": ""
 }
 ```
-- a folder named "SDK" with the Zoom SDK libraries. These are not included in the repo. They can be downloaded from the Zoom SDK website. The file/folder structure within the SDK folder should be as follows:
+
+
+- populate the folder named "SDK" with the Zoom Meeting SDK libraries. These are not included in the repo. They can be downloaded from the (Zoom SDK website)[marketplace.zoom.us]. The file/folder structure within the SDK folder should be as follows:
 	- x64
 	- x86
 	- CHANGELOG.MD
 	- OSS-LICENSE.txt
 	- README.md
 	- version.txt
+
+These projects are currently using Zoom Meeting SDK for Windows v5.14.5.15340
