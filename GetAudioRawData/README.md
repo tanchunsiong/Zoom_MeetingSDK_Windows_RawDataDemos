@@ -38,8 +38,6 @@ The app will try to join the meeting follow the Meeting Number you specified in 
 ## Add the sdk files into a folder name `SDK`
 
 
-
-
 ## Open and Run Project
 
 Open "MSDK_GetAudioRawData.vcxproj" file from Visual Studio 2022.
@@ -104,7 +102,7 @@ You will need to ensure any missing abstract classes are implemented etc... befo
 Some classes might need additional libraries, depending on your development environment, example...
 
 `meeting_participants_ctrl_interface.h` might need `#include "meeting_service_components/meeting_audio_interface.h"`
-`rawdata_audio_helper_interface.h` might need `#include <cstdint>`
+`rawdata_renderer_interface.h` might need `#include <cstdint>`
 
 # Resolving Errors
 

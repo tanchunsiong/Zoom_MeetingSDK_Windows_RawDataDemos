@@ -5,6 +5,8 @@ A Windows C++ Application demonstrate Zoom Meeting SDK receiving Share raw data 
 # Install vcpkg for adding dependency libs.
 You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
 ```
+cd ~
+cd source
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 ./bootstrap-vcpkg.sh
@@ -12,22 +14,12 @@ cd vcpkg
 ```
 
 # Add dependency libs
-opencv might not be necessary if you are not going to do video/image processing before saving.
-opencv might not be necessary if you are just saving raw audio to file..
-opencv will take a while (10 mins) to complete
+
 
 ```
 ./vcpkg install jsoncpp
-./vcpkg install opencv 
 ```
 
-# Clone the project source code
-
-```
-git clone https://github.com/tanchunsiong/MSDK_RawDataDemos
-```
-
-This project is in the GetVideoRawData folder
 
 ## Add a configuration file named `config.json`
 
@@ -44,11 +36,6 @@ This project is in the GetVideoRawData folder
 The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
 
 ## Add the sdk files into a folder name `SDK`
-
-
-//To be completed
-
-
 
 
 ## Open and Run Project
@@ -80,24 +67,14 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
 
   VCPKG_DEFAULT_TRIPLET = x64-windows
 
-  and reinstall
+  you can use `setx VCPKG_DEFAULT_TRIPLET "x64-windows"` to set it via command line
+
+  and reinstall by using the command below
 
   ```
   ./vcpkg install jsoncpp
-  ./vcpkg install opencv
   ```
 
-  There are some errors about opencv being unable to find certain libraries?
-
-  They should not affect the basic functionality of this sample, but you can do a list of additional opencv libraries to install
-  ```
-  ./cvpkg list opencv
-  ```
-
-  to install addition libraries, do something like this. This might take around 1 hour, depending on the number of libraries you install
-  ```
-  ./vcpkg install opencv[contrib,ffmpeg,nonfree,opengl,openmp,world]
-  ```
 ## Getting Started
 
 The main method, or main entry point of this application is at `MSDK_GetShareRawData.cpp`
@@ -123,10 +100,10 @@ Replace the files in the folder `SDK` with those found in the downloaded files f
 You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
 
 Some classes might need additional libraries, depending on your development environment, example...
-```
-#include <cstdint>
-#include <windows.h>
-```
+
+`meeting_participants_ctrl_interface.h` might need `#include "meeting_service_components/meeting_audio_interface.h"`
+`rawdata_renderer_interface.h` might need `#include <cstdint>`
+
 # Resolving Errors
 
 What are the specs of the returned YUV buffer?
