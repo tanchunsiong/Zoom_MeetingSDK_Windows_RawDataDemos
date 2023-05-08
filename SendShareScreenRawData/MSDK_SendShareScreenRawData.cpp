@@ -110,7 +110,7 @@ void ShowErrorAndExit(SDKError err) {
 	printf("SDK Error: %d%s\n", err, message.c_str());
 };
 
-//dreamtcs to implement this
+
 void onInMeeting() {
 
 
@@ -120,7 +120,7 @@ void onInMeeting() {
 	if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
 		printf("In Meeting Now...\n");
 
-		//dreamtcs TODO, what if you cannot share?
+	
 		if (CanIStartSharing() == true) {
 
 

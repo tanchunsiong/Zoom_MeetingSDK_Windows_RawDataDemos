@@ -111,7 +111,7 @@ void ShowErrorAndExit(SDKError err) {
     printf("SDK Error: %d%s\n", err, message.c_str());
 };
 
-//dreamtcs to implement this
+
 void onInMeeting() {
 
     printf("onInMeeting Invoked\n");

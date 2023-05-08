@@ -23,7 +23,7 @@ void MeetingParticipantsCtrlEventListener::onUserLeft(IList<unsigned int >* lstU
 /// \brief Callback event of notification of the new host. 
 /// \param userId Specify the ID of the new host. 
 void MeetingParticipantsCtrlEventListener::onHostChangeNotification(unsigned int userId) {
-	if (onIsHost_)onIsHost_();//dreamtcs to fix the logic here
+	if (onIsHost_)onIsHost_();
 }
 
 /// \brief Callback event of changing the state of the hand.
@@ -39,7 +39,7 @@ void MeetingParticipantsCtrlEventListener::onUserNamesChanged(IList<unsigned int
 /// \param userId Specify the user ID whose status changes. 
 /// \param isCoHost TRUE indicates that the specified user is co-host.
 void MeetingParticipantsCtrlEventListener::onCoHostChangeNotification(unsigned int userId, bool isCoHost) {
-	if (onIsCoHost_)onIsCoHost_();//dreamtcs to fix the logic here
+	if (onIsCoHost_)onIsCoHost_();
 }
 
 /// \brief Callback event of invalid host key.

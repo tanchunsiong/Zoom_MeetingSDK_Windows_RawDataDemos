@@ -39,6 +39,7 @@ string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
+bool isDirectShare = false;
 
 inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 {
@@ -85,29 +86,29 @@ void onInMeeting() {
 
 
 	printf("onInMeeting Invoked\n");
+	if (isDirectShare) {
+		//double check if you are in a meeting
+		if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
+			printf("In Meeting Now...\n");
+			IList<unsigned int>* participants = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
+			printf("Participants count: %d\n", participants->GetCount());
 
-	//double check if you are in a meeting
-	if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
-		printf("In Meeting Now...\n");
-		IList<unsigned int>* participants = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
-		printf("Participants count: %d\n", participants->GetCount());
+			IDirectShareServiceHelper* servicehelper = authService->GetDirectShareServiceHeler();
 
-		IDirectShareServiceHelper* servicehelper = authService->GetDirectShareServiceHeler();
-	
-		//DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
-		DirectShareServiceHelperEventListener* dsServiceEventListener = new DirectShareServiceHelperEventListener();
-		SDKError err = servicehelper->SetEvent(dsServiceEventListener);
-		cout << "servicehelper ->SetEvent(dsServiceEventListener);" << err << endl;
+			//DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
+			DirectShareServiceHelperEventListener* dsServiceEventListener = new DirectShareServiceHelperEventListener();
+			SDKError err = servicehelper->SetEvent(dsServiceEventListener);
+			cout << "servicehelper ->SetEvent(dsServiceEventListener);" << err << endl;
 
-		cout << " servicehelper->CanStartDirectShare() ? : " << servicehelper->CanStartDirectShare() << endl;
-		cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << endl;
+			cout << " servicehelper->CanStartDirectShare() ? : " << servicehelper->CanStartDirectShare() << endl;
+			cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << endl;
 
-		err = servicehelper->StartDirectShare();
-		cout << "servicehelper->StartDirectShare()" << err << endl;
+			err = servicehelper->StartDirectShare();
+			cout << "servicehelper->StartDirectShare()" << err << endl;
 
 
+		}
 	}
-
 }
 
 void onMeetingEndsQuitApp() {
@@ -256,19 +257,20 @@ void JoinMeeting()
 	joinMeetingWithoutLoginParam.psw = passcode.c_str();
 	joinMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
 	joinMeetingWithoutLoginParam.userZAK = L"";
+	joinMeetingWithoutLoginParam.app_privilege_token = L"lrvzwsfqu";
 	joinMeetingWithoutLoginParam.join_token = NULL;
 	joinMeetingWithoutLoginParam.vanityID = NULL;
 	joinMeetingWithoutLoginParam.customer_key = NULL;
 	joinMeetingWithoutLoginParam.webinarToken = NULL;
-	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
+
 	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
 	joinMeetingWithoutLoginParam.isAudioOff = true;
 	joinMeetingWithoutLoginParam.isVideoOff = true;
-	joinMeetingWithoutLoginParam.isDirectShareDesktop = true;
+	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
 
 
-	
+
 	// Set the event listener
 	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
 
@@ -318,7 +320,7 @@ void SDKAuth()
 	authContext.jwt_token = sdk_jwt.c_str();
 	if ((err = authService->SDKAuth(authContext)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	else cout << "Auth call started, auth in progress." << endl;
-	
+
 }
 
 /// <summary>

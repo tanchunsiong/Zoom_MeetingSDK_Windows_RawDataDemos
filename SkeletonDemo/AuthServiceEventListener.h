@@ -8,6 +8,7 @@ class AuthServiceEventListener :
 {
 	void (*postToDo_)();
 public:
+	
 	AuthServiceEventListener(void (*postToDo)());
 
 	/// \brief Authentication result callback.
