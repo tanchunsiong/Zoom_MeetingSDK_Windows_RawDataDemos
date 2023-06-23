@@ -38,9 +38,9 @@ void MeetingParticipantsCtrlEventListener::onUserNamesChanged(IList<unsigned int
 /// \brief Callback event of changing the co-host.
 /// \param userId Specify the user ID whose status changes. 
 /// \param isCoHost TRUE indicates that the specified user is co-host.
-void MeetingParticipantsCtrlEventListener::onCoHostChangeNotification(unsigned int userId, bool isCoHost){
+void MeetingParticipantsCtrlEventListener::onCoHostChangeNotification(unsigned int userId, bool isCoHost) {
 	if (onIsCoHost_)onIsCoHost_();
-
+}
 /// \brief Callback event of invalid host key.
 void MeetingParticipantsCtrlEventListener::onInvalidReclaimHostkey(){}
 
@@ -68,6 +68,12 @@ void MeetingParticipantsCtrlEventListener::onAllowParticipantsStartVideoNotifica
 /// \param bAllow True allow. If false, participants may not share new whiteboard.
 void MeetingParticipantsCtrlEventListener::onAllowParticipantsShareWhiteBoardNotification(bool bAllow){}
 
-/// \brief Callback event that requests local recording privilege changes.
-/// \param status Value of request for local recording privilege status. For more details, see \link LocalRecordingRequestPrivilegeStatus \endlink enum.
-void MeetingParticipantsCtrlEventListener::onRequestLocalRecordingPriviligeChanged(LocalRecordingRequestPrivilegeStatus status){}
+
+/// \brief Callback event that the request local recording privilege changes.
+/// \param status Value of request local recording privilege status. For more details, see \link LocalRecordingRequestPrivilegeStatus \endlink enum.
+void MeetingParticipantsCtrlEventListener::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status) {}
+
+/// \brief Callback event that the user avatar path is updated in the meeting.
+/// \param userID Specify the user ID whose avatar updated. 
+void MeetingParticipantsCtrlEventListener::onInMeetingUserAvatarPathUpdated(unsigned int userID) {}
+

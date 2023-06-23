@@ -71,5 +71,13 @@ public:
 	/// \brief Callback event that requests local recording privilege changes.
 	/// \param status Value of request for local recording privilege status. For more details, see \link LocalRecordingRequestPrivilegeStatus \endlink enum.
 	virtual void onRequestLocalRecordingPriviligeChanged(LocalRecordingRequestPrivilegeStatus status);
+
+	/// \brief Callback event that the request local recording privilege changes.
+/// \param status Value of request local recording privilege status. For more details, see \link LocalRecordingRequestPrivilegeStatus \endlink enum.
+	virtual void onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status);
+
+	/// \brief Callback event that the user avatar path is updated in the meeting.
+	/// \param userID Specify the user ID whose avatar updated. 
+	virtual void onInMeetingUserAvatarPathUpdated(unsigned int userID);
 };
 
