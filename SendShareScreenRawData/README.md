@@ -124,6 +124,16 @@ Some classes might need additional libraries, depending on your development envi
 #include <cstdint>
 #include <windows.h>
 ```
+
+You might encounter these errors
+
+Error	C3646	'GetAudioJoinType': unknown override specifier	
+Error (active)	E0020	identifier "AudioType" is undefined	SkeletonDemo
+
+In your meeting_participants_ctrl_interface.h, ensure you are add an addition reference to #include "meeting_service_components/meeting_audio_interface.h"
+
+Rebuild and Run, it should resolve both errors above
+
 # Resolving Errors
 
 

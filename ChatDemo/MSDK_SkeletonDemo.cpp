@@ -20,9 +20,6 @@
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
 #include <meeting_service_components/meeting_sharing_interface.h>
 #include <list>
-#include "DirectShareServiceHelper.h"
-#include "DirectShareServiceHelperEventListener.h"
-#include "../SendVideoRawData/WebService.h"
 
 using namespace std;
 using namespace Json;
@@ -41,8 +38,6 @@ constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
 bool isDirectShare = false;
-
-bool isJWTWebService = true;
 
 inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 {
@@ -89,29 +84,7 @@ void onInMeeting() {
 
 
 	printf("onInMeeting Invoked\n");
-	if (isDirectShare) {
-		//double check if you are in a meeting
-		if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
-			printf("In Meeting Now...\n");
-			IList<unsigned int>* participants = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
-			printf("Participants count: %d\n", participants->GetCount());
 
-			IDirectShareServiceHelper* servicehelper = authService->GetDirectShareServiceHeler();
-
-			//DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
-			DirectShareServiceHelperEventListener* dsServiceEventListener = new DirectShareServiceHelperEventListener();
-			SDKError err = servicehelper->SetEvent(dsServiceEventListener);
-			cout << "servicehelper ->SetEvent(dsServiceEventListener);" << err << endl;
-
-			cout << " servicehelper->CanStartDirectShare() ? : " << servicehelper->CanStartDirectShare() << endl;
-			cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << endl;
-
-			err = servicehelper->StartDirectShare();
-			cout << "servicehelper->StartDirectShare()" << err << endl;
-
-
-		}
-	}
 }
 
 void onMeetingEndsQuitApp() {
@@ -261,8 +234,8 @@ void JoinMeeting()
 	wchar_t screenName[] = L"Chun";
 	joinMeetingWithoutLoginParam.userName = screenName; 
 	joinMeetingWithoutLoginParam.userZAK = L"";
-	//joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
-	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
+	joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
+	//joinMeetingWithoutLoginParam.app_privilege_token = NULL;
 	joinMeetingWithoutLoginParam.join_token = NULL;
 	joinMeetingWithoutLoginParam.vanityID = NULL;
 	joinMeetingWithoutLoginParam.customer_key = NULL;
@@ -322,17 +295,7 @@ void SDKAuth()
 	AuthContext authContext;
 	if ((err = authService->SetEvent(new AuthServiceEventListener(JoinMeeting))) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	cout << "AuthServiceEventListener added." << endl;
-	//authContext.jwt_token = sdk_jwt.c_str();
-	
-	//isJWTWebService
-	if (isJWTWebService) {
-	authContext.jwt_token = GetSignatureFromWebService();
-	
-	}
-	else {
-		authContext.jwt_token = sdk_jwt.c_str();
-	}
-	
+	authContext.jwt_token = sdk_jwt.c_str();
 	if ((err = authService->SDKAuth(authContext)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	else cout << "Auth call started, auth in progress." << endl;
 

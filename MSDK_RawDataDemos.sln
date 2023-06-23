@@ -22,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkeletonDemo", "SkeletonDem
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GetShareRawData", "GetShareRawData\MSDK_GetShareRawData.vcxproj", "{D8C06002-D01F-4FFA-8067-3240454F3F02}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChatDemo", "ChatDemo\MSDK_ChatDemo.vcxproj", "{4B5EA99F-7984-4724-9B6C-54A1345E684C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -86,6 +88,14 @@ Global
 		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Release|x64.Build.0 = Release|x64
 		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Release|x86.ActiveCfg = Release|Win32
 		{D8C06002-D01F-4FFA-8067-3240454F3F02}.Release|x86.Build.0 = Release|Win32
+		{4B5EA99F-7984-4724-9B6C-54A1345E684C}.Debug|x64.ActiveCfg = Debug|x64
+		{4B5EA99F-7984-4724-9B6C-54A1345E684C}.Debug|x64.Build.0 = Debug|x64
+		{4B5EA99F-7984-4724-9B6C-54A1345E684C}.Debug|x86.ActiveCfg = Debug|Win32
+		{4B5EA99F-7984-4724-9B6C-54A1345E684C}.Debug|x86.Build.0 = Debug|Win32
+		{4B5EA99F-7984-4724-9B6C-54A1345E684C}.Release|x64.ActiveCfg = Release|x64
+		{4B5EA99F-7984-4724-9B6C-54A1345E684C}.Release|x64.Build.0 = Release|x64
+		{4B5EA99F-7984-4724-9B6C-54A1345E684C}.Release|x86.ActiveCfg = Release|Win32
+		{4B5EA99F-7984-4724-9B6C-54A1345E684C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

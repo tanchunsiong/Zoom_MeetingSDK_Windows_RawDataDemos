@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{F03EE105-2A12-4C1D-A647-01EC125E809E}</ProjectGuid>
+    <ProjectGuid>{4B5EA99F-7984-4724-9B6C-54A1345E684C}</ProjectGuid>
     <RootNamespace>LaunchZoomMeeting</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>SkeletonDemo</ProjectName>
+    <ProjectName>ChatDemo</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -149,7 +149,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\$(UserName)\source\vcpkg\packages\jsoncpp_x64-windows\include;C:\Users\dreamtcs\source\vcpkg\packages\curl_x64-windows\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\$(UserName)\source\vcpkg\packages\jsoncpp_x64-windows\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -200,19 +200,13 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\SendVideoRawData\WebService.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
-    <ClCompile Include="DirectShareServiceHelper.cpp" />
-    <ClCompile Include="DirectShareServiceHelperEventListener.cpp" />
     <ClCompile Include="MSDK_SkeletonDemo.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SendVideoRawData\WebService.h" />
     <ClInclude Include="AuthServiceEventListener.h" />
-    <ClInclude Include="DirectShareServiceHelper.h" />
-    <ClInclude Include="DirectShareServiceHelperEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
   </ItemGroup>

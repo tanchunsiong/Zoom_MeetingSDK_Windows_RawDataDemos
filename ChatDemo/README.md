@@ -132,10 +132,4 @@ Rebuild and Run, it should resolve both errors above
 
 # Resolving Errors
 
-#adding curl, needed for webservice.cpp and webservice.h
-
-
-./vcpkg install curl
-
-add c++, general, addition include directories "C:\Users\dreamtcs\source\vcpkg\packages\curl_x64-windows\include" 
 
