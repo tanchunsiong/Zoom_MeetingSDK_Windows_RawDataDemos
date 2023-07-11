@@ -114,6 +114,8 @@ In your meeting_participants_ctrl_interface.h, ensure you are add an addition re
 
 Rebuild and Run, it should resolve both errors above
 
+Error	C2061	syntax error: identifier 'uint32_t'
+`rawdata_audio_helper_interface.h` might need `#include <cstdint>`
 
 # Resolving Errors
 

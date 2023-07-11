@@ -44,6 +44,8 @@ bool isDirectShare = false;
 
 bool isJWTWebService = true;
 
+bool isStartMeeting = true;
+
 inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 {
 	bool bInMeeting(false);
@@ -96,18 +98,18 @@ void onInMeeting() {
 			IList<unsigned int>* participants = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
 			printf("Participants count: %d\n", participants->GetCount());
 
-			IDirectShareServiceHelper* servicehelper = authService->GetDirectShareServiceHeler();
+			//IDirectShareServiceHelper* servicehelper = authService->GetDirectShareServiceHeler();
 
-			//DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
-			DirectShareServiceHelperEventListener* dsServiceEventListener = new DirectShareServiceHelperEventListener();
-			SDKError err = servicehelper->SetEvent(dsServiceEventListener);
-			cout << "servicehelper ->SetEvent(dsServiceEventListener);" << err << endl;
+			////DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
+			//DirectShareServiceHelperEventListener* dsServiceEventListener = new DirectShareServiceHelperEventListener();
+			//SDKError err = servicehelper->SetEvent(dsServiceEventListener);
+			//cout << "servicehelper ->SetEvent(dsServiceEventListener);" << err << endl;
 
-			cout << " servicehelper->CanStartDirectShare() ? : " << servicehelper->CanStartDirectShare() << endl;
-			cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << endl;
+			//cout << " servicehelper->CanStartDirectShare() ? : " << servicehelper->CanStartDirectShare() << endl;
+			//cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << endl;
 
-			err = servicehelper->StartDirectShare();
-			cout << "servicehelper->StartDirectShare()" << err << endl;
+			//err = servicehelper->StartDirectShare();
+			//cout << "servicehelper->StartDirectShare()" << err << endl;
 
 
 		}
@@ -248,33 +250,28 @@ void JoinMeeting()
 	cout << "MeetingService created." << endl;
 
 
+	if (!isStartMeeting) {
 
 
 
-	// try to create the meeting configuration object, this object will be used to configure the meeting
-	// joinMeetingWithoutLogin Parameters will join a meeting as a guest user, who typically don't sign-in / login.
-	JoinParam joinMeetingParam;
+			JoinParam joinMeetingParam;
 	JoinParam4WithoutLogin joinMeetingWithoutLoginParam;
 	joinMeetingParam.userType = SDK_UT_WITHOUT_LOGIN;
 	joinMeetingWithoutLoginParam.meetingNumber = meeting_number;
 	joinMeetingWithoutLoginParam.psw = passcode.c_str();
-	wchar_t screenName[] = L"Chun";
-	joinMeetingWithoutLoginParam.userName = screenName; 
+	joinMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
 	joinMeetingWithoutLoginParam.userZAK = L"";
 	//joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
-	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
 	joinMeetingWithoutLoginParam.join_token = NULL;
 	joinMeetingWithoutLoginParam.vanityID = NULL;
 	joinMeetingWithoutLoginParam.customer_key = NULL;
 	joinMeetingWithoutLoginParam.webinarToken = NULL;
-
+	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
 	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
 	joinMeetingWithoutLoginParam.isAudioOff = true;
 	joinMeetingWithoutLoginParam.isVideoOff = true;
 	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
-
-
 
 	// Set the event listener
 	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
@@ -283,33 +280,36 @@ void JoinMeeting()
 	if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	else cout << "Joining Meeting..." << endl;
 
+	}
+	//isStartMeeting
+	else { 
+		ZOOM_SDK_NAMESPACE::StartParam startMeetingParam;
+		StartParam4WithoutLogin startMeetingWithoutLoginParam;
+		startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
+		startMeetingWithoutLoginParam.meetingNumber = 3420008569;
+		//startMeetingWithoutLoginParam.psw = passcode.c_str(); 
+		startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
 
-	//ZOOM_SDK_NAMESPACE::StartParam startMeetingParam;
-	//StartParam4WithoutLogin startMeetingWithoutLoginParam;
-	//startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
-	//startMeetingWithoutLoginParam.meetingNumber = meeting_number;
-	////startMeetingWithoutLoginParam.psw = passcode.c_str(); 
-	//startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
-	//startMeetingWithoutLoginParam.userID = L"tanchunsiong.sg@fakegmail.com";
-	//startMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
-	//startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6Ijc0N0tEcXlFUnZ1Z3Vfc0V0dFVHSlEiLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjk5LCJ3Y2QiOiJ1czAyIiwiY2x0IjowLCJleHAiOjE2Nzk1NTk0NDQsImlhdCI6MTY3OTU1MjI0NCwiYWlkIjoiN1MwMXlMSUpRZ1NoNGd4cmplY0JoQSIsImNpZCI6IiJ9.vq5RQcCqe4lAmWtEw3OXJrpAbY3N-FloKGVTS0zGHDw";
-	////startMeetingWithoutLoginParam.join_token = NULL;
-	//startMeetingWithoutLoginParam.vanityID = NULL;
-	//startMeetingWithoutLoginParam.customer_key = NULL;
-	////startMeetingWithoutLoginParam.webinarToken = NULL;
-	////startMeetingWithoutLoginParam.app_privilege_token = NULL;
-	//startMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
-	//startMeetingWithoutLoginParam.isAudioOff = true;
-	//startMeetingWithoutLoginParam.isVideoOff = true;
-	//startMeetingWithoutLoginParam.isDirectShareDesktop = false;
+		startMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
+		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6IjRZbV9RSEt4Ul9XMEdKSHhOa05BT3ciLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjk5LCJ3Y2QiOiJ1czA1IiwiY2x0IjowLCJleHAiOjE2OTY4NDk0NjEsImlhdCI6MTY4OTA3MzQ2MSwiYWlkIjoiOXNTX1BCMnlSODI3bm10c3NnOXdnUSIsImNpZCI6IiJ9.CpH_k1agfv7q_vsQTnNILb8TgoaYA2OWvZ1JlhM3lEo";
+		//startMeetingWithoutLoginParam.join_token = NULL;
+		startMeetingWithoutLoginParam.vanityID = NULL;
+		startMeetingWithoutLoginParam.customer_key = NULL;
+		//startMeetingWithoutLoginParam.webinarToken = NULL;
+		//startMeetingWithoutLoginParam.app_privilege_token = NULL;
+		startMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
+		startMeetingWithoutLoginParam.isAudioOff = true;
+		startMeetingWithoutLoginParam.isVideoOff = true;
+		startMeetingWithoutLoginParam.isDirectShareDesktop = false;
 
-	//startMeetingParam.param.withoutloginStart = startMeetingWithoutLoginParam;
+		startMeetingParam.param.withoutloginStart = startMeetingWithoutLoginParam;
 
 
-	////start meeting
-	//if ((err = meetingService->Start(startMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-	//else cout << "Joining Meeting..." << endl;
-}
+		//start meeting
+		if ((err = meetingService->Start(startMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
+		else cout << "Joining Meeting..." << endl;
+	}
+	}
 /// <summary>
 /// Authorize SDK with JWT Token
 /// </summary>
