@@ -50,7 +50,7 @@ wchar_t* GetSignatureFromWebService() {
 
     // Retrieve the value of the "signature" key
     std::string signature = root["signature"].asString();
-
+    std::cout << signature << std::endl;
     // Convert std::string to wchar_t*
     size_t length = signature.size() + 1;
     wchar_t* wcharSignature = new wchar_t[length];

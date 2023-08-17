@@ -333,6 +333,7 @@ void SDKAuth()
 	if (isJWTWebService) {
 	authContext.jwt_token = GetSignatureFromWebService();
 	
+	
 	}
 	else {
 		authContext.jwt_token = sdk_jwt.c_str();
