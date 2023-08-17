@@ -44,7 +44,7 @@ bool isDirectShare = false;
 
 bool isJWTWebService = true;
 
-bool isStartMeeting = true;
+bool isStartMeeting = false;
 
 inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 {
@@ -254,22 +254,23 @@ void JoinMeeting()
 
 
 
-			JoinParam joinMeetingParam;
+	JoinParam joinMeetingParam;
 	JoinParam4WithoutLogin joinMeetingWithoutLoginParam;
 	joinMeetingParam.userType = SDK_UT_WITHOUT_LOGIN;
 	joinMeetingWithoutLoginParam.meetingNumber = meeting_number;
-	joinMeetingWithoutLoginParam.psw = passcode.c_str();
+	joinMeetingWithoutLoginParam.psw = passcode.c_str();;
 	joinMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
 	joinMeetingWithoutLoginParam.userZAK = L"";
 	//joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
 	joinMeetingWithoutLoginParam.join_token = NULL;
 	joinMeetingWithoutLoginParam.vanityID = NULL;
-	joinMeetingWithoutLoginParam.customer_key = NULL;
+	//joinMeetingWithoutLoginParam.vanityID = L"magaoay";
+	joinMeetingWithoutLoginParam.customer_key = L"abcdefghijklmnopqrtsuvwxyz1234567890";
 	joinMeetingWithoutLoginParam.webinarToken = NULL;
 	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
 	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
-	joinMeetingWithoutLoginParam.isAudioOff = true;
-	joinMeetingWithoutLoginParam.isVideoOff = true;
+	joinMeetingWithoutLoginParam.isAudioOff = false;
+	joinMeetingWithoutLoginParam.isVideoOff = false;
 	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
 
@@ -283,17 +284,21 @@ void JoinMeeting()
 	}
 	//isStartMeeting
 	else { 
-		ZOOM_SDK_NAMESPACE::StartParam startMeetingParam;
-		StartParam4WithoutLogin startMeetingWithoutLoginParam;
-		startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
-		startMeetingWithoutLoginParam.meetingNumber = 3420008569;
-		//startMeetingWithoutLoginParam.psw = passcode.c_str(); 
-		startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
+		
+	
 
+		ZOOM_SDK_NAMESPACE::StartParam startMeetingParam;
+		startMeetingParam.userType= ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
+		StartParam4WithoutLogin startMeetingWithoutLoginParam = startMeetingParam.param.withoutloginStart;
+		startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
+
+		//startMeetingWithoutLoginParam.meetingNumber = 2096270835;
+		startMeetingWithoutLoginParam.meetingNumber = meeting_number;
+		startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
+		//startMeetingWithoutLoginParam.vanityID = L"magaoay";
 		startMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
-		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6IjRZbV9RSEt4Ul9XMEdKSHhOa05BT3ciLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjk5LCJ3Y2QiOiJ1czA1IiwiY2x0IjowLCJleHAiOjE2OTY4NDk0NjEsImlhdCI6MTY4OTA3MzQ2MSwiYWlkIjoiOXNTX1BCMnlSODI3bm10c3NnOXdnUSIsImNpZCI6IiJ9.CpH_k1agfv7q_vsQTnNILb8TgoaYA2OWvZ1JlhM3lEo";
+		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6IktvMGtIb2tUU2t1NXpTVy1GU2RIMEEiLCJpc3MiOiJ3ZWIiLCJzayI6IjYyOTkzMTI0OTc4MDkwNjIwNTkiLCJzdHkiOjEwMCwid2NkIjoiYXcxIiwiY2x0IjowLCJleHAiOjE2ODk4Mzk4NzAsImlhdCI6MTY4OTgzMjY3MCwiYWlkIjoiMnlkN0JNbFRSR3VHbktyazd2QXpmUSIsImNpZCI6IiJ9.-y7lRG5o3sDt9xgQm_uaW1dZL1wOC8Pu2IS0YBV5x54";
 		//startMeetingWithoutLoginParam.join_token = NULL;
-		startMeetingWithoutLoginParam.vanityID = NULL;
 		startMeetingWithoutLoginParam.customer_key = NULL;
 		//startMeetingWithoutLoginParam.webinarToken = NULL;
 		//startMeetingWithoutLoginParam.app_privilege_token = NULL;
