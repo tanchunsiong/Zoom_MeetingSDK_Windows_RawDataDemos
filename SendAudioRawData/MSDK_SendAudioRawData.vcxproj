@@ -204,12 +204,14 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClCompile Include="MSDK_SendAudioRawData.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
+    <ClCompile Include="WebService.cpp" />
     <ClCompile Include="ZoomSDKVirtualAudioMicEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthServiceEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
+    <ClInclude Include="WebService.h" />
     <ClInclude Include="ZoomSDKVirtualAudioMicEvent.h" />
   </ItemGroup>
   <ItemGroup>

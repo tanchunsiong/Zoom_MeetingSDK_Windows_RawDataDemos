@@ -205,6 +205,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClCompile Include="MSDK_GetVideoRawData.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
+    <ClCompile Include="WebService.cpp" />
     <ClCompile Include="ZoomSDKRendererDelegate.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +213,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClInclude Include="MeetingParticipantsCtrlEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
+    <ClInclude Include="WebService.h" />
     <ClInclude Include="ZoomSDKRendererDelegate.h" />
   </ItemGroup>
   <ItemGroup>

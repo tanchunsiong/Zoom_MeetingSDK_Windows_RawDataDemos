@@ -19,6 +19,7 @@
 #include <meeting_service_components/meeting_recording_interface.h>
 #include <thread>
 #include <chrono>
+#include "WebService.h"
 
 using namespace std;
 using namespace Json;
@@ -35,6 +36,8 @@ wstring passcode;
 string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
+
+bool isJWTWebService = true;
 
 //references for audio raw data
 ZoomSDKVirtualAudioMicEvent* audio_source= new ZoomSDKVirtualAudioMicEvent();
@@ -305,7 +308,15 @@ void SDKAuth()
     AuthContext authContext;
     if ((err = authService->SetEvent(new AuthServiceEventListener(JoinMeeting))) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
     cout << "AuthServiceEventListener added." << endl;
-    authContext.jwt_token = sdk_jwt.c_str();
+    //authContext.jwt_token = sdk_jwt.c_str();
+    if (isJWTWebService) {
+        authContext.jwt_token = GetSignatureFromWebService();
+
+
+    }
+    else {
+        authContext.jwt_token = sdk_jwt.c_str();
+    }
     if ((err = authService->SDKAuth(authContext)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
     else cout << "Auth call started, auth in progress." << endl;
 }

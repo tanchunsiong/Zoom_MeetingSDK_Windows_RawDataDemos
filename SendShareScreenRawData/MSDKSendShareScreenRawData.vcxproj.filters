@@ -16,6 +16,7 @@
     <ClCompile Include="ZoomSDKShareSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WebService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthServiceEventListener.h">
@@ -30,6 +31,7 @@
     <ClInclude Include="ZoomSDKShareSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WebService.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Big_Buck_Bunny_720_10s_1MB.mp4" />

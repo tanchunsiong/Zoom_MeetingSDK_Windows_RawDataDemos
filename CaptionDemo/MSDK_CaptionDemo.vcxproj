@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{F03EE105-2A12-4C1D-A647-01EC125E809E}</ProjectGuid>
+    <ProjectGuid>{94BEE65B-FDD2-481A-A4E1-150CDA5C4B4F}</ProjectGuid>
     <RootNamespace>LaunchZoomMeeting</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>SkeletonDemo</ProjectName>
+    <ProjectName>CaptionDemo</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -202,9 +202,10 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   <ItemGroup>
     <ClCompile Include="..\SendVideoRawData\WebService.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
-    <ClCompile Include="DirectShareServiceHelper.cpp" />
-    <ClCompile Include="DirectShareServiceHelperEventListener.cpp" />
-    <ClCompile Include="MSDK_SkeletonDemo.cpp" />
+    <ClCompile Include="ClosedCaptionControllerEventListener.cpp" />
+    <ClCompile Include="ClosedCaptionControllerEventListener.h" />
+    <ClCompile Include="MeetingParticipantsCtrlEventListener.cpp" />
+    <ClCompile Include="MSDK_CaptionDemo.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
     <ClCompile Include="WebService.cpp" />
@@ -212,9 +213,9 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   <ItemGroup>
     <ClInclude Include="..\SendVideoRawData\WebService.h" />
     <ClInclude Include="AuthServiceEventListener.h" />
-    <ClInclude Include="DirectShareServiceHelper.h" />
-    <ClInclude Include="DirectShareServiceHelperEventListener.h" />
+    <ClInclude Include="MeetingParticipantsCtrlEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
+    <ClInclude Include="MSDK_CaptionDemo.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
     <ClInclude Include="WebService.h" />
   </ItemGroup>

@@ -22,13 +22,15 @@
 #include <list>
 #include "DirectShareServiceHelper.h"
 #include "DirectShareServiceHelperEventListener.h"
-#include "../SendVideoRawData/WebService.h"
+#include "WebService.h"
 
 using namespace std;
 using namespace Json;
 using namespace ZOOMSDK;
 
 bool g_exit = false;
+
+
 IMeetingService* meetingService;
 IAuthService* authService;
 INetworkConnectionHelper* network_connection_helper;
@@ -57,20 +59,6 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 	return bInMeeting;
 }
 
-void prereqCheckForRawVideoSend() {
-
-	//check if you are already in a meeting
-
-	//deprecated check, this is not necessary anymore
-	if (HasRawdataLicense() == true) {
-
-	}
-	else
-	{
-		printf("HasRawdataLicense==false. \n");
-	}
-
-}
 
 
 
@@ -109,11 +97,10 @@ void onInMeeting() {
 			//cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << endl;
 
 			//err = servicehelper->StartDirectShare();
-			//cout << "servicehelper->StartDirectShare()" << err << endl;
-
 
 		}
 	}
+
 }
 
 void onMeetingEndsQuitApp() {
@@ -248,11 +235,23 @@ void JoinMeeting()
 	//try to create the meetingservice object, this object will be used to join the meeting
 	if ((err = CreateMeetingService(&meetingService)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	cout << "MeetingService created." << endl;
+	
+	//before joining a meeting, create the setting service
+	ISettingService* settingservice;
+	CreateSettingService(&settingservice);
 
+	//use the setting service to get the audiosetting
+
+
+	//use the audiosetting to set EnableAlwaysMuteMicWhenJoinVoip
+	IAudioSettingContext* audioSetting;
+	audioSetting = settingservice->GetAudioSettings();
+	audioSetting->EnableAlwaysMuteMicWhenJoinVoip(true);
 
 	if (!isStartMeeting) {
-
-
+	
+		
+	
 
 	JoinParam joinMeetingParam;
 	JoinParam4WithoutLogin joinMeetingWithoutLoginParam;
@@ -261,6 +260,7 @@ void JoinMeeting()
 	joinMeetingWithoutLoginParam.psw = passcode.c_str();;
 	joinMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
 	joinMeetingWithoutLoginParam.userZAK = L"";
+	//joinMeetingWithoutLoginParam.userZAK = L"yJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6Ii1HQlJ0bHFJUTF5WkRsYkEzMnhuWXciLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjk5LCJ3Y2QiOiJ1czA1IiwiY2x0IjowLCJleHAiOjE2OTIyNTM0ODAsImlhdCI6MTY5MjI0NjI4MCwiYWlkIjoiOXNTX1BCMnlSODI3bm10c3NnOXdnUSIsImNpZCI6IiJ9.X9Ika89y3RY6pSL-j48tu6LzHD9zZTHNkafbDZ1ZzG0";
 	//joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
 	joinMeetingWithoutLoginParam.join_token = NULL;
 	joinMeetingWithoutLoginParam.vanityID = NULL;
@@ -269,13 +269,15 @@ void JoinMeeting()
 	joinMeetingWithoutLoginParam.webinarToken = NULL;
 	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
 	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
-	joinMeetingWithoutLoginParam.isAudioOff = false;
-	joinMeetingWithoutLoginParam.isVideoOff = false;
+	joinMeetingWithoutLoginParam.isAudioOff = true;
+	joinMeetingWithoutLoginParam.isVideoOff = true;
 	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
 
 	// Set the event listener
 	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
+
+	
 
 	//join meeting
 	if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);

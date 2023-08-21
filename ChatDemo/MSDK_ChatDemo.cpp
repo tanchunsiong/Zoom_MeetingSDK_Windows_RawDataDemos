@@ -1,4 +1,4 @@
-//  This file contains the 'main' function. Program execution begins and ends there.
+﻿// This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <iostream>
@@ -15,13 +15,12 @@
 #include <fstream>
 #include "json\json.h"
 #include <sstream>
-#include "ZoomSDKShareSource.h"
-#include <meeting_service_components/meeting_sharing_interface.h>
 #include <thread>
 #include <chrono>
+#include <meeting_service_components/meeting_participants_ctrl_interface.h>
+#include <meeting_service_components/meeting_sharing_interface.h>
+#include <list>
 #include "WebService.h"
-
-
 using namespace std;
 using namespace Json;
 using namespace ZOOMSDK;
@@ -30,7 +29,7 @@ bool g_exit = false;
 IMeetingService* meetingService;
 IAuthService* authService;
 INetworkConnectionHelper* network_connection_helper;
-
+//references for send raw video data
 wstring sdk_jwt;
 UINT64 meeting_number;
 wstring passcode;
@@ -38,62 +37,19 @@ string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
+
 bool isJWTWebService = true;
-
-//references for share raw data
-ZoomSDKShareSource* virtual_share_source;
-
-IZoomSDKRenderer* videoHelper;
-
-IMeetingRecordingController* m_pRecordController;
-IMeetingParticipantsController* m_pParticipantsController;
 
 inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 {
 	bool bInMeeting(false);
 	if (status == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING)
 	{
-		printf("In Meeting Now...\n");
-		bInMeeting = true;
+
 	}
 
 	return bInMeeting;
 }
-
-
-void attemptToStartSendingShareScreenRaw() {
-
-
-	
-	
-			IZoomSDKShareSourceHelper* pShareSourceHelper = GetRawdataShareSourceHelper();
-			if (pShareSourceHelper)
-			{
-				SDKError err = pShareSourceHelper->setExternalShareSource(virtual_share_source);
-				if (err != SDKERR_SUCCESS) {
-
-					printf("Error occurred:  $s\n", err);
-					//handle error
-				}
-				else {
-
-					printf("successfully set virtual share source...\n");
-				}
-
-			}
-			
-
-		
-	
-}
-
-bool CanIStartSharing() {
-
-	IMeetingShareController* m_pShareController = meetingService->GetMeetingShareController();
-	
-	return m_pShareController->CanStartShare();
-}
-
 
 
 
@@ -112,28 +68,10 @@ void ShowErrorAndExit(SDKError err) {
 	printf("SDK Error: %d%s\n", err, message.c_str());
 };
 
-
 void onInMeeting() {
 
 
 	printf("onInMeeting Invoked\n");
-
-	//double check if you are in a meeting
-	if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
-		printf("In Meeting Now...\n");
-
-	
-		if (CanIStartSharing() == true) {
-
-
-			//if  conditions above are true, start 
-			attemptToStartSendingShareScreenRaw();
-		}
-
-
-
-
-	}
 
 }
 
@@ -142,6 +80,11 @@ void onMeetingEndsQuitApp() {
 }
 
 void onMeetingJoined() {
+
+	printf("Joining Meeting...\n");
+
+	//std::thread t1(prereqCheckForRawVideoSend);
+	//t1.detach(); //run in different thread
 
 }
 
@@ -250,7 +193,7 @@ void LoadConfig() {
 		video_source = DEFAULT_VIDEO_SOURCE;
 		printf("No video source provided, use the default video source: %s.\n", video_source.c_str());
 	}
-	virtual_share_source = new ZoomSDKShareSource(video_source);
+
 }
 
 /// <summary>
@@ -276,18 +219,23 @@ void JoinMeeting()
 	joinMeetingParam.userType = SDK_UT_WITHOUT_LOGIN;
 	joinMeetingWithoutLoginParam.meetingNumber = meeting_number;
 	joinMeetingWithoutLoginParam.psw = passcode.c_str();
-	joinMeetingWithoutLoginParam.userName = L"RawShareDataSender";
+	wchar_t screenName[] = L"Chun";
+	joinMeetingWithoutLoginParam.userName = screenName; 
 	joinMeetingWithoutLoginParam.userZAK = L"";
+	joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
+	//joinMeetingWithoutLoginParam.app_privilege_token = NULL;
 	joinMeetingWithoutLoginParam.join_token = NULL;
 	joinMeetingWithoutLoginParam.vanityID = NULL;
 	joinMeetingWithoutLoginParam.customer_key = NULL;
 	joinMeetingWithoutLoginParam.webinarToken = NULL;
-	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
+
 	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
 	joinMeetingWithoutLoginParam.isAudioOff = true;
 	joinMeetingWithoutLoginParam.isVideoOff = true;
 	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
+
+
 
 	// Set the event listener
 	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
@@ -346,6 +294,7 @@ void SDKAuth()
 	}
 	if ((err = authService->SDKAuth(authContext)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	else cout << "Auth call started, auth in progress." << endl;
+
 }
 
 /// <summary>
@@ -356,7 +305,8 @@ void InitSDK()
 	SDKError err(SDKError::SDKERR_SUCCESS);
 
 	InitParam initParam;
-	initParam.strWebDomain = L"https://zoom.us";
+	//initParam.strWebDomain = L"https://dev-integration.zoomdev.us/";
+	initParam.strWebDomain = L"https://zoom.us/";
 	initParam.enableLogByDefault = true;
 	if ((err = InitSDK(initParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	cout << "SDK Initialized." << endl;
