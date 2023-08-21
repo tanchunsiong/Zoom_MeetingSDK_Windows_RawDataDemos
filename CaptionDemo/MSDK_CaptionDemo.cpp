@@ -132,9 +132,9 @@ void onIsHost() {
 
 		//transcription demo
 		if (true) {
-			captionController->StartLiveTranscription();
-			captionController->SetMeetingSpokenLanguage(0);
-			captionController->SetTranslationLanguage(1);
+			//captionController->StartLiveTranscription();
+			//captionController->SetMeetingSpokenLanguage(0);
+			//captionController->SetTranslationLanguage(1);
 			captionController->EnableReceiveSpokenLanguageContent(true);
 		}
 	}
