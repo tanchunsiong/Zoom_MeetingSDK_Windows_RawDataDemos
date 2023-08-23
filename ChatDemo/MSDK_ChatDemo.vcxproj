@@ -201,6 +201,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AuthServiceEventListener.cpp" />
+    <ClCompile Include="MeetingChatEventListener.cpp" />
     <ClCompile Include="MSDK_ChatDemo.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
@@ -208,6 +209,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthServiceEventListener.h" />
+    <ClInclude Include="MeetingChatEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
     <ClInclude Include="WebService.h" />

@@ -37,7 +37,7 @@ bool g_exit = false;
 
 IMeetingService* meetingService;
 IClosedCaptionController* captionController; //CaptionDemo
-ClosedCaptionControllerEventListener* captionEventListener;
+ClosedCaptionControllerEventListener* captionEventListener;  //CaptionDemo
 IAuthService* authService;
 INetworkConnectionHelper* network_connection_helper;
 //references for send raw video data

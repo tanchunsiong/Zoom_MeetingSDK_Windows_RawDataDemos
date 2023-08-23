@@ -21,12 +21,15 @@
 #include <meeting_service_components/meeting_sharing_interface.h>
 #include <list>
 #include "WebService.h"
+#include "MeetingChatEventListener.h" //chatdemo
 using namespace std;
 using namespace Json;
 using namespace ZOOMSDK;
 
 bool g_exit = false;
 IMeetingService* meetingService;
+IMeetingChatController* meetingchatcontroller; //chatdemo
+MeetingChatEventListener* meetingchateventlistener;//chatdemo
 IAuthService* authService;
 INetworkConnectionHelper* network_connection_helper;
 //references for send raw video data
@@ -72,6 +75,11 @@ void onInMeeting() {
 
 
 	printf("onInMeeting Invoked\n");
+
+	//chatdemo
+	meetingchatcontroller = meetingService->GetMeetingChatController();
+	meetingchateventlistener = new MeetingChatEventListener();
+	meetingchatcontroller->SetEvent(meetingchateventlistener);
 
 }
 
