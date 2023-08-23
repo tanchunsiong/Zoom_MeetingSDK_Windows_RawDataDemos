@@ -1,6 +1,6 @@
-# Meeting SDK for Windows - Send Video Raw Data
+# Meeting SDK for Windows - Chat Demo
 
-A Windows C++ Application demonstrate Zoom Meeting SDK sending Video raw data to a Zoom Meeting.
+A Windows C++ Application demonstrate Zoom Meeting SDK Chat Capabilities in a Zoom Meeting.
 
 # Install vcpkg for adding dependency libs.
 You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
@@ -53,7 +53,7 @@ The app will try to join the meeting follow the Meeting Number you specified in 
 
 ## Open and Run Project
 
-Open "MSDK_SendVideoRawData.vcxproj" file from Visual Studio 2022.
+Open "MSDK_ChatDemo.vcxproj" file from Visual Studio 2022.
 
 Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
 
@@ -100,10 +100,10 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
   ```
 ## Getting Started
 
-The main method, or main entry point of this application is at `MSDK_SkeletonDemo.cpp`
+The main method, or main entry point of this application is at `MSDK_ChatDemo.cpp`
 
 From a high level point of view it will do the below.
-This is the base, or skeleton code which all of the other projects in this solution are based on.
+
 
 
 # Upgrading Guide

@@ -120,6 +120,7 @@ void onIsHost() {
 
 		//closed caption demo
 		if (false) {
+			
 			SDKError enablecaptionErr = captionController->EnableCaptions(true);
 			//SDKError requestStartLiveTransErr = captionController->RequestToStartLiveTranscription(false);
 			SDKError enablmanualecaptionErr = captionController->EnableMeetingManualCaption(true);
@@ -132,10 +133,17 @@ void onIsHost() {
 
 		//transcription demo
 		if (true) {
-			//captionController->StartLiveTranscription();
-			//captionController->SetMeetingSpokenLanguage(0);
-			//captionController->SetTranslationLanguage(1);
-			captionController->EnableReceiveSpokenLanguageContent(true);
+
+			//start live transcription
+			SDKError sdkerr1 = captionController->StartLiveTranscription();
+			//set my own spoken language, 0 is for english
+			SDKError sdkerr2 = captionController->SetMeetingSpokenLanguage(0);
+			//set translated language, 1 is for mandarin/chinese. -1 is to disable translation
+			SDKError sdkerr3 = captionController->SetTranslationLanguage(1);
+			
+			SDKError sdkerr4 = captionController->EnableReceiveSpokenLanguageContent(true);
+			std::wstring testString = L"hello world";
+
 		}
 	}
 
