@@ -77,10 +77,19 @@ void onInMeeting() {
 	printf("onInMeeting Invoked\n");
 
 	//chatdemo
+	//receive text
 	meetingchatcontroller = meetingService->GetMeetingChatController();
 	meetingchateventlistener = new MeetingChatEventListener();
 	meetingchatcontroller->SetEvent(meetingchateventlistener);
 
+
+	//chatdemo
+	//send text
+
+	 wchar_t contentWideString = L'Hello, this is a chat message in wide string!';
+	
+
+	meetingchatcontroller->SendChatMsgTo(&contentWideString, 0, SDKChatMessageType_To_All);
 }
 
 void onMeetingEndsQuitApp() {
