@@ -328,6 +328,7 @@ void JoinMeeting()
 	joinMeetingWithoutLoginParam.customer_key = NULL;
 	joinMeetingWithoutLoginParam.webinarToken = NULL;
 	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
+	//joinMeetingWithoutLoginParam.app_privilege_token = L"lrgsijmeu";
 	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
 	joinMeetingWithoutLoginParam.isAudioOff = true;
 	joinMeetingWithoutLoginParam.isVideoOff = true;

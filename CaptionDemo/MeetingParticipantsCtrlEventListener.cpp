@@ -71,7 +71,9 @@ void MeetingParticipantsCtrlEventListener::onAllowParticipantsShareWhiteBoardNot
 
 /// \brief Callback event that the request local recording privilege changes.
 /// \param status Value of request local recording privilege status. For more details, see \link LocalRecordingRequestPrivilegeStatus \endlink enum.
-void MeetingParticipantsCtrlEventListener::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status) {}
+void MeetingParticipantsCtrlEventListener::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status) {
+
+}
 
 /// \brief Callback event that the user avatar path is updated in the meeting.
 /// \param userID Specify the user ID whose avatar updated. 
