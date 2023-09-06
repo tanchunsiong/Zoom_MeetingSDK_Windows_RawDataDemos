@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "zoom_sdk.h"
 #include <meeting_service_components/meeting_closedcaption_interface.h> //CaptionDemo
+#include <string>
 
 using namespace std;
 using namespace ZOOMSDK;
@@ -64,4 +65,6 @@ public:
 	/// \brief Sink the event of captions enabled status changed.
 	/// \param bEnabled True means the host enables the captions, otherwise means the host disables the captions.
 	virtual void onCaptionStatusChanged(bool bEnabled);
+
+	virtual std::string wstringToUtf8(const std::wstring& wstr);
 };

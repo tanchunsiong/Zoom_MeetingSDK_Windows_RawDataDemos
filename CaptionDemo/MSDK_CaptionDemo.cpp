@@ -83,7 +83,33 @@ void onInMeeting() {
 	captionController = meetingService->GetMeetingClosedCaptionController();
 	captionEventListener = new ClosedCaptionControllerEventListener(&onLiveTransMsgInfoRec, &onClosedCaptionMsgRec);
 	SDKError setEventErr = captionController->SetEvent(captionEventListener);
-	cout << "Error code for setting captionController event " << setEventErr << endl;
+
+
+	//closed caption demo
+	if (false) {
+
+		SDKError enablecaptionErr = captionController->EnableCaptions(true);
+		SDKError enablmanualecaptionErr = captionController->EnableMeetingManualCaption(true);
+		
+		//the below is only allowed for host
+		SDKError enableassignccprivErr = captionController->AssignCCPriviledge(0, true);
+		std::wstring cctoSend = L"hello world";
+		SDKError sendcaptionErr = captionController->SendClosedCaption(cctoSend.c_str());
+
+	}
+
+
+	//transcription demo
+	if (true) {
+
+		//start live transcription
+		SDKError sdkerr1 = captionController->StartLiveTranscription();
+		//set my own spoken language, 0 is for english
+		SDKError sdkerr2 = captionController->SetMeetingSpokenLanguage(0);
+		//set translated language, 1 is for mandarin/chinese. -1 is to disable translation
+		SDKError sdkerr3 = captionController->SetTranslationLanguage(1);
+		SDKError sdkerr4 = captionController->EnableReceiveSpokenLanguageContent(true);
+	}
 
 
 }
@@ -117,38 +143,29 @@ void onIsHost() {
 
 	//CaptionDemo
 	if (m_pParticipantsController->GetMySelfUser()->IsHost()) {
-
-		//closed caption demo
-		if (false) {
-			
-			SDKError enablecaptionErr = captionController->EnableCaptions(true);
-			//SDKError requestStartLiveTransErr = captionController->RequestToStartLiveTranscription(false);
-			SDKError enablmanualecaptionErr = captionController->EnableMeetingManualCaption(true);
-			SDKError enableassignccprivErr = captionController->AssignCCPriviledge(0, true);
-			std::wstring cctoSend = L"hello world";
-			SDKError sendcaptionErr = captionController->SendClosedCaption(cctoSend.c_str());
-		}
-
+		
+		//demo for getting all states
+		cout << "IsCaptionsEnabled " << captionController->IsCaptionsEnabled() << endl;
+		cout << "IsLiveTranscriptionFeatureEnabled " << captionController->IsLiveTranscriptionFeatureEnabled() << endl;
+		cout << "IsMeetingManualCaptionEnabled " << captionController->IsMeetingManualCaptionEnabled() << endl;
+		cout << "IsMultiLanguageTranscriptionEnabled " << captionController->IsMultiLanguageTranscriptionEnabled() << endl;
+		cout << "IsReceiveSpokenLanguageContentEnabled " << captionController->IsReceiveSpokenLanguageContentEnabled() << endl;
+		cout << "IsRequestToStartLiveTranscriptionEnalbed " << captionController->IsRequestToStartLiveTranscriptionEnalbed() << endl;
+		cout << "IsTextLiveTranslationEnabled " << captionController->IsTextLiveTranslationEnabled() << endl;
+	
 
 
-		//transcription demo
-		if (true) {
 
-			//start live transcription
-			SDKError sdkerr1 = captionController->StartLiveTranscription();
-			//set my own spoken language, 0 is for english
-			SDKError sdkerr2 = captionController->SetMeetingSpokenLanguage(0);
-			//set translated language, 1 is for mandarin/chinese. -1 is to disable translation
-			SDKError sdkerr3 = captionController->SetTranslationLanguage(1);
-			
-			SDKError sdkerr4 = captionController->EnableReceiveSpokenLanguageContent(true);
-			std::wstring testString = L"hello world";
-
-		}
+		//demo for getting all states
+		cout << "IsCaptionsEnabled " << captionController->IsCaptionsEnabled() << endl;
+		cout << "IsLiveTranscriptionFeatureEnabled " << captionController->IsLiveTranscriptionFeatureEnabled() << endl;
+		cout << "IsMeetingManualCaptionEnabled " << captionController->IsMeetingManualCaptionEnabled() << endl;
+		cout << "IsMultiLanguageTranscriptionEnabled " << captionController->IsMultiLanguageTranscriptionEnabled() << endl;
+		cout << "IsReceiveSpokenLanguageContentEnabled " << captionController->IsReceiveSpokenLanguageContentEnabled() << endl;
+		cout << "IsRequestToStartLiveTranscriptionEnalbed " << captionController->IsRequestToStartLiveTranscriptionEnalbed() << endl;
+		cout << "IsTextLiveTranslationEnabled " << captionController->IsTextLiveTranslationEnabled() << endl;
 	}
 
-	//接收手动字幕的callback
-	//virtual void onClosedCaptionMsgReceived(const wchar_t* ccMsg, unsigned int sender_id, time_t time) = 0;
 
 }
 
@@ -284,11 +301,6 @@ void JoinMeeting()
 	//before joining a meeting, create the setting service
 	ISettingService* settingservice;
 	CreateSettingService(&settingservice);
-
-	////CaptionDemo
-	//captionController = meetingService->GetMeetingClosedCaptionController();
-	//SDKError setEventErr = captionController->SetEvent(new ClosedCaptionControllerEventListener(&onLiveTransMsgInfoRec, &onClosedCaptionMsgRec));
-	//cout << "Error code for setting captionController event " << setEventErr << endl;
 
 	//use the audiosetting to set EnableAlwaysMuteMicWhenJoinVoip
 	IAudioSettingContext* audioSetting;

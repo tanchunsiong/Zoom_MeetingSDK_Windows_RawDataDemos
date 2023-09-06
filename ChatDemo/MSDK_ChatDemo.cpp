@@ -22,6 +22,10 @@
 #include <list>
 #include "WebService.h"
 #include "MeetingChatEventListener.h" //chatdemo
+
+#include <locale>
+#include <codecvt>
+
 using namespace std;
 using namespace Json;
 using namespace ZOOMSDK;
@@ -71,6 +75,8 @@ void ShowErrorAndExit(SDKError err) {
 	printf("SDK Error: %d%s\n", err, message.c_str());
 };
 
+
+
 void onInMeeting() {
 
 
@@ -86,11 +92,18 @@ void onInMeeting() {
 	//chatdemo
 	//send text
 
-	 wchar_t contentWideString = L'Hello, this is a chat message in wide string!';
 	
+	
+	 
 
-	meetingchatcontroller->SendChatMsgTo(&contentWideString, 0, SDKChatMessageType_To_All);
+	std::wstring wstr = L"Hello, 世界!";
+	wchar_t wcharArray[1024]; // Choose an appropriate size
+	wcscpy_s(wcharArray, wstr.c_str());
+
+	meetingchatcontroller->SendChatMsgTo(wcharArray, 0, SDKChatMessageType_To_All);
 }
+
+
 
 void onMeetingEndsQuitApp() {
 	g_exit = true;
