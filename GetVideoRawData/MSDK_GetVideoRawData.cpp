@@ -92,6 +92,7 @@ void attemptToStartRawRecording() {
 		//handle error
 	}
 	else {
+		videoHelper->setRawDataResolution(ZoomSDKResolution_720P);
 		videoHelper->subscribe(getUserID(), RAW_DATA_TYPE_VIDEO);
 	}
 

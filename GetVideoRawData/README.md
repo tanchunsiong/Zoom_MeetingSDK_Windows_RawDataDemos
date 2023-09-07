@@ -121,6 +121,8 @@ Error	C3646	'getUserId': unknown override specifier
 
 # Resolving Errors
 
+ffmpeg -f rawvideo -pix_fmt yuv420p -video_size 1280*720 -framerate 25 -i output.yuv -f mp4 output.mp4
+
 What are the specs of the returned YUV buffer?
 The resolution can range from 1920x1080, 1280x720, 640x360 etc....
 
@@ -132,3 +134,9 @@ What can i use to playback or convert the YUV file into something playable?
 Why does my app crash after running for a while?
 
 Do note that YUV raw buffers are huge in size, it is not recommended to save these raw buffer directly to disk. Do look up on how to use ffmpeg or opencv to convert these raw buffers into decently sized, playable video files.
+
+#adding curl, needed for webservice.cpp and webservice.h
+
+./vcpkg install curl
+
+add c++, general, addition include directories "C:\Users\$(UserName)\source\vcpkg\packages\curl_x64-windows\include" 

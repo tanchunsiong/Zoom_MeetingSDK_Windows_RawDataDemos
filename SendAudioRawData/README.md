@@ -122,3 +122,8 @@ Error	C2061	syntax error: identifier 'uint32_t'
 What are the specs of the  PCM audio?
 Mono, 16 bits and varied bitrate supported. I'm using 44100khz
 
+#adding curl, needed for webservice.cpp and webservice.h
+
+./vcpkg install curl
+
+add c++, general, addition include directories "C:\Users\$(UserName)\source\vcpkg\packages\curl_x64-windows\include" 
