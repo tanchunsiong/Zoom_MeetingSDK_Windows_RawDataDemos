@@ -2,10 +2,13 @@
 config.json
 
 # ignore sdk and x64 folders
-sdk/
+# ignore sdk and x64 folders
+sdk/CHANGELOG.md
+sdk/OSS-LICENSE.pdf
 x64/
 x86/
 .vs/
+
 
 Debug
 
