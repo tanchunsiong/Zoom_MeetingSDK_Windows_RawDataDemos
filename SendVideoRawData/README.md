@@ -1,6 +1,7 @@
-# Meeting SDK for Windows - Skeleton Demo
 
-A Skeleton / Barebone Windows C++ Application demonstrate Zoom Meeting SDK features
+# Meeting SDK for Windows - Send Video Raw Data
+
+A Windows C++ Application demonstrate Zoom Meeting SDK sending Video raw data to a Zoom Meeting.
 
 # Install vcpkg for adding dependency libs.
 You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
@@ -52,7 +53,7 @@ The app will try to join the meeting follow the Meeting Number you specified in 
 
 ## Open and Run Project
 
-Open "MSDK_SkeletonDemo.vcxproj" file from Visual Studio 2022.
+Open "MSDK_SendVideoRawData.vcxproj" file from Visual Studio 2022.
 
 Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
 

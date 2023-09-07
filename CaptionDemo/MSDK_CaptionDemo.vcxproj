@@ -200,7 +200,6 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\SendVideoRawData\WebService.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
     <ClCompile Include="ClosedCaptionControllerEventListener.cpp" />
     <ClCompile Include="ClosedCaptionControllerEventListener.h" />
@@ -211,7 +210,6 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClCompile Include="WebService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SendVideoRawData\WebService.h" />
     <ClInclude Include="AuthServiceEventListener.h" />
     <ClInclude Include="MeetingParticipantsCtrlEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />

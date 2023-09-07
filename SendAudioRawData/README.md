@@ -127,3 +127,17 @@ Mono, 16 bits and varied bitrate supported. I'm using 44100khz
 ./vcpkg install curl
 
 add c++, general, addition include directories "C:\Users\$(UserName)\source\vcpkg\packages\curl_x64-windows\include" 
+
+#SDK_ERR_NOT_JOIN_AUDIO
+
+you will need to ensure when joining a meeting this is set to false 
+	joinMeetingWithoutLoginParam.isAudioOff = false;
+
+here's an additional parameter to enable auto joining of audio
+	//set join audio to true
+	ZOOM_SDK_NAMESPACE::IAudioSettingContext* pAudioContext = settingService->GetAudioSettings();
+	if (pAudioContext)
+	{
+		
+		pAudioContext->EnableAutoJoinAudio(true);
+	}
