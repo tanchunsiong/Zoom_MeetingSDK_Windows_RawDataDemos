@@ -1,9 +1,11 @@
 #include "windows.h"
+#include <cstdint>
+#include <iostream>
+#include <fstream>
 #include "rawdata/rawdata_audio_helper_interface.h"
 #include "ZoomSDKAudioRawDataDelegate.h"
 #include "zoom_sdk_def.h" 
-#include <iostream>
-#include <fstream>
+
 
 
 
@@ -24,7 +26,7 @@ void ZoomSDKAudioRawDataDelegate::onMixedAudioRawDataReceived(AudioRawData* audi
 	pcmFile.open("audio.pcm", ios::out | ios::binary | ios::app);
 
 	if (!pcmFile.is_open()) {
-		cout << "Failed to open wave file" << endl;
+		std::cout << "Failed to open wave file" << std::endl;
 		return;
 	}
 	try {
@@ -39,7 +41,7 @@ void ZoomSDKAudioRawDataDelegate::onMixedAudioRawDataReceived(AudioRawData* audi
 	}
 	catch (exception e)
 	{
-		cout << "Failed to write wave file" << endl;
+		std::cout << "Failed to write wave file" << std::endl;
 	}
 
 

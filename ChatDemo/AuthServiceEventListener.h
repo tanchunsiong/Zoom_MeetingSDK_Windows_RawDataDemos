@@ -4,11 +4,11 @@
 
 using namespace ZOOMSDK;
 class AuthServiceEventListener :
-    public IAuthServiceEvent
+	public IAuthServiceEvent
 {
 	void (*postToDo_)();
 public:
-	
+
 	AuthServiceEventListener(void (*postToDo)());
 
 	/// \brief Authentication result callback.
@@ -31,7 +31,13 @@ public:
 	virtual void onZoomAuthIdentityExpired();
 
 	/// \brief Notification service status changed callback.
-/// \param status The value of transfer meeting service. For more details, see \link SDKNotificationServiceStatus \endlink.
-	virtual void onNotificationServiceStatus(SDKNotificationServiceStatus status) ;
+	/// \param status The value of transfer meeting service. For more details, see \link SDKNotificationServiceStatus \endlink.
+	virtual void onNotificationServiceStatus(SDKNotificationServiceStatus status);
+
+	/// \brief Notification service status changed callback.
+	/// \param status The value of transfer meeting service. For more details, see \link SDKNotificationServiceStatus \endlink.
+	/// \param error Connection Notification service fail error code.For more details, see \link SDKNotificationServiceError \endlink enum.
+	virtual void onNotificationServiceStatus(SDKNotificationServiceStatus status, SDKNotificationServiceError error);
+
 };
 

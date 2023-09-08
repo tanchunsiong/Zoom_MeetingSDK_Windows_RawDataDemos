@@ -15,21 +15,21 @@ using namespace ZOOM_SDK_NAMESPACE;
 
 void ZoomSDKRendererDelegate::onRawDataFrameReceived(YUVRawDataI420* data)
 {
-	cout << "onRawDataFrameReceived." << endl;
+	std::cout << "onRawDataFrameReceived." << endl;
 
-	cout << "width." << data->GetStreamWidth() << endl;
-	cout << "height." << data->GetStreamHeight() << endl;
+	std::cout << "width." << data->GetStreamWidth() << endl;
+	std::cout << "height." << data->GetStreamHeight() << endl;
 	SaveToRawYUVFile(data);
 
 }
 void ZoomSDKRendererDelegate::onRawDataStatusChanged(RawDataStatus status)
 {
-	cout << "onRawDataStatusChanged." << endl;
+	std::cout << "onRawDataStatusChanged." << endl;
 }
 
 void ZoomSDKRendererDelegate::onRendererBeDestroyed()
 {
-	cout << "onRendererBeDestroyed ." << endl;
+	std::cout << "onRendererBeDestroyed ." << endl;
 }
 
 //void ZoomSDKRendererDelegate::SaveToRawYUVFile(YUVRawDataI420* data) {
@@ -38,7 +38,7 @@ void ZoomSDKRendererDelegate::onRendererBeDestroyed()
 //	ofstream outputFile("output.yuv", ios::out | ios::binary | ios::app);
 //	if (!outputFile.is_open())
 //	{
-//		cout << "Error opening file." << endl;
+//		std::cout << "Error opening file." << endl;
 //		return;
 //	}
 //
@@ -69,7 +69,7 @@ void ZoomSDKRendererDelegate::onRendererBeDestroyed()
 //	// Close the file
 //	outputFile.close();
 //	outputFile.flush();
-//	//cout << "YUV420 buffer saved to file." << endl;
+//	//std::cout << "YUV420 buffer saved to file." << endl;
 //}
 void ZoomSDKRendererDelegate::SaveToRawYUVFile(YUVRawDataI420* data) {
 
@@ -77,7 +77,7 @@ void ZoomSDKRendererDelegate::SaveToRawYUVFile(YUVRawDataI420* data) {
 	ofstream outputFile("output.yuv", ios::out | ios::binary | ios::app);
 	if (!outputFile.is_open())
 	{
-		cout << "Error opening file." << endl;
+		std::cout << "Error opening file." << endl;
 		return;
 	}
 	// Calculate the sizes for Y, U, and V components
@@ -93,5 +93,5 @@ void ZoomSDKRendererDelegate::SaveToRawYUVFile(YUVRawDataI420* data) {
 	// Close the file
 	outputFile.close();
 	outputFile.flush();
-	//cout << "YUV420 buffer saved to file." << endl;
+	//std::cout << "YUV420 buffer saved to file." << endl;
 }

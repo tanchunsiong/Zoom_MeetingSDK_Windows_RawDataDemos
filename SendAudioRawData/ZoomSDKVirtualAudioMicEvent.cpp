@@ -1,15 +1,15 @@
 #include "windows.h"
-#include "rawdata/rawdata_audio_helper_interface.h"
-#include "ZoomSDKVirtualAudioMicEvent.h"
-#include "zoom_sdk_def.h" 
 #include <iostream>
 #include <cstdint>
-
 #include <fstream>
 #include <cstring>
 #include <cstdio>
-
 #include <vector>
+
+#include "rawdata/rawdata_audio_helper_interface.h"
+#include "ZoomSDKVirtualAudioMicEvent.h"
+#include "zoom_sdk_def.h" 
+
 #include <thread>
 
 using namespace std;
@@ -29,7 +29,7 @@ void PlayAudioFileToVirtualMic(IZoomSDKAudioRawDataSender* audio_sender, string 
 		// Check if the file exists
 		ifstream file(audio_source, ios::binary | ios::ate);
 		if (!file.is_open()) {
-			cout << "Error: File not found. Tried to open " << audio_source << endl;
+			std::cout << "Error: File not found. Tried to open " << audio_source << std::endl;
 			return;
 		}
 
@@ -44,7 +44,7 @@ void PlayAudioFileToVirtualMic(IZoomSDKAudioRawDataSender* audio_sender, string 
 		// Send the audio data to the virtual camera
 		SDKError err = audio_sender->send(buffer.data(), buffer.size(), 44100);
 		if (err != SDKERR_SUCCESS) {
-			cout << "Error: Failed to send audio data to virtual camera. Error code: " << err << endl;
+			std::cout << "Error: Failed to send audio data to virtual camera. Error code: " << err << std::endl;
 			return;
 		}
 		file.close();
@@ -67,7 +67,7 @@ void ZoomSDKVirtualAudioMicEvent::onMicStartSend() {
 	printf("onMicStartSend\n");
 
 
-	cout << "onStartSend" << endl;
+	std::cout << "onStartSend" << std::endl;
 	if (pSender_ && audio_play_flag != 1) {
 		while (audio_play_flag > -1) {}
 		audio_play_flag = 1;
@@ -86,6 +86,6 @@ void ZoomSDKVirtualAudioMicEvent::onMicStopSend() {
 }
 /// \brief Callback for virtual audio mic is uninitialized.
 void ZoomSDKVirtualAudioMicEvent::onMicUninitialized() {
-	cout << "onUninitialized" << endl;
+	std::cout << "onUninitialized" << std::endl;
 	pSender_ = nullptr;
 }

@@ -10,7 +10,7 @@ MeetingChatEventListener::MeetingChatEventListener() {
 
 void MeetingChatEventListener::onChatMsgNotifcation(IChatMsgInfo* chatMsg, const zchar_t* content)
 {
-	cout << content << endl;
+	std::cout << content << endl;
 }
 
 void MeetingChatEventListener::onChatStatusChangedNotification(ChatStatus* status_)

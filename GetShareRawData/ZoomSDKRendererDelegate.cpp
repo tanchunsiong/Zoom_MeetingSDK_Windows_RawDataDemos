@@ -15,16 +15,16 @@ using namespace ZOOM_SDK_NAMESPACE;
 
 void ZoomSDKRendererDelegate::onRawDataFrameReceived(YUVRawDataI420* data)
 {
-	cout << "onRawDataFrameReceived." << endl;
+	std::cout << "onRawDataFrameReceived." << endl;
 	// Open the file for writing
 	ofstream outputFile("output.yuv", ios::out | ios::binary | ios::app);
 	if (!outputFile.is_open())
 	{
-		cout << "Error opening file." << endl;
+		std::cout << "Error opening file." << endl;
 		return;
 	}
-	cout << "width." << data->GetStreamWidth() << endl;
-	cout << "height." << data->GetStreamHeight() << endl;
+	std::cout << "width." << data->GetStreamWidth() << endl;
+	std::cout << "height." << data->GetStreamHeight() << endl;
 
 	char* _data = new char[data->GetStreamHeight() * data->GetStreamWidth() * 3 / 2];
 	
@@ -53,14 +53,14 @@ void ZoomSDKRendererDelegate::onRawDataFrameReceived(YUVRawDataI420* data)
 	// Close the file
 	outputFile.close();
 	outputFile.flush();
-	//cout << "YUV420 buffer saved to file." << endl;
+	//std::cout << "YUV420 buffer saved to file." << endl;
 }
 void ZoomSDKRendererDelegate::onRawDataStatusChanged(RawDataStatus status)
 {
-	cout << "onRawDataStatusChanged." << endl;
+	std::cout << "onRawDataStatusChanged." << endl;
 }
 
 void ZoomSDKRendererDelegate::onRendererBeDestroyed()
 {
-	cout << "onRendererBeDestroyed ." << endl;
+	std::cout << "onRendererBeDestroyed ." << endl;
 }

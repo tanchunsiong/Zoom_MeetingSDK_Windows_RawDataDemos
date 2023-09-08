@@ -20,21 +20,21 @@ void ClosedCaptionControllerEventListener::onClosedCaptionMsgReceived(const zcha
 	std::wstring wstr(ccMsg);
 	std::string utf8Str = wstringToUtf8(wstr);
 
-	cout << "onClosedCaptionMsgReceived :" << utf8Str << endl;
+	std::cout << "onClosedCaptionMsgReceived :" << utf8Str << endl;
 }
 
 void ClosedCaptionControllerEventListener::onLiveTranscriptionStatus(SDKLiveTranscriptionStatus status) {
 	if (status == 1) {
-		cout << "onLiveTranscriptionStatus :" << "SDK_LiveTranscription_Status_Start" << endl;
+		std::cout << "onLiveTranscriptionStatus :" << "SDK_LiveTranscription_Status_Start" << endl;
 	}
 	else if (status == 2) {
-		cout << "onLiveTranscriptionStatus :" << "SDK_LiveTranscription_Status_User_Sub" << endl;
+		std::cout << "onLiveTranscriptionStatus :" << "SDK_LiveTranscription_Status_User_Sub" << endl;
 	}
 	else if (status == 0) {
-		cout << "onLiveTranscriptionStatus :" << "SDK_LiveTranscription_Status_Stop" << endl;
+		std::cout << "onLiveTranscriptionStatus :" << "SDK_LiveTranscription_Status_Stop" << endl;
 	}
 	else if (status == 10) {
-		cout << "onLiveTranscriptionStatus :" << "SDK_LiveTranscription_Status_Connecting" << endl;
+		std::cout << "onLiveTranscriptionStatus :" << "SDK_LiveTranscription_Status_Connecting" << endl;
 	}
 		
 }
@@ -47,7 +47,7 @@ void ClosedCaptionControllerEventListener::onLiveTranscriptionMsgReceived(const 
 		std::wstring wstr(ltMsg);
 		std::string utf8Str = wstringToUtf8(wstr);
 
-		cout << "onLiveTranscriptionMsgReceived :" << utf8Str << endl;
+		std::cout << "onLiveTranscriptionMsgReceived :" << utf8Str << endl;
 	}*/
 }
 
@@ -58,7 +58,7 @@ void ClosedCaptionControllerEventListener::onOriginalLanguageMsgReceived(ILiveTr
 		std::wstring wstr(messageInfo->GetMessageContent());
 		std::string utf8Str = wstringToUtf8(wstr);
 
-		cout << "onOriginalLanguageMsgReceived :" << utf8Str << endl;
+		std::cout << "onOriginalLanguageMsgReceived :" << utf8Str << endl;
 	}
 }
 
@@ -71,14 +71,14 @@ void ClosedCaptionControllerEventListener::onLiveTranscriptionMsgInfoReceived(IL
 		std::wstring wstr(messageInfo->GetMessageContent());
 		std::string utf8Str = wstringToUtf8(wstr); 
 
-		cout << "onLiveTranscriptionMsgInfoReceived :" << utf8Str << endl;
+		std::cout << "onLiveTranscriptionMsgInfoReceived :" << utf8Str << endl;
 	
 
 	}
 }
 
 void ClosedCaptionControllerEventListener::onLiveTranscriptionMsgError(ILiveTranscriptionLanguage* spokenLanguage, ILiveTranscriptionLanguage* transcriptLanguage) {
-	cout << "onLiveTranscriptionMsgError" << endl;
+	std::cout << "onLiveTranscriptionMsgError" << endl;
 
 }
 
@@ -87,7 +87,7 @@ void ClosedCaptionControllerEventListener::onRequestForLiveTranscriptReceived(un
 void ClosedCaptionControllerEventListener::onRequestLiveTranscriptionStatusChange(bool bEnabled) {}
 
 void ClosedCaptionControllerEventListener::onCaptionStatusChanged(bool bEnabled) {
-	cout << "onCaptionStatusChanged :" << bEnabled << endl;
+	std::cout << "onCaptionStatusChanged :" << bEnabled << endl;
 }
 
 

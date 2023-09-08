@@ -201,6 +201,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MeetingParticipantsCtrlEventListener.cpp" />
+    <ClCompile Include="MeetingRecordingCtrlEventListener.cpp" />
     <ClCompile Include="WebService.cpp" />
     <ClCompile Include="ZoomSDKAudioRawDataDelegate.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
@@ -210,6 +211,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MeetingParticipantsCtrlEventListener.h" />
+    <ClInclude Include="MeetingRecordingCtrlEventListener.h" />
     <ClInclude Include="WebService.h" />
     <ClInclude Include="ZoomSDKAudioRawDataDelegate.h" />
     <ClInclude Include="AuthServiceEventListener.h" />

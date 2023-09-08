@@ -31,7 +31,7 @@ void PlayVideoFileToVirtualCamera(IZoomSDKVideoSender* video_sender, string vide
         }
      
             //--- GRAB AND WRITE LOOP
-            cout << "Start grabbing" << endl;
+            std::cout << "Start grabbing" << endl;
             while (cap.read(frame))
             {
                 // wait for a new frame from camera and store it into 'frame'
@@ -55,7 +55,7 @@ void PlayVideoFileToVirtualCamera(IZoomSDKVideoSender* video_sender, string vide
 
                 SDKError err = ((IZoomSDKVideoSender*)video_sender)->sendVideoFrame(frameBuffer, width, height, frameLen, 0);
                 if (err != SDKERR_SUCCESS) {
-                    cout << "sendVideoFrame failed: Error " << err << endl;
+                    std::cout << "sendVideoFrame failed: Error " << err << endl;
                 }
             }
             cap.release();
@@ -66,42 +66,42 @@ void PlayVideoFileToVirtualCamera(IZoomSDKVideoSender* video_sender, string vide
 
 void ZoomSDKVideoSource::onInitialize(IZoomSDKVideoSender* sender, IList<VideoSourceCapability>* support_cap_list, VideoSourceCapability& suggest_cap)
 {
-    cout << "ZoomSDKVideoSource::onInitialize" << endl;
+    std::cout << "ZoomSDKVideoSource::onInitialize" << endl;
     video_sender_ = sender;
 }
 
 void ZoomSDKVideoSource::onPropertyChange(IList<VideoSourceCapability>* support_cap_list, VideoSourceCapability suggest_cap)
 {
-    cout << "onPropertyChange" << endl;
-    cout << "suggest frame: " << suggest_cap.frame << endl;
-    cout << "suggest size: " << suggest_cap.width << "x" << suggest_cap.height << endl;
+    std::cout << "onPropertyChange" << endl;
+    std::cout << "suggest frame: " << suggest_cap.frame << endl;
+    std::cout << "suggest size: " << suggest_cap.width << "x" << suggest_cap.height << endl;
     width = suggest_cap.width;
     height = suggest_cap.height;
-    cout << "calculated frameLen: " << height / 2 * 3 * width << endl;
+    std::cout << "calculated frameLen: " << height / 2 * 3 * width << endl;
 }
 
 void ZoomSDKVideoSource::onStartSend()
 {
-    cout << "onStartSend" << endl;
+    std::cout << "onStartSend" << endl;
     if (video_sender_ && video_play_flag != 1) {
         while (video_play_flag > -1) {}
         video_play_flag = 1;
         thread(PlayVideoFileToVirtualCamera, video_sender_, video_source_).detach();
     }
     else {
-        cout << "video_sender_ is null" << endl;
+        std::cout << "video_sender_ is null" << endl;
     }
 }
 
 void ZoomSDKVideoSource::onStopSend()
 {
-    cout << "onStopSend" << endl;
+    std::cout << "onStopSend" << endl;
     video_play_flag = 0;
 }
 
 void ZoomSDKVideoSource::onUninitialized()
 {
-    cout << "onUninitialized" << endl;
+    std::cout << "onUninitialized" << endl;
     video_sender_ = nullptr;
 }
 

@@ -10,16 +10,16 @@ NetworkConnectionHandler::NetworkConnectionHandler(void (*postToDo)())
 
 void NetworkConnectionHandler::onProxyDetectComplete()
 {
-	cout << "onProxyDetectComplete" << endl;
+	std::cout << "onProxyDetectComplete" << endl;
 	if(postToDo_) postToDo_();
 }
 
 void NetworkConnectionHandler::onProxySettingNotification(IProxySettingHandler* handler)
 {
-	cout << "onProxySettingNotification" << endl;
+	std::cout << "onProxySettingNotification" << endl;
 }
 
 void NetworkConnectionHandler::onSSLCertVerifyNotification(ISSLCertVerificationHandler* handler)
 {
-	cout << "onSSLCertVerifyNotification" << endl;
+	std::cout << "onSSLCertVerifyNotification" << endl;
 }

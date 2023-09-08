@@ -64,14 +64,14 @@ void attemptToStartRawAudioSending() {
  
     audioHelper = GetAudioRawdataHelper();
     if (audioHelper == NULL) {
-        cout << "Error occurred";
+        std::cout << "Error occurred";
         //handle error
     }
   
     SDKError err = audioHelper->setExternalAudioSource(audio_source);
 
     if (err != SDKERR_SUCCESS) {
-        cout << "Error occurred";
+        std::cout << "Error occurred";
         //handle error
     }
     
@@ -132,7 +132,7 @@ string WStringToString(wstring input)
 wstring QuestionInput(string qustion)
 {
     wstring input;
-    cout << qustion;
+    std::cout << qustion;
     getline(wcin, input);
     return input;
 }
@@ -190,7 +190,7 @@ void LoadConfig() {
         }
     }
     while (toQuestionForMeetingNumber) {
-        wcout << "Meeting Number: ";
+        std::wcout << "Meeting Number: ";
         string input;
         getline(cin, input);
         try {
@@ -233,7 +233,7 @@ void JoinMeeting()
 
     //try to create the meetingservice object, this object will be used to join the meeting
     if ((err = CreateMeetingService(&meetingService)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    cout << "MeetingService created." << endl;
+    std::cout << "MeetingService created." << std::endl;
 
 
   
@@ -264,7 +264,7 @@ void JoinMeeting()
     
     //join meeting
     if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    else cout << "Joining Meeting..." << endl;
+    else std::cout << "Joining Meeting..." << std::endl;
 
 
     //ZOOM_SDK_NAMESPACE::StartParam startMeetingParam;
@@ -291,7 +291,7 @@ void JoinMeeting()
 
     ////start meeting
     //if ((err = meetingService->Start(startMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    //else cout << "Joining Meeting..." << endl;
+    //else std::cout << "Joining Meeting..." << std::endl;
 
 
 
@@ -304,10 +304,10 @@ void SDKAuth()
     SDKError err(SDKError::SDKERR_SUCCESS);
 
     if ((err = CreateAuthService(&authService)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    cout << "AuthService created." << endl;
+    std::cout << "AuthService created." << std::endl;
     AuthContext authContext;
     if ((err = authService->SetEvent(new AuthServiceEventListener(JoinMeeting))) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    cout << "AuthServiceEventListener added." << endl;
+    std::cout << "AuthServiceEventListener added." << std::endl;
     //authContext.jwt_token = sdk_jwt.c_str();
     if (isJWTWebService) {
         authContext.jwt_token = GetSignatureFromWebService();
@@ -318,7 +318,7 @@ void SDKAuth()
         authContext.jwt_token = sdk_jwt.c_str();
     }
     if ((err = authService->SDKAuth(authContext)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    else cout << "Auth call started, auth in progress." << endl;
+    else std::cout << "Auth call started, auth in progress." << std::endl;
 }
 
 /// <summary>
@@ -332,11 +332,11 @@ void InitSDK()
     initParam.strWebDomain = L"https://zoom.us";
     initParam.enableLogByDefault=true;
     if ((err = InitSDK(initParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    cout << "SDK Initialized." << endl;
+    std::cout << "SDK Initialized." << std::endl;
     if ((err = CreateNetworkConnectionHelper(&network_connection_helper)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    cout << "CreateNetworkConnectionHelper created." << endl;
+    std::cout << "CreateNetworkConnectionHelper created." << std::endl;
     if ((err = network_connection_helper->RegisterNetworkConnectionHandler(new NetworkConnectionHandler(&SDKAuth))) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-    cout << "NetworkConnectionHandler registered. Detecting proxy." << endl;
+    std::cout << "NetworkConnectionHandler registered. Detecting proxy." << std::endl;
 }
 
 /// <summary>

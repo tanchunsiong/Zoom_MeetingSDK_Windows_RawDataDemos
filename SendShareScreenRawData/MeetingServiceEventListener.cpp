@@ -13,7 +13,7 @@ MeetingServiceEventListener::MeetingServiceEventListener(void (*onMeetingStarts)
 
 void MeetingServiceEventListener::onMeetingStatusChanged(MeetingStatus status, int iResult)
 {
-	cout << "onMeetingStatusChanged: " << status << ", iResult: " << iResult << endl;
+	std::cout << "onMeetingStatusChanged: " << status << ", iResult: " << iResult << endl;
 	switch (status)
 	{
 	case MEETING_FAIL_MEETING_NOT_EXIST:
@@ -32,17 +32,17 @@ void MeetingServiceEventListener::onMeetingStatusChanged(MeetingStatus status, i
 
 void MeetingServiceEventListener::onMeetingStatisticsWarningNotification(StatisticsWarningType type)
 {
-	cout << "onMeetingStatisticsWarningNotification, type: " << type << endl;
+	std::cout << "onMeetingStatisticsWarningNotification, type: " << type << endl;
 }
 
 void MeetingServiceEventListener::onMeetingParameterNotification(const MeetingParameter* meeting_param)
 {
-	cout << "onMeetingParameterNotification" <<endl;
+	std::cout << "onMeetingParameterNotification" <<endl;
 	if (onMeetingStarts_) onMeetingStarts_();
 }
 
 void MeetingServiceEventListener::onSuspendParticipantsActivities()
 {
-	cout << "onSuspendParticipantsActivities" << endl;
+	std::cout << "onSuspendParticipantsActivities" << endl;
 }
 

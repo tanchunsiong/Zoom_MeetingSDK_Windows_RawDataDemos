@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "zoom_sdk.h"
 #include <meeting_service_interface.h>
+#include <meeting_service_components/meeting_audio_interface.h>
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
 using namespace ZOOMSDK;
 

@@ -28,7 +28,7 @@ void PlayVideoFileToShare(IZoomSDKShareSender* share_sender, string share_source
         }
         else {
             //--- GRAB AND WRITE LOOP
-            cout << "Start grabbing" << endl;
+            std::cout << "Start grabbing" << endl;
             while (video_play_flag > 0)
             {
                 // wait for a new frame from camera and store it into 'frame'
@@ -65,7 +65,7 @@ void PlayVideoFileToShare(IZoomSDKShareSender* share_sender, string share_source
 
 void ZoomSDKShareSource::onStartSend(IZoomSDKShareSender* pSender)
 {
-    cout << "onStartSend" << endl;
+    std::cout << "onStartSend" << endl;
     if (pSender && video_play_flag != 1) {
         while (video_play_flag > -1) {}
         video_play_flag = 1;
@@ -75,7 +75,7 @@ void ZoomSDKShareSource::onStartSend(IZoomSDKShareSender* pSender)
 
 void ZoomSDKShareSource::onStopSend()
 {
-    cout << "onStopSend" << endl;
+    std::cout << "onStopSend" << endl;
     video_play_flag = 0;
 }
 
