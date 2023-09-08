@@ -113,6 +113,9 @@ bool CanIStartLocalRecording()
 		SDKError err = m_pRecordController->CanStartRecording(false, 0); //0 refers to current user
 		if (err != SDKERR_SUCCESS) {
 			std::cout << "Cannot start local recording...\n";
+
+			std::cout << "Requesting...\n";
+			m_pRecordController->RequestLocalRecordingPrivilege();
 			//handle error
 			return false;
 		}
