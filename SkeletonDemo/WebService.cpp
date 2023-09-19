@@ -28,6 +28,11 @@ wchar_t* GetSignatureFromWebService() {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 
+    // Set the Content-Type header to indicate JSON data
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
     // Perform the request
     CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {

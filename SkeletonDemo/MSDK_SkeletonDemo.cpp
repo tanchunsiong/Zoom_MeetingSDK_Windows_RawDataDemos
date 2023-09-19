@@ -373,6 +373,9 @@ void InitSDK()
 int main()
 {
 	LoadConfig();
+
+	if ()
+
 	InitSDK();
 
 	int bRet = false;
