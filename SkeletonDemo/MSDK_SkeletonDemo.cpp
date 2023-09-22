@@ -24,6 +24,8 @@
 #include "DirectShareServiceHelper.h"
 #include "DirectShareServiceHelperEventListener.h"
 #include "WebService.h"
+#include "meeting_service_components/meeting_participants_ctrl_interface.h"
+#include <codecvt> //for codecvt
 
 using namespace std;
 using namespace Json;
@@ -56,6 +58,12 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 	{
 
 	}
+
+
+
+
+
+
 
 	return bInMeeting;
 }
@@ -98,6 +106,35 @@ void onInMeeting() {
 			//std::cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << std::endl;
 
 			//err = servicehelper->StartDirectShare();
+
+		}
+	}
+
+	IList<unsigned int>* meetingParticipantID = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
+
+	if (meetingParticipantID && meetingService)
+	{
+		int count = meetingParticipantID->GetCount();
+		for (int i = 0; i < count; i++)
+		{
+			int userId = meetingParticipantID->GetItem(i);
+			IUserInfo* pUserInfo = meetingService->GetMeetingParticipantsController()->GetUserByUserID(userId);
+			if (pUserInfo)
+			{
+
+			
+				printf("UserID %d\n", pUserInfo->GetUserID());
+				printf("UserName %ls\n", pUserInfo->GetUserNameA());
+				if (pUserInfo->IsHost()) {
+				printf("Is Host: true\n");
+				}
+				else {
+					printf("Is Host: false\n");
+				}
+
+
+			}
+
 
 		}
 	}
@@ -374,7 +411,7 @@ int main()
 {
 	LoadConfig();
 
-	if ()
+
 
 	InitSDK();
 
