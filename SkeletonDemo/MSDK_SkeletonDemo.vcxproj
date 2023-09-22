@@ -202,8 +202,6 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   <ItemGroup>
     <ClCompile Include="..\SendVideoRawData\WebService.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
-    <ClCompile Include="DirectShareServiceHelper.cpp" />
-    <ClCompile Include="DirectShareServiceHelperEventListener.cpp" />
     <ClCompile Include="MSDK_SkeletonDemo.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />

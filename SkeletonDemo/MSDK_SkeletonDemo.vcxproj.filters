@@ -27,12 +27,6 @@
     <ClCompile Include="MeetingServiceEventListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DirectShareServiceHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectShareServiceHelperEventListener.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\SendVideoRawData\WebService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

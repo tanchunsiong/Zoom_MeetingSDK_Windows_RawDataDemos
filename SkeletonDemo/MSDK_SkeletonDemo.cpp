@@ -21,8 +21,7 @@
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
 #include <meeting_service_components/meeting_sharing_interface.h>
 #include <list>
-#include "DirectShareServiceHelper.h"
-#include "DirectShareServiceHelperEventListener.h"
+
 #include "WebService.h"
 #include "meeting_service_components/meeting_participants_ctrl_interface.h"
 #include <codecvt> //for codecvt
@@ -44,8 +43,6 @@ wstring passcode;
 string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
-
-bool isDirectShare = false;
 
 bool isJWTWebService = true;
 
@@ -88,56 +85,7 @@ void onInMeeting() {
 
 
 	printf("onInMeeting Invoked\n");
-	if (isDirectShare) {
-		//double check if you are in a meeting
-		if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
-			printf("In Meeting Now...\n");
-			IList<unsigned int>* participants = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
-			printf("Participants count: %d\n", participants->GetCount());
 
-			//IDirectShareServiceHelper* servicehelper = authService->GetDirectShareServiceHeler();
-
-			////DirectShareServiceHelper* servicehelper = new DirectShareServiceHelper();
-			//DirectShareServiceHelperEventListener* dsServiceEventListener = new DirectShareServiceHelperEventListener();
-			//SDKError err = servicehelper->SetEvent(dsServiceEventListener);
-			//std::cout << "servicehelper ->SetEvent(dsServiceEventListener);" << err << std::endl;
-
-			//std::cout << " servicehelper->CanStartDirectShare() ? : " << servicehelper->CanStartDirectShare() << std::endl;
-			//std::cout << "servicehelper->IsDirectShareInProgress() ? : " << servicehelper->IsDirectShareInProgress() << std::endl;
-
-			//err = servicehelper->StartDirectShare();
-
-		}
-	}
-
-	IList<unsigned int>* meetingParticipantID = meetingService->GetMeetingParticipantsController()->GetParticipantsList();
-
-	if (meetingParticipantID && meetingService)
-	{
-		int count = meetingParticipantID->GetCount();
-		for (int i = 0; i < count; i++)
-		{
-			int userId = meetingParticipantID->GetItem(i);
-			IUserInfo* pUserInfo = meetingService->GetMeetingParticipantsController()->GetUserByUserID(userId);
-			if (pUserInfo)
-			{
-
-			
-				printf("UserID %d\n", pUserInfo->GetUserID());
-				printf("UserName %ls\n", pUserInfo->GetUserNameA());
-				if (pUserInfo->IsHost()) {
-				printf("Is Host: true\n");
-				}
-				else {
-					printf("Is Host: false\n");
-				}
-
-
-			}
-
-
-		}
-	}
 
 }
 
@@ -149,8 +97,6 @@ void onMeetingJoined() {
 
 	printf("Joining Meeting...\n");
 
-	//std::thread t1(prereqCheckForRawVideoSend);
-	//t1.detach(); //run in different thread
 
 }
 
