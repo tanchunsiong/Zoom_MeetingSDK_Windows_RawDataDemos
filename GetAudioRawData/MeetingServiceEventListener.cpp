@@ -46,3 +46,8 @@ void MeetingServiceEventListener::onSuspendParticipantsActivities()
 {
 	std::cout << "onSuspendParticipantsActivities" << endl;
 }
+
+void MeetingServiceEventListener::onAICompanionActiveChangeNotice(bool bActive)
+{
+}
+

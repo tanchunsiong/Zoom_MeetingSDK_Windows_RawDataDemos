@@ -25,6 +25,7 @@
 #include "WebService.h"
 #include "meeting_service_components/meeting_participants_ctrl_interface.h"
 #include <codecvt> //for codecvt
+#include "MSDK_SkeletonDemo.h"
 
 using namespace std;
 using namespace Json;
@@ -45,8 +46,11 @@ constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
 bool isJWTWebService = true;
+bool isStartMeeting = true;
 
-bool isStartMeeting = false;
+
+
+ 
 
 inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 {
@@ -55,11 +59,6 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 	{
 
 	}
-
-
-
-
-
 
 
 	return bInMeeting;
@@ -219,7 +218,7 @@ void JoinMeeting()
 	//try to create the meetingservice object, this object will be used to join the meeting
 	if ((err = CreateMeetingService(&meetingService)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	std::cout << "MeetingService created." << std::endl;
-	
+	meetingService->GetMeetingParticipantsController()->SetEvent(new SkeletonDemo());
 	//before joining a meeting, create the setting service
 	ISettingService* settingservice;
 	CreateSettingService(&settingservice);
@@ -260,7 +259,7 @@ void JoinMeeting()
 
 	// Set the event listener
 	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
-
+	
 	
 
 	//join meeting
@@ -272,9 +271,9 @@ void JoinMeeting()
 	else { 
 		
 	
-
 		ZOOM_SDK_NAMESPACE::StartParam startMeetingParam;
-		startMeetingParam.userType= ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
+		startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
+
 		StartParam4WithoutLogin startMeetingWithoutLoginParam = startMeetingParam.param.withoutloginStart;
 		startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
 
@@ -283,7 +282,7 @@ void JoinMeeting()
 		startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
 		//startMeetingWithoutLoginParam.vanityID = L"magaoay";
 		startMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
-		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6IktvMGtIb2tUU2t1NXpTVy1GU2RIMEEiLCJpc3MiOiJ3ZWIiLCJzayI6IjYyOTkzMTI0OTc4MDkwNjIwNTkiLCJzdHkiOjEwMCwid2NkIjoiYXcxIiwiY2x0IjowLCJleHAiOjE2ODk4Mzk4NzAsImlhdCI6MTY4OTgzMjY3MCwiYWlkIjoiMnlkN0JNbFRSR3VHbktyazd2QXpmUSIsImNpZCI6IiJ9.-y7lRG5o3sDt9xgQm_uaW1dZL1wOC8Pu2IS0YBV5x54";
+		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6InBKOFpHa0FFUXNTTDd4eVJpYVpTVkEiLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjEwMSwid2NkIjoidXMwNSIsImNsdCI6MCwiZXhwIjoxNjk1ODc4NTMwLCJpYXQiOjE2OTU4NzEzMzAsImFpZCI6IjlzU19QQjJ5UjgyN25tdHNzZzl3Z1EiLCJjaWQiOiIifQ.n38PrCFE8CxAQK8_6TaN3HS8Snql0I0z4i6hQJn2HgI";
 		//startMeetingWithoutLoginParam.join_token = NULL;
 		startMeetingWithoutLoginParam.customer_key = NULL;
 		//startMeetingWithoutLoginParam.webinarToken = NULL;
@@ -335,12 +334,19 @@ void SDKAuth()
 /// </summary>
 void InitSDK()
 {
+
 	SDKError err(SDKError::SDKERR_SUCCESS);
+
+	string randy = to_string(rand() % 2147483646 + 1);
+	const wchar_t* random = wstring(randy.begin(), randy.end()).c_str();
+
+
 
 	InitParam initParam;
 	//initParam.strWebDomain = L"https://dev-integration.zoomdev.us/";
 	initParam.strWebDomain = L"https://zoom.us/";
 	initParam.enableLogByDefault = true;
+	initParam.obConfigOpts.sdkPathPostfix = random;
 	if ((err = InitSDK(initParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	std::cout << "SDK Initialized." << std::endl;
 	if ((err = CreateNetworkConnectionHelper(&network_connection_helper)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
@@ -381,3 +387,85 @@ int main()
 	CleanUPSDK(); // must do this, or it will crash. 
 }
 
+void SkeletonDemo::onUserJoin(IList<unsigned int>* lstUserID, const zchar_t* strUserList)
+{
+	
+		if (lstUserID && meetingService)
+		{
+			int count = lstUserID->GetCount();
+			for (int i = 0; i < count; i++)
+			{
+				int userId = lstUserID->GetItem(i);
+				IUserInfo* pUserInfo = meetingService->GetMeetingParticipantsController()->GetUserByUserID(userId);
+			
+				if (pUserInfo)
+				{
+					printf("UserID %d\n", pUserInfo->GetUserID());
+					printf("UserName %ls\n", pUserInfo->GetUserNameA());
+					if (pUserInfo->IsHost()) {
+						printf("Is Host: true\n");
+					}
+					else {
+						printf("Is Host: false\n");
+					}
+				}
+			}
+		}
+
+}
+
+void SkeletonDemo::onUserLeft(IList<unsigned int>* lstUserID, const zchar_t* strUserList)
+{
+}
+
+void SkeletonDemo::onHostChangeNotification(unsigned int userId)
+{
+}
+
+void SkeletonDemo::onLowOrRaiseHandStatusChanged(bool bLow, unsigned int userid)
+{
+}
+
+void SkeletonDemo::onUserNamesChanged(IList<unsigned int>* lstUserID)
+{
+}
+
+void SkeletonDemo::onCoHostChangeNotification(unsigned int userId, bool isCoHost)
+{
+}
+
+void SkeletonDemo::onInvalidReclaimHostkey()
+{
+}
+
+void SkeletonDemo::onAllHandsLowered()
+{
+}
+
+void SkeletonDemo::onLocalRecordingStatusChanged(unsigned int user_id, RecordingStatus status)
+{
+}
+
+void SkeletonDemo::onAllowParticipantsRenameNotification(bool bAllow)
+{
+}
+
+void SkeletonDemo::onAllowParticipantsUnmuteSelfNotification(bool bAllow)
+{
+}
+
+void SkeletonDemo::onAllowParticipantsStartVideoNotification(bool bAllow)
+{
+}
+
+void SkeletonDemo::onAllowParticipantsShareWhiteBoardNotification(bool bAllow)
+{
+}
+
+void SkeletonDemo::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status)
+{
+}
+
+void SkeletonDemo::onInMeetingUserAvatarPathUpdated(unsigned int userID)
+{
+}

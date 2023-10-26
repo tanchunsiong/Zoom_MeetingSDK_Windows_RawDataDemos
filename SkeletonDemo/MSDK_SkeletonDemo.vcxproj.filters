@@ -27,9 +27,6 @@
     <ClCompile Include="MeetingServiceEventListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SendVideoRawData\WebService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WebService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,16 +41,13 @@
     <ClInclude Include="MeetingServiceEventListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DirectShareServiceHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DirectShareServiceHelperEventListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SendVideoRawData\WebService.h">
+    <ClInclude Include="WebService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WebService.h">
+    <ClInclude Include="MSDK_SkeletonDemo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

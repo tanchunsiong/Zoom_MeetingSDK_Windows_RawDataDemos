@@ -149,7 +149,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\$(UserName)\source\vcpkg\packages\jsoncpp_x64-windows\include;C:\Users\$(UserName)\source\vcpkg\packages\curl_x64-windows\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -200,7 +201,6 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\SendVideoRawData\WebService.cpp" />
     <ClCompile Include="AuthServiceEventListener.cpp" />
     <ClCompile Include="MSDK_SkeletonDemo.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
@@ -208,11 +208,10 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClCompile Include="WebService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SendVideoRawData\WebService.h" />
     <ClInclude Include="AuthServiceEventListener.h" />
-    <ClInclude Include="DirectShareServiceHelper.h" />
     <ClInclude Include="DirectShareServiceHelperEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
+    <ClInclude Include="MSDK_SkeletonDemo.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
     <ClInclude Include="WebService.h" />
   </ItemGroup>

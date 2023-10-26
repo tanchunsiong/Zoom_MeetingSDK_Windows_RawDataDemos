@@ -44,3 +44,7 @@ void MeetingServiceEventListener::onMeetingParameterNotification(const MeetingPa
 void MeetingServiceEventListener::onSuspendParticipantsActivities()
 {
 }
+
+void MeetingServiceEventListener::onAICompanionActiveChangeNotice(bool bActive)
+{
+}

@@ -76,7 +76,6 @@ void attemptToStartSendingShareScreenRaw() {
 					//handle error
 				}
 				else {
-
 					printf("successfully set virtual share source...\n");
 				}
 

@@ -31,5 +31,10 @@ public:
 
 	/// \brief Callback event when a meeting is suspended.
 	virtual void onSuspendParticipantsActivities();
+
+
+	/// \brief Callback event for the AI Companion active status changed. 
+	/// \param active Specify whether the AI Companion active or not.
+	virtual void onAICompanionActiveChangeNotice(bool bActive);
 };
 
