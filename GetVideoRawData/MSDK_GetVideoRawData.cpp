@@ -143,8 +143,6 @@ void ShowErrorAndExit(SDKError err) {
 
 
 void onInMeeting() {
-
-
 	printf("onInMeeting Invoked\n");
 
 	//double check if you are in a meeting
@@ -158,8 +156,6 @@ void onInMeeting() {
 
 			printf("No host permission to record yet...\n");
 		}
-
-
 	}
 	
 }

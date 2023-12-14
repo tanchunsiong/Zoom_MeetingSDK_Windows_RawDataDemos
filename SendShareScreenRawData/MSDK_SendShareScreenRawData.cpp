@@ -43,6 +43,7 @@ bool isJWTWebService = true;
 //references for share raw data
 ZoomSDKShareSource* virtual_share_source;
 
+
 IZoomSDKRenderer* videoHelper;
 
 IMeetingRecordingController* m_pRecordController;
@@ -64,32 +65,32 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 void attemptToStartSendingShareScreenRaw() {
 
 
-	
-	
-			IZoomSDKShareSourceHelper* pShareSourceHelper = GetRawdataShareSourceHelper();
-			if (pShareSourceHelper)
-			{
-				SDKError err = pShareSourceHelper->setExternalShareSource(virtual_share_source);
-				if (err != SDKERR_SUCCESS) {
 
-					printf("Error occurred:  $s\n", err);
-					//handle error
-				}
-				else {
-					printf("successfully set virtual share source...\n");
-				}
+	virtual_share_source = new ZoomSDKShareSource(video_source);
+	IZoomSDKShareSourceHelper* pShareSourceHelper = GetRawdataShareSourceHelper();
+	if (pShareSourceHelper)
+	{
+		SDKError err = pShareSourceHelper->setExternalShareSource(virtual_share_source);
+		if (err != SDKERR_SUCCESS) {
 
-			}
-			
+			printf("Error occurred:  %d\n", err);
+			//handle error
+		}
+		else {
+			printf("successfully set virtual share source...\n");
+		}
 
-		
-	
+	}
+
+
+
+
 }
 
 bool CanIStartSharing() {
 
 	IMeetingShareController* m_pShareController = meetingService->GetMeetingShareController();
-	
+
 	return m_pShareController->CanStartShare();
 }
 
@@ -121,7 +122,7 @@ void onInMeeting() {
 	if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
 		printf("In Meeting Now...\n");
 
-	
+
 		if (CanIStartSharing() == true) {
 
 
@@ -249,7 +250,7 @@ void LoadConfig() {
 		video_source = DEFAULT_VIDEO_SOURCE;
 		printf("No video source provided, use the default video source: %s.\n", video_source.c_str());
 	}
-	virtual_share_source = new ZoomSDKShareSource(video_source);
+
 }
 
 /// <summary>

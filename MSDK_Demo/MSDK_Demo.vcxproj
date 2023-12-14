@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{F03EE105-2A12-4C1D-A647-01EC125E809E}</ProjectGuid>
+    <ProjectGuid>{6F9F25E9-EF1A-45AC-B8F2-C73C24128F7F}</ProjectGuid>
     <RootNamespace>LaunchZoomMeeting</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>SkeletonDemo</ProjectName>
+    <ProjectName>MSDK_Demo</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -44,7 +44,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -85,11 +85,15 @@
     <IncludePath>$(ProjectDir)SDK\$(PlatformTarget)\h;$(IncludePath)</IncludePath>
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)SDK\$(PlatformTarget)\h;$(IncludePath)</IncludePath>
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -202,21 +206,39 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AuthServiceEventListener.cpp" />
-    <ClCompile Include="MSDK_SkeletonDemo.cpp" />
+    <ClCompile Include="MeetingParticipantsCtrlEventListener.cpp" />
+    <ClCompile Include="MeetingRecordingCtrlEventListener.cpp" />
+    <ClCompile Include="MSDK_Demo.cpp" />
     <ClCompile Include="MeetingServiceEventListener.cpp" />
     <ClCompile Include="NetworkConnectionHandler.cpp" />
     <ClCompile Include="WebService.cpp" />
+    <ClCompile Include="ZoomSDKAudioRawDataDelegate.cpp" />
+    <ClCompile Include="ZoomSDKRendererDelegate.cpp" />
+    <ClCompile Include="ZoomSDKShareSource.cpp" />
+    <ClCompile Include="ZoomSDKVideoSource.cpp" />
+    <ClCompile Include="ZoomSDKVirtualAudioMicEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthServiceEventListener.h" />
+    <ClInclude Include="MeetingParticipantsCtrlEventListener.h" />
+    <ClInclude Include="MeetingRecordingCtrlEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
-    <ClInclude Include="MSDK_SkeletonDemo.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
     <ClInclude Include="WebService.h" />
+    <ClInclude Include="ZoomSDKAudioRawDataDelegate.h" />
+    <ClInclude Include="ZoomSDKRendererDelegate.h" />
+    <ClInclude Include="ZoomSDKShareSource.h" />
+    <ClInclude Include="ZoomSDKVideoSource.h" />
+    <ClInclude Include="ZoomSDKVirtualAudioMicEvent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Big_Buck_Bunny_720_10s_1MB.mp4">
+      <DeploymentContent>true</DeploymentContent>
+    </Media>
+    <Media Include="pcm1644m.wav" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />
-    <None Include="readme for docker.md" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>

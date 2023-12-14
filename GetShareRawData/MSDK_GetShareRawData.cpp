@@ -446,6 +446,6 @@ int main()
 	if (meetingService) DestroyMeetingService(meetingService);
 	if (authService) DestroyAuthService(authService);
 	if (network_connection_helper) DestroyNetworkConnectionHelper(network_connection_helper);
-	CleanUPSDK(); // must do this, or it will crash. 
+	CleanUPSDK(); // must do this, or it will crash.
 }
 
