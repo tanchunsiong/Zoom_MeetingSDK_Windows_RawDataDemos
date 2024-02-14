@@ -77,5 +77,11 @@ public:
 	/// \param userID Specify the user ID whose avatar updated. 
 	virtual void onInMeetingUserAvatarPathUpdated(unsigned int userID);
 
+	virtual void onParticipantProfilePictureStatusChange(bool bHidden);
+
+	virtual void onFocusModeStateChanged(bool bEnabled);
+
+	virtual void onFocusModeShareTypeChanged(FocusModeShareType type);
+
 };
 

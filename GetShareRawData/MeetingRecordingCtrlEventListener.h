@@ -15,6 +15,7 @@ public:
 	/// \brief Callback event that the status of my local recording changes.
 	/// \param status Value of recording status. For more details, see \link RecordingStatus \endlink enum.
 	virtual void onRecordingStatus(RecordingStatus status);
+
 	/// \brief Callback event that the status of cloud recording changes.
 	/// \param status Value of recording status. For more details, see \link RecordingStatus \endlink enum.
 	virtual void onCloudRecordingStatus(RecordingStatus status);
@@ -49,6 +50,9 @@ public:
 	///The layout_helper won't be released till the call ends. The user needs to complete the related layout before the call ends. 
 	virtual void onCustomizedLocalRecordingSourceNotification(ICustomizedLocalRecordingLayoutHelper* layout_helper);
 
+	/// \brief Callback event that the cloud recording storage is full.
+	/// \param gracePeriodDate a point in time, in milliseconds, in UTC. You can use the cloud recording storage until the gracePeriodDate.
+	virtual void onCloudRecordingStorageFull(time_t gracePeriodDate);
 
 };
 

@@ -7,8 +7,8 @@ You might need to use Powershell (as administrator) or Windows Terminal to execu
 ```
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-./bootstrap-vcpkg.sh
-./vcpkg integrate install
+./bootstrap-vcpkg.sh 
+./vcpkg integrate install --vcpkg-root c:\vcpkg
 ```
 
 # Add dependency libs

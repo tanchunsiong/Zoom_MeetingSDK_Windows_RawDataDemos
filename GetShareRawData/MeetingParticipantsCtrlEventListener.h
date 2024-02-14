@@ -80,5 +80,11 @@ public:
 	/// \brief Callback event that the user avatar path is updated in the meeting.
 	/// \param userID Specify the user ID whose avatar updated. 
 	virtual void onInMeetingUserAvatarPathUpdated(unsigned int userID);
+
+	virtual void onParticipantProfilePictureStatusChange(bool bHidden);
+
+	virtual void onFocusModeStateChanged(bool bEnabled);
+
+	virtual void onFocusModeShareTypeChanged(FocusModeShareType type);
 };
 

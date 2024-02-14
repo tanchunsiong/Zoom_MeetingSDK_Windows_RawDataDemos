@@ -41,9 +41,6 @@
     <ClInclude Include="MeetingServiceEventListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DirectShareServiceHelperEventListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WebService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,6 +51,7 @@
   <ItemGroup>
     <None Include="config.json" />
     <None Include="README.md" />
+    <None Include="readme for docker.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SDK\version.txt" />

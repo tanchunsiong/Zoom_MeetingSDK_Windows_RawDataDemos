@@ -469,3 +469,15 @@ void SkeletonDemo::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequest
 void SkeletonDemo::onInMeetingUserAvatarPathUpdated(unsigned int userID)
 {
 }
+
+void SkeletonDemo::onParticipantProfilePictureStatusChange(bool bHidden)
+{
+}
+
+void SkeletonDemo::onFocusModeStateChanged(bool bEnabled)
+{
+}
+
+void SkeletonDemo::onFocusModeShareTypeChanged(FocusModeShareType type)
+{
+}

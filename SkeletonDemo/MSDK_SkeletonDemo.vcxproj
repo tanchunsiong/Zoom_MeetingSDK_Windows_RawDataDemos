@@ -209,7 +209,6 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthServiceEventListener.h" />
-    <ClInclude Include="DirectShareServiceHelperEventListener.h" />
     <ClInclude Include="MeetingServiceEventListener.h" />
     <ClInclude Include="MSDK_SkeletonDemo.h" />
     <ClInclude Include="NetworkConnectionHandler.h" />
@@ -217,6 +216,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />
+    <None Include="readme for docker.md" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>

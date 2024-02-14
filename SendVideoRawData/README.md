@@ -11,7 +11,7 @@ cd source
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 ./bootstrap-vcpkg.sh
-./vcpkg integrate install
+./vcpkg integrate install --vcpkg-root c:\vcpkg
 ```
 
 # Add dependency libs

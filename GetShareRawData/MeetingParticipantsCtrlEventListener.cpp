@@ -82,3 +82,9 @@ void MeetingParticipantsCtrlEventListener::onRequestLocalRecordingPriviligeChang
 /// \brief Callback event that the user avatar path is updated in the meeting.
 /// \param userID Specify the user ID whose avatar updated. 
  void MeetingParticipantsCtrlEventListener::onInMeetingUserAvatarPathUpdated(unsigned int userID) {}
+
+  void MeetingParticipantsCtrlEventListener::onParticipantProfilePictureStatusChange(bool bHidden) {}
+
+  void MeetingParticipantsCtrlEventListener::onFocusModeStateChanged(bool bEnabled) {}
+
+  void MeetingParticipantsCtrlEventListener::onFocusModeShareTypeChanged(FocusModeShareType type) {}

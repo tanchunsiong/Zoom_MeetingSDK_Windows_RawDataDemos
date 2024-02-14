@@ -11,6 +11,7 @@ MeetingRecordingCtrlEventListener::MeetingRecordingCtrlEventListener(void(*onIsG
 /// \brief Callback event that the status of my local recording changes.
 /// \param status Value of recording status. For more details, see \link RecordingStatus \endlink enum.
 void MeetingRecordingCtrlEventListener::onRecordingStatus(RecordingStatus status) {}
+
 /// \brief Callback event that the status of cloud recording changes.
 /// \param status Value of recording status. For more details, see \link RecordingStatus \endlink enum.
  void MeetingRecordingCtrlEventListener::onCloudRecordingStatus(RecordingStatus status) {}
@@ -50,3 +51,6 @@ void MeetingRecordingCtrlEventListener::onRecordingStatus(RecordingStatus status
  /// \param layout_helper An object pointer to ICustomizedLocalRecordingLayoutHelper. For more details, see \link ICustomizedLocalRecordingLayoutHelper \endlink.
  ///The layout_helper won't be released till the call ends. The user needs to complete the related layout before the call ends. 
   void MeetingRecordingCtrlEventListener::onCustomizedLocalRecordingSourceNotification(ICustomizedLocalRecordingLayoutHelper* layout_helper) {}
+  /// \param gracePeriodDate a point in time, in milliseconds, in UTC. You can use the cloud recording storage until the gracePeriodDate.
+  void MeetingRecordingCtrlEventListener::onCloudRecordingStorageFull(time_t gracePeriodDate) {
+  }

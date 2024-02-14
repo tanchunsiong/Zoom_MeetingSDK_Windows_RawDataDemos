@@ -76,3 +76,14 @@ void MeetingParticipantsCtrlEventListener::onRequestLocalRecordingPrivilegeChang
 /// \brief Callback event that the user avatar path is updated in the meeting.
 /// \param userID Specify the user ID whose avatar updated. 
 void MeetingParticipantsCtrlEventListener::onInMeetingUserAvatarPathUpdated(unsigned int userID) {}
+
+
+/// \brief Callback event that participant profile status change.
+/// \param bHide true means hide participant profile picture, false means show participant profile picture. 
+void MeetingParticipantsCtrlEventListener::onParticipantProfilePictureStatusChange(bool bHidden) {}
+/// \brief Callback event that focus mode changed by host or co-host.
+/// \param bEnabled True means the focus mode change to on. Otherwise off.
+void MeetingParticipantsCtrlEventListener::onFocusModeStateChanged(bool bEnabled) {}
+/// \brief Callback event that that focus mode share type changed by host or co-host.
+/// \param type Share type change.
+void MeetingParticipantsCtrlEventListener::onFocusModeShareTypeChanged(FocusModeShareType type) {}

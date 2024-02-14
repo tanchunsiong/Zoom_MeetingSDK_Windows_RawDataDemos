@@ -16,6 +16,9 @@ void ZoomSDKAudioRawDataDelegate::onOneWayAudioRawDataReceived(AudioRawData* aud
 	//std::cout << "Received onOneWayAudioRawDataReceived" << std::endl;
 	//add your code here
 }
+void ZoomSDKAudioRawDataDelegate::onShareAudioRawDataReceived(AudioRawData* data_)
+{
+}
 void ZoomSDKAudioRawDataDelegate::onMixedAudioRawDataReceived(AudioRawData* audioRawData)
 {
 	std::cout << "Received onMixedAudioRawDataReceived" << std::endl;

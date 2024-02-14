@@ -50,3 +50,7 @@ void MeetingRecordingCtrlEventListener::onRecording2MP4Processing(int iPercentag
 /// \param layout_helper An object pointer to ICustomizedLocalRecordingLayoutHelper. For more details, see \link ICustomizedLocalRecordingLayoutHelper \endlink.
 ///The layout_helper won't be released till the call ends. The user needs to complete the related layout before the call ends. 
 void MeetingRecordingCtrlEventListener::onCustomizedLocalRecordingSourceNotification(ICustomizedLocalRecordingLayoutHelper* layout_helper) {}
+
+void MeetingRecordingCtrlEventListener::onCloudRecordingStorageFull(time_t gracePeriodDate)
+{
+}

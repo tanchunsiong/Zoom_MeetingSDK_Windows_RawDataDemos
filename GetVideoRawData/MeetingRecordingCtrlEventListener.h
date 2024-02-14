@@ -49,6 +49,8 @@ public:
 	///The layout_helper won't be released till the call ends. The user needs to complete the related layout before the call ends. 
 	virtual void onCustomizedLocalRecordingSourceNotification(ICustomizedLocalRecordingLayoutHelper* layout_helper);
 
+	/// \param gracePeriodDate a point in time, in milliseconds, in UTC. You can use the cloud recording storage until the gracePeriodDate.
+	virtual void onCloudRecordingStorageFull(time_t gracePeriodDate);
 
 };
 

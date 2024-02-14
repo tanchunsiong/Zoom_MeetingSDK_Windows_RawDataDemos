@@ -43,7 +43,12 @@ class SkeletonDemo : public IMeetingParticipantsCtrlEvent {
 
 
 	virtual void onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status);
-
 	
 	virtual void onInMeetingUserAvatarPathUpdated(unsigned int userID);
+
+	virtual void onParticipantProfilePictureStatusChange(bool bHidden);
+
+	virtual void onFocusModeStateChanged(bool bEnabled);
+
+	virtual void onFocusModeShareTypeChanged(FocusModeShareType type);
 };
