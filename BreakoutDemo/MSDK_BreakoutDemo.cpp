@@ -12,7 +12,6 @@
 #include "AuthServiceEventListener.h"
 #include "NetworkConnectionHandler.h"
 #include "MeetingServiceEventListener.h"
-#include "MeetingParticipantsCtrlEventListener.h"
 #include <fstream>
 #include "json\json.h"
 #include <sstream>
@@ -22,11 +21,12 @@
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
 #include <meeting_service_components/meeting_sharing_interface.h>
 #include <list>
-#include "WebService.h"
 
-#include <meeting_service_components/meeting_closedcaption_interface.h> //CaptionDemo
-#include "ClosedCaptionControllerEventListener.h" //CaptionDemo
-#include "MSDK_CaptionDemo.h"
+#include "WebService.h"
+#include "meeting_service_components/meeting_participants_ctrl_interface.h"
+#include <codecvt> //for codecvt
+#include "MSDK_BreakoutDemo.h"
+#include "IMeetingBoControllerEventListener.h"
 
 using namespace std;
 using namespace Json;
@@ -34,11 +34,8 @@ using namespace ZOOMSDK;
 
 bool g_exit = false;
 
-//CaptionDemo
 
 IMeetingService* meetingService;
-IClosedCaptionController* captionController; //CaptionDemo
-ClosedCaptionControllerEventListener* captionEventListener;  //CaptionDemo
 IAuthService* authService;
 INetworkConnectionHelper* network_connection_helper;
 //references for send raw video data
@@ -50,11 +47,56 @@ constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
 bool isJWTWebService = false;
+bool isStartMeeting = true;
 
-bool isStartMeeting = false;
 
 
-IMeetingParticipantsController* m_pParticipantsController;
+ 
+
+inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
+{
+	bool bInMeeting(false);
+	if (status == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING)
+	{
+
+		IMeetingBOControllerEventListener* breakoutListener = new IMeetingBOControllerEventListener();
+		meetingService->GetMeetingBOController()->SetEvent(breakoutListener);
+
+		//get breakout admin
+		IBOAdmin* boAdmin = meetingService->GetMeetingBOController()->GetBOAdminHelper();
+
+		IBOCreator* boCreator = meetingService->GetMeetingBOController()->GetBOCreatorHelper();
+		
+		IBOData* boData = meetingService->GetMeetingBOController()->GetBODataHelper(); = meetingService->GetMeetingBOController()->GetBODataHelper();
+		IList<const zchar_t*>* meetingIDList = boData->GetBOMeetingIDList();
+		if (meetingIDList != nullptr) {
+			for (int i = 0; i < meetingIDList->GetCount(); ++i) {
+				const zchar_t* id = meetingIDList->GetItem(i);
+			
+				IBOMeeting* ibomeeting = boData->GetBOMeetingByID(id);
+				ibomeeting->GetBOID();
+				ibomeeting->GetBOName();
+				ibomeeting->GetBOUserList();
+				ibomeeting->GetBOUserStatus(userID);
+			}
+		}
+
+
+	
+		IList<const zchar_t*>* unassignedUserList = boData->GetUnassginedUserList();
+		if (unassignedUserList != nullptr) {
+			for (int i = 0; i < unassignedUserList->GetCount(); ++i) {
+				const zchar_t* id = unassignedUserList->GetItem(i);
+			
+				boData->GetBOUserName(id);
+				boData->IsBOUserMyself(id);
+			
+			}
+		}
+	}
+	return bInMeeting;
+}
+
 
 
 
@@ -77,54 +119,6 @@ void onInMeeting() {
 	printf("onInMeeting Invoked\n");
 
 
-
-
-	//CaptionDemo
-
-	captionController = meetingService->GetMeetingClosedCaptionController();
-	captionEventListener = new ClosedCaptionControllerEventListener(&onLiveTransMsgInfoRec, &onClosedCaptionMsgRec);
-	SDKError setEventErr = captionController->SetEvent(captionEventListener);
-
-	
-
-	//closed caption demo
-	if (false) {
-
-		SDKError enablecaptionErr = captionController->EnableCaptions(true);
-		SDKError enablmanualecaptionErr = captionController->EnableMeetingManualCaption(true);
-		
-		//the below is only allowed for host
-		SDKError enableassignccprivErr = captionController->AssignCCPriviledge(0, true);
-		std::wstring cctoSend = L"hello world";
-		SDKError sendcaptionErr = captionController->SendClosedCaption(cctoSend.c_str());
-
-	}
-
-
-	//transcription demo
-	if (true) {
-
-		//start live transcription
-		SDKError sdkerr1 = captionController->StartLiveTranscription();
-		//set my own spoken language, 0 is for english
-		SDKError sdkerr2 = captionController->SetMeetingSpokenLanguage(0);
-		//set translated language, 1 is for mandarin/chinese. -1 is to disable translation
-		SDKError sdkerr3 = captionController->SetTranslationLanguage(1);
-		SDKError sdkerr4 = captionController->EnableReceiveSpokenLanguageContent(true);
-	}
-
-
-}
-
-void onLiveTransMsgInfoRec()
-{
-	printf("onLiveTransMsgInfoRec...\n");
-}
-
-void onClosedCaptionMsgRec()
-{
-	printf("onClosedCaptionMsgRec...\n");
-
 }
 
 void onMeetingEndsQuitApp() {
@@ -135,46 +129,6 @@ void onMeetingJoined() {
 
 	printf("Joining Meeting...\n");
 
-	//std::thread t1(prereqCheckForRawVideoSend);
-	//t1.detach(); //run in different thread
-
-}
-
-
-void onIsHost() {
-
-	//CaptionDemo
-	if (m_pParticipantsController->GetMySelfUser()->IsHost()) {
-		
-		//demo for getting all states
-		std::cout << "IsCaptionsEnabled " << captionController->IsCaptionsEnabled() << std::endl;
-		std::cout << "IsLiveTranscriptionFeatureEnabled " << captionController->IsLiveTranscriptionFeatureEnabled() << std::endl;
-		std::cout << "IsMeetingManualCaptionEnabled " << captionController->IsMeetingManualCaptionEnabled() << std::endl;
-		std::cout << "IsMultiLanguageTranscriptionEnabled " << captionController->IsMultiLanguageTranscriptionEnabled() << std::endl;
-		std::cout << "IsReceiveSpokenLanguageContentEnabled " << captionController->IsReceiveSpokenLanguageContentEnabled() << std::endl;
-		std::cout << "IsRequestToStartLiveTranscriptionEnalbed " << captionController->IsRequestToStartLiveTranscriptionEnalbed() << std::endl;
-		std::cout << "IsTextLiveTranslationEnabled " << captionController->IsTextLiveTranslationEnabled() << std::endl;
-	
-
-
-
-		//demo for getting all states
-		std::cout << "IsCaptionsEnabled " << captionController->IsCaptionsEnabled() << std::endl;
-		std::cout << "IsLiveTranscriptionFeatureEnabled " << captionController->IsLiveTranscriptionFeatureEnabled() << std::endl;
-		std::cout << "IsMeetingManualCaptionEnabled " << captionController->IsMeetingManualCaptionEnabled() << std::endl;
-		std::cout << "IsMultiLanguageTranscriptionEnabled " << captionController->IsMultiLanguageTranscriptionEnabled() << std::endl;
-		std::cout << "IsReceiveSpokenLanguageContentEnabled " << captionController->IsReceiveSpokenLanguageContentEnabled() << std::endl;
-		std::cout << "IsRequestToStartLiveTranscriptionEnalbed " << captionController->IsRequestToStartLiveTranscriptionEnalbed() << std::endl;
-		std::cout << "IsTextLiveTranslationEnabled " << captionController->IsTextLiveTranslationEnabled() << std::endl;
-	}
-
-
-}
-
-void onIsCoHost() {
-
-}
-void onIsGivenRecordingPermission() {
 
 }
 
@@ -292,17 +246,18 @@ void LoadConfig() {
 void JoinMeeting()
 {
 	SDKError err(SDKError::SDKERR_SUCCESS);
-	
+
 
 	//try to create the meetingservice object, this object will be used to join the meeting
 	if ((err = CreateMeetingService(&meetingService)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	std::cout << "MeetingService created." << std::endl;
-
-	m_pParticipantsController = meetingService->GetMeetingParticipantsController();
-
+	meetingService->GetMeetingParticipantsController()->SetEvent(new SkeletonDemo());
 	//before joining a meeting, create the setting service
 	ISettingService* settingservice;
 	CreateSettingService(&settingservice);
+
+	//use the setting service to get the audiosetting
+
 
 	//use the audiosetting to set EnableAlwaysMuteMicWhenJoinVoip
 	IAudioSettingContext* audioSetting;
@@ -310,48 +265,48 @@ void JoinMeeting()
 	audioSetting->EnableAlwaysMuteMicWhenJoinVoip(true);
 
 	if (!isStartMeeting) {
-
-
-
-
-		JoinParam joinMeetingParam;
-		JoinParam4WithoutLogin joinMeetingWithoutLoginParam;
-		joinMeetingParam.userType = SDK_UT_WITHOUT_LOGIN;
-		joinMeetingWithoutLoginParam.meetingNumber = meeting_number;
-		joinMeetingWithoutLoginParam.psw = passcode.c_str();;
-		joinMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
-		joinMeetingWithoutLoginParam.userZAK = L"";
-		//joinMeetingWithoutLoginParam.userZAK = L"yJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6Ii1HQlJ0bHFJUTF5WkRsYkEzMnhuWXciLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjk5LCJ3Y2QiOiJ1czA1IiwiY2x0IjowLCJleHAiOjE2OTIyNTM0ODAsImlhdCI6MTY5MjI0NjI4MCwiYWlkIjoiOXNTX1BCMnlSODI3bm10c3NnOXdnUSIsImNpZCI6IiJ9.X9Ika89y3RY6pSL-j48tu6LzHD9zZTHNkafbDZ1ZzG0";
-		//joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
-		joinMeetingWithoutLoginParam.join_token = NULL;
-		joinMeetingWithoutLoginParam.vanityID = NULL;
-		//joinMeetingWithoutLoginParam.vanityID = L"magaoay";
-		joinMeetingWithoutLoginParam.customer_key = L"abcdefghijklmnopqrtsuvwxyz1234567890";
-		joinMeetingWithoutLoginParam.webinarToken = NULL;
-		joinMeetingWithoutLoginParam.app_privilege_token = NULL;
-		joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
-		joinMeetingWithoutLoginParam.isAudioOff = true;
-		joinMeetingWithoutLoginParam.isVideoOff = true;
-		joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
-		joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
-
-		// Set the event listener
-		meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
+	
 		
+	
 
+	JoinParam joinMeetingParam;
+	JoinParam4WithoutLogin joinMeetingWithoutLoginParam;
+	joinMeetingParam.userType = SDK_UT_WITHOUT_LOGIN;
+	joinMeetingWithoutLoginParam.meetingNumber = meeting_number;
+	joinMeetingWithoutLoginParam.psw = passcode.c_str();;
+	joinMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
+	joinMeetingWithoutLoginParam.userZAK = L"";
+	//joinMeetingWithoutLoginParam.userZAK = L"yJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6Ii1HQlJ0bHFJUTF5WkRsYkEzMnhuWXciLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjk5LCJ3Y2QiOiJ1czA1IiwiY2x0IjowLCJleHAiOjE2OTIyNTM0ODAsImlhdCI6MTY5MjI0NjI4MCwiYWlkIjoiOXNTX1BCMnlSODI3bm10c3NnOXdnUSIsImNpZCI6IiJ9.X9Ika89y3RY6pSL-j48tu6LzHD9zZTHNkafbDZ1ZzG0";
+	//joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
+	joinMeetingWithoutLoginParam.join_token = NULL;
+	joinMeetingWithoutLoginParam.vanityID = NULL;
+	//joinMeetingWithoutLoginParam.vanityID = L"magaoay";
+	joinMeetingWithoutLoginParam.customer_key = L"abcdefghijklmnopqrtsuvwxyz1234567890";
+	joinMeetingWithoutLoginParam.webinarToken = NULL;
+	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
+	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
+	joinMeetingWithoutLoginParam.isAudioOff = true;
+	joinMeetingWithoutLoginParam.isVideoOff = true;
+	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
+	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
 
-		//join meeting
-		if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
-		else std::cout << "Joining Meeting..." << std::endl;
+	// Set the event listener
+	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
+	
+	
+
+	//join meeting
+	if ((err = meetingService->Join(joinMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
+	else std::cout << "Joining Meeting..." << std::endl;
 
 	}
 	//isStartMeeting
-	else {
-
-
-
+	else { 
+		
+	
 		ZOOM_SDK_NAMESPACE::StartParam startMeetingParam;
 		startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
+
 		StartParam4WithoutLogin startMeetingWithoutLoginParam = startMeetingParam.param.withoutloginStart;
 		startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
 
@@ -360,7 +315,7 @@ void JoinMeeting()
 		startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
 		//startMeetingWithoutLoginParam.vanityID = L"magaoay";
 		startMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
-		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6IktvMGtIb2tUU2t1NXpTVy1GU2RIMEEiLCJpc3MiOiJ3ZWIiLCJzayI6IjYyOTkzMTI0OTc4MDkwNjIwNTkiLCJzdHkiOjEwMCwid2NkIjoiYXcxIiwiY2x0IjowLCJleHAiOjE2ODk4Mzk4NzAsImlhdCI6MTY4OTgzMjY3MCwiYWlkIjoiMnlkN0JNbFRSR3VHbktyazd2QXpmUSIsImNpZCI6IiJ9.-y7lRG5o3sDt9xgQm_uaW1dZL1wOC8Pu2IS0YBV5x54";
+		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6InBKOFpHa0FFUXNTTDd4eVJpYVpTVkEiLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjEwMSwid2NkIjoidXMwNSIsImNsdCI6MCwiZXhwIjoxNjk1ODc4NTMwLCJpYXQiOjE2OTU4NzEzMzAsImFpZCI6IjlzU19QQjJ5UjgyN25tdHNzZzl3Z1EiLCJjaWQiOiIifQ.n38PrCFE8CxAQK8_6TaN3HS8Snql0I0z4i6hQJn2HgI";
 		//startMeetingWithoutLoginParam.join_token = NULL;
 		startMeetingWithoutLoginParam.customer_key = NULL;
 		//startMeetingWithoutLoginParam.webinarToken = NULL;
@@ -377,7 +332,7 @@ void JoinMeeting()
 		if ((err = meetingService->Start(startMeetingParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 		else std::cout << "Joining Meeting..." << std::endl;
 	}
-}
+	}
 /// <summary>
 /// Authorize SDK with JWT Token
 /// </summary>
@@ -391,17 +346,17 @@ void SDKAuth()
 	if ((err = authService->SetEvent(new AuthServiceEventListener(JoinMeeting))) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	std::cout << "AuthServiceEventListener added." << std::endl;
 	//authContext.jwt_token = sdk_jwt.c_str();
-
+	
 	//isJWTWebService
 	if (isJWTWebService) {
-		authContext.jwt_token = GetSignatureFromWebService();
-
-
+	authContext.jwt_token = GetSignatureFromWebService();
+	
+	
 	}
 	else {
 		authContext.jwt_token = sdk_jwt.c_str();
 	}
-
+	
 	if ((err = authService->SDKAuth(authContext)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	else std::cout << "Auth call started, auth in progress." << std::endl;
 
@@ -412,12 +367,20 @@ void SDKAuth()
 /// </summary>
 void InitSDK()
 {
+
 	SDKError err(SDKError::SDKERR_SUCCESS);
+
+	string randy = to_string(rand() % 2147483646 + 1);
+	const wchar_t* random = wstring(randy.begin(), randy.end()).c_str();
+
+
 
 	InitParam initParam;
 	//initParam.strWebDomain = L"https://dev-integration.zoomdev.us/";
 	initParam.strWebDomain = L"https://zoom.us/";
 	initParam.enableLogByDefault = true;
+	initParam.obConfigOpts.sdkPathPostfix = random;
+
 	if ((err = InitSDK(initParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	std::cout << "SDK Initialized." << std::endl;
 	if ((err = CreateNetworkConnectionHelper(&network_connection_helper)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
@@ -433,6 +396,9 @@ void InitSDK()
 int main()
 {
 	LoadConfig();
+
+
+
 	InitSDK();
 
 	int bRet = false;
@@ -455,3 +421,97 @@ int main()
 	CleanUPSDK(); // must do this, or it will crash. 
 }
 
+void SkeletonDemo::onUserJoin(IList<unsigned int>* lstUserID, const zchar_t* strUserList)
+{
+	
+		if (lstUserID && meetingService)
+		{
+			int count = lstUserID->GetCount();
+			for (int i = 0; i < count; i++)
+			{
+				int userId = lstUserID->GetItem(i);
+				IUserInfo* pUserInfo = meetingService->GetMeetingParticipantsController()->GetUserByUserID(userId);
+			
+				if (pUserInfo)
+				{
+					printf("UserID %d\n", pUserInfo->GetUserID());
+					printf("UserName %ls\n", pUserInfo->GetUserNameA());
+					if (pUserInfo->IsHost()) {
+						printf("Is Host: true\n");
+					}
+					else {
+						printf("Is Host: false\n");
+					}
+				}
+			}
+		}
+
+}
+
+void SkeletonDemo::onUserLeft(IList<unsigned int>* lstUserID, const zchar_t* strUserList)
+{
+}
+
+void SkeletonDemo::onHostChangeNotification(unsigned int userId)
+{
+}
+
+void SkeletonDemo::onLowOrRaiseHandStatusChanged(bool bLow, unsigned int userid)
+{
+}
+
+void SkeletonDemo::onUserNamesChanged(IList<unsigned int>* lstUserID)
+{
+}
+
+void SkeletonDemo::onCoHostChangeNotification(unsigned int userId, bool isCoHost)
+{
+}
+
+void SkeletonDemo::onInvalidReclaimHostkey()
+{
+}
+
+void SkeletonDemo::onAllHandsLowered()
+{
+}
+
+void SkeletonDemo::onLocalRecordingStatusChanged(unsigned int user_id, RecordingStatus status)
+{
+}
+
+void SkeletonDemo::onAllowParticipantsRenameNotification(bool bAllow)
+{
+}
+
+void SkeletonDemo::onAllowParticipantsUnmuteSelfNotification(bool bAllow)
+{
+}
+
+void SkeletonDemo::onAllowParticipantsStartVideoNotification(bool bAllow)
+{
+}
+
+void SkeletonDemo::onAllowParticipantsShareWhiteBoardNotification(bool bAllow)
+{
+}
+
+void SkeletonDemo::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status)
+{
+}
+
+void SkeletonDemo::onInMeetingUserAvatarPathUpdated(unsigned int userID)
+{
+}
+
+void SkeletonDemo::onParticipantProfilePictureStatusChange(bool bHidden)
+{
+}
+
+void SkeletonDemo::onFocusModeStateChanged(bool bEnabled)
+{
+}
+
+void SkeletonDemo::onFocusModeShareTypeChanged(FocusModeShareType type)
+{
+}

@@ -39,7 +39,7 @@ string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
-bool isJWTWebService = true;
+bool isJWTWebService = false;
 
 
 //dreamtcs TODO, video only start sending when video is "turned on" or "unmuted"

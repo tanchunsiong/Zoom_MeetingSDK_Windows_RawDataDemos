@@ -17,7 +17,6 @@
 #include <fstream>
 #include "json\json.h"
 #include <sstream>
-#include "ZoomSDKRendererDelegate.h"
 #include <meeting_service_components/meeting_recording_interface.h>
 #include <thread>
 #include <chrono>
@@ -47,11 +46,8 @@ string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
-bool isJWTWebService = true;
+bool isJWTWebService = false;
 
-//references for audio raw data
-ZoomSDKRendererDelegate* videoSource = new ZoomSDKRendererDelegate();
-IZoomSDKRenderer* videoHelper;
 
 IMeetingRecordingController* m_pRecordController;
 IMeetingParticipantsController* m_pParticipantsController;
@@ -84,21 +80,13 @@ uint32_t getUserID() {
 void attemptToStartLocalRecording() {
 
 	m_pRecordController = meetingService->GetMeetingRecordingController();
-
-	SDKError err1 = m_pRecordController->StartRawRecording();
+	time_t starttime;
+	SDKError err1 = m_pRecordController->StartRecording(starttime);
 	if (err1 != SDKERR_SUCCESS) {
 		std::cout << "Error occurred";
 	}
 
-	SDKError err = createRenderer(&videoHelper, videoSource);
-	if (err != SDKERR_SUCCESS) {
-		std::cout << "Error occurred";
-		//handle error
-	}
-	else {
-		videoHelper->setRawDataResolution(ZoomSDKResolution_720P);
-		videoHelper->subscribe(getUserID(), RAW_DATA_TYPE_VIDEO);
-	}
+
 
 }
 
@@ -412,6 +400,7 @@ void InitSDK()
 	InitParam initParam;
 	initParam.strWebDomain = L"https://zoom.us";
 	initParam.enableLogByDefault = true;
+	//initParam.obConfigOpts.optionalFeatures = 32; //enable customUI headless
 	if ((err = InitSDK(initParam)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	std::cout << "SDK Initialized." << std::endl;
 	if ((err = CreateNetworkConnectionHelper(&network_connection_helper)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);

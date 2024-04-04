@@ -45,7 +45,7 @@ string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
-bool isJWTWebService = true;
+bool isJWTWebService = false;
 
 //references for audio raw data
 ZoomSDKRendererDelegate* videoSource = new ZoomSDKRendererDelegate();
@@ -80,7 +80,7 @@ uint32_t getUserID() {
 }
 
 
-void attemptToStartRawRecording() {
+void attemptToStartLocalRecording() {
 
 	m_pRecordController = meetingService->GetMeetingRecordingController();
 
@@ -151,7 +151,7 @@ void onInMeeting() {
 		printf("In Meeting Now...\n");
 		//might not have host permission yet
 		if (CanIStartLocalRecording()) {
-			attemptToStartRawRecording();
+			attemptToStartLocalRecording();
 		}
 		else {
 
@@ -178,20 +178,20 @@ void onIsHost() {
 
 	if (CanIStartLocalRecording()) {
 		printf("Is host now...\n");
-		attemptToStartRawRecording();
+		attemptToStartLocalRecording();
 	}
 }
 
 void onIsCoHost() {
 	if (CanIStartLocalRecording()) {
 		printf("Is co-host now...\n");
-		attemptToStartRawRecording();
+		attemptToStartLocalRecording();
 	}
 }
 void onIsGivenRecordingPermission() {
 	if (CanIStartLocalRecording()) {
 		printf("Is given recording permissions now...\n");
-		attemptToStartRawRecording();
+		attemptToStartLocalRecording();
 	}
 }
 

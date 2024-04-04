@@ -41,10 +41,10 @@ void PlayAudioFileToVirtualMic(IZoomSDKAudioRawDataSender* audio_sender, string 
 		file.seekg(0, ios::beg);
 		file.read(buffer.data(), file_size);
 
-		// Send the audio data to the virtual camera
+		// Send the audio data to the virtual mic
 		SDKError err = audio_sender->send(buffer.data(), buffer.size(), 44100);
 		if (err != SDKERR_SUCCESS) {
-			std::cout << "Error: Failed to send audio data to virtual camera. Error code: " << err << std::endl;
+			std::cout << "Error: Failed to send audio data to virtual mic. Error code: " << err << std::endl;
 			return;
 		}
 		file.close();

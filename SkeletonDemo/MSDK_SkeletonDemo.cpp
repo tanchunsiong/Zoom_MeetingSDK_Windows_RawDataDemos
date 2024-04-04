@@ -45,8 +45,8 @@ string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
-bool isJWTWebService = true;
-bool isStartMeeting = true;
+bool isJWTWebService = false;
+bool isStartMeeting = false;
 
 
 
