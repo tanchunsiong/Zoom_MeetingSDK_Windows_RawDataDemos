@@ -85,11 +85,13 @@
     <IncludePath>$(ProjectDir)SDK\$(PlatformTarget)\h;$(IncludePath)</IncludePath>
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)SDK\$(PlatformTarget)\h;$(IncludePath)</IncludePath>
     <CustomBuildAfterTargets>
     </CustomBuildAfterTargets>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -224,6 +226,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />
+    <None Include="Dockerfile" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>

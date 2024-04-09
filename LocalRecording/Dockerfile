@@ -1,0 +1,142 @@
+## Use the appropriate Windows base image
+#FROM mcr.microsoft.com/windows:20H2
+#
+## Enable non-interactive installs
+#ARG DEBIAN_FRONTEND=noninteractive
+
+ARG REPO=mcr.microsoft.com/dotnet/framework/runtime
+FROM $REPO:4.8-windowsservercore-ltsc2019
+
+
+
+# Install Chocolatey package manager
+RUN powershell -Command \
+    Set-ExecutionPolicy Bypass -Scope Process -Force; \
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
+    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+# Install dependencies
+RUN choco install -y git 
+RUN choco install -y cmake 
+RUN choco install -y mingw
+RUN choco install -y make 
+RUN choco install -y wget 
+RUN choco install -y unzip 
+
+
+
+RUN choco install -y visualstudio2022buildtools --install-arguments \
+"--add Microsoft.VisualStudio.Workload.NativeDesktop \
+--add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools \
+--add Microsoft.VisualStudio.Component.TestTools.BuildTools \
+--add Microsoft.Component.MSBuild \
+--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended \
+--add Microsoft.VisualStudio.Component.VC.CMake.Project \
+--add Microsoft.VisualStudio.Component.VC.ATLMFC   \
+--add Microsoft.VisualStudio.Component.VC.ATL \
+--add Microsoft.VisualStudio.Component.VC.MFC \
+--add Microsoft.VisualStudio.Component.CMake \
+--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 \
+--add Microsoft.VisualStudio.Component.Windows10SDK.19041 \
+--add Microsoft.VisualStudio.Workload.VCTools \
+--add Microsoft.VisualStudio.Component.VC.v143.x86.x64 \
+--add Microsoft.VisualStudio.Component.VC.140"
+
+RUN choco install visualstudio2019-workload-manageddesktopbuildtools -y 
+
+RUN choco install -y vcredist-all
+RUN choco install -y visualcpp-build-tools
+
+# Download the file
+RUN wget -O vc_redist.x64.exe https://aka.ms/vs/17/release/vc_redist.x64.exe
+
+# Install the downloaded file
+RUN vc_redist.x64.exe /quiet /install
+
+# Clean up unnecessary files
+RUN del vc_redist.x64.exe
+
+# Download and install Node.js LTS
+RUN wget -O C:\nodejs.msi "https://nodejs.org/dist/v14.17.0/node-v14.17.0-x64.msi" && \
+    msiexec /quiet /i C:\nodejs.msi && \
+    del C:\nodejs.msi
+
+
+
+ RUN   choco install vcredist140
+# Add powershell to the PATH environment variable
+
+
+WORKDIR /temp
+ADD https://aka.ms/vs/17/release/vs_buildtools.exe vs_buildtools.exe
+SHELL ["cmd", "/S", "/C"]
+RUN (start /w C:\temp\vs_buildtools.exe --quiet --wait --norestart --nocache modify \
+    --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" \
+    --add    Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools \
+    --add    Microsoft.VisualStudio.Workload.VCTools --includeRecommended \
+    --add    Microsoft.Component.MSBuild \
+    --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 \
+    --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 \
+    --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 \
+    --remove Microsoft.VisualStudio.Component.Windows81SDK \
+    || IF "%ERRORLEVEL%"=="3010" EXIT 0)
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
+
+
+
+WORKDIR /vcpkg
+# Clone vcpkg repository
+RUN git clone https://github.com/Microsoft/vcpkg.git c:\vcpkg
+
+
+# Bootstrap vcpkg
+RUN .\bootstrap-vcpkg.bat
+
+# Integrate vcpkg
+RUN .\vcpkg integrate install --vcpkg-root c:\vcpkg
+
+# Install curl
+RUN .\vcpkg install curl
+
+# Install jsoncpp
+RUN .\vcpkg install jsoncpp
+
+
+ENV PATH="${PATH};C:\Windows\System32\WindowsPowerShell\v1.0"
+# Add npm to the PATH environment variable
+ENV PATH="${PATH};C:\Program Files\nodejs"
+
+# Verify npm installation
+RUN npm --version
+
+
+#RUN npm install --global --force --production windows-build-tools --vs2019
+
+# Set the PATH environment variable
+ENV PATH="${PATH};C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin"
+#ENV VCTargetsPath="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current"
+
+
+ENV PATH ="${PATH};%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0"
+
+
+
+
+
+
+# Set the working directory
+WORKDIR /app
+
+# Copy everything from the specified directory
+COPY / /app/
+
+# Build the project using MSBuild
+RUN msbuild /t:Build /p:Configuration=Debug /p:Platform=x64
+
+# Set the working directory
+WORKDIR C:/app/x64/Debug
+
+# Set the entry point to run the command prompt
+CMD ["cmd.exe", "/C", "C:/app/x64/Debug/LocalRecording.exe"]
+
+#docker run -it local-recording-image --volume c:\temp:c:\users\ContainerAdministrator\Documents\zoom
