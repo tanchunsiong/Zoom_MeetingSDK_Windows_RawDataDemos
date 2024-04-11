@@ -1,6 +1,5 @@
-# Meeting SDK for Windows - Get Video Raw Data
-
-A Windows C++ Application demonstrate Zoom Meeting SDK receiving Video raw data from a Zoom Meeting.
+# Meeting SDK for Windows - Local Recording
+A Windows C++ Application demonstrate Zoom Meeting SDK receiving Local Recording from a Zoom Meeting.
 
 # Install vcpkg for adding dependency libs.
 You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
@@ -18,6 +17,7 @@ cd vcpkg
 
 ```
 ./vcpkg install jsoncpp
+./vcpkg install curl
 ```
 
 
@@ -42,7 +42,7 @@ The app will try to join the meeting follow the Meeting Number you specified in 
 
 ## Open and Run Project
 
-Open "MSDK_GetVideoRawData.vcxproj" file from Visual Studio 2022.
+Open "MSDK_LocalRecording.vcxproj" file from Visual Studio 2022.
 
 Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
 
@@ -79,7 +79,7 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
 
 ## Getting Started
 
-The main method, or main entry point of this application is at `MSDK_GetVideoRawData.cpp`
+The main method, or main entry point of this application is at `MSDK_LocalRecording.cpp`
 
 From a high level point of view it will do the below
 
@@ -88,10 +88,9 @@ From a high level point of view it will do the below
   - You need to have host, co-host or recording permissions
   - You need to be in-meeting. This is the status when you have fully joined a meeting.
 - Get the Meeting Recording Controller
-  - Use the Meeting Recording Controller to call `StartRawRecording()`. Do note that you can only either run `StartRecording()` or `StartRawRecording()`. You cannot run them both at once.
-- Thereafter, you should be able to `createRenderer()`, which we will later use to subscribe a specific user's video stream. You will need to put in a videoHelper (implementation of IZoomSDKRenderer) and videoSource (implementation of IZoomSDKRendererDelegate). Thereafter use your videoHelper to subscribe to a user by their userID. If you encounter error calling `subscribe()`, you might be calling it without the prequisites. Note that there is a limit of number of users you can subscribe to. This is dependent on the resolution subscribed. //to be completed
-  - In the implementation(`ZoomSDKRendererDelegate.cpp`), `onRawDataFrameReceived` will start to receive callbacks.
-  - I'm using `onRawDataFrameReceived` to save the YUV420 buffer into a file. You will need to use a converter such as ffmpeg to convert this YUV file into a playable mp4 or other playable video file. Do note that if you encounter corruption in your playable file, you might not be processing the YUV420 buffer according to standards. Do note that there might be varied resolution returned from the callback. Do not mixed them into the same saved file without processing. You will encounter corrupted file in playback. YUV processing is out of scope for this sample app.
+  - Use the Meeting Recording Controller to call `StartRecording()`. Do note that you can only either run `StartRecording()` or `StartRawRecording()`. You cannot run them both at once.
+- The files are stored in your user direct /Documents/Zoom
+	-	When the meeting ends or when the SDK exits the meeting, it is automatically converted
 
 # Upgrading Guide
 

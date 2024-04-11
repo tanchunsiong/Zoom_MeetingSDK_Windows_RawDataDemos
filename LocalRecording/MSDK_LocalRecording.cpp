@@ -27,7 +27,7 @@
 #include "MeetingRecordingCtrlEventListener.h"
 #include "WebService.h"
 
-
+#include <meeting_service_components/meeting_ui_ctrl_interface.h>
 
 using namespace std;
 using namespace Json;
@@ -48,6 +48,9 @@ constexpr auto CONFIG_FILE = "config.json";
 
 bool isJWTWebService = true;
 
+//if this is false, it will be changed to Active Speaker Mode
+//if this is true, it will be changed to Gallery View Mode
+bool isGalleryView = true;
 
 IMeetingRecordingController* m_pRecordController;
 IMeetingParticipantsController* m_pParticipantsController;
@@ -79,6 +82,9 @@ uint32_t getUserID() {
 
 void attemptToStartLocalRecording() {
 
+
+
+
 	m_pRecordController = meetingService->GetMeetingRecordingController();
 	time_t starttime;
 	SDKError err1 = m_pRecordController->StartRecording(starttime);
@@ -90,9 +96,29 @@ void attemptToStartLocalRecording() {
 
 }
 
+void SwitchToGalleryView() {
+
+	printf("SwitchToGalleryView Invoked\n");
+	IMeetingUIController* meetingUIController = meetingService->GetUIController();
+	if (isGalleryView) {
+		
+		SDKError err = meetingUIController->SwitchToVideoWall();
+		if (err != SDKERR_SUCCESS) {
+			std::cout << "Error occurred switching view";
+		}
+	}
+	else {
+		SDKError err = meetingUIController->SwtichToAcitveSpeaker();
+		if (err != SDKERR_SUCCESS) {
+			std::cout << "Error occurred switching view";
+		}
+	}
+}
+
 bool CanIStartLocalRecording()
 {
-	
+	SwitchToGalleryView();
+
 	IMeetingRecordingController* m_pRecordController = meetingService->GetMeetingRecordingController();
 	if (m_pRecordController)
 	{
@@ -133,9 +159,14 @@ void ShowErrorAndExit(SDKError err) {
 void onInMeeting() {
 	printf("onInMeeting Invoked\n");
 
+	
+
 	//double check if you are in a meeting
 	if (meetingService->GetMeetingStatus() == ZOOM_SDK_NAMESPACE::MEETING_STATUS_INMEETING) {
 		printf("In Meeting Now...\n");
+
+		SwitchToGalleryView();
+
 		//might not have host permission yet
 		if (CanIStartLocalRecording()) {
 			attemptToStartLocalRecording();

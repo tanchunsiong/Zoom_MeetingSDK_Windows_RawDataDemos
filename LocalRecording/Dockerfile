@@ -23,8 +23,6 @@ RUN choco install -y make
 RUN choco install -y wget 
 RUN choco install -y unzip 
 
-
-
 RUN choco install -y visualstudio2022buildtools --install-arguments \
 "--add Microsoft.VisualStudio.Workload.NativeDesktop \
 --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools \
@@ -42,34 +40,11 @@ RUN choco install -y visualstudio2022buildtools --install-arguments \
 --add Microsoft.VisualStudio.Component.VC.v143.x86.x64 \
 --add Microsoft.VisualStudio.Component.VC.140"
 
-RUN choco install visualstudio2019-workload-manageddesktopbuildtools -y 
-
-RUN choco install -y vcredist-all
-RUN choco install -y visualcpp-build-tools
-
-# Download the file
-RUN wget -O vc_redist.x64.exe https://aka.ms/vs/17/release/vc_redist.x64.exe
-
-# Install the downloaded file
-RUN vc_redist.x64.exe /quiet /install
-
-# Clean up unnecessary files
-RUN del vc_redist.x64.exe
-
-# Download and install Node.js LTS
-RUN wget -O C:\nodejs.msi "https://nodejs.org/dist/v14.17.0/node-v14.17.0-x64.msi" && \
-    msiexec /quiet /i C:\nodejs.msi && \
-    del C:\nodejs.msi
-
-
-
- RUN   choco install vcredist140
-# Add powershell to the PATH environment variable
-
-
 WORKDIR /temp
+
 ADD https://aka.ms/vs/17/release/vs_buildtools.exe vs_buildtools.exe
 SHELL ["cmd", "/S", "/C"]
+
 RUN (start /w C:\temp\vs_buildtools.exe --quiet --wait --norestart --nocache modify \
     --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2022\BuildTools" \
     --add    Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools \
@@ -80,14 +55,12 @@ RUN (start /w C:\temp\vs_buildtools.exe --quiet --wait --norestart --nocache mod
     --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 \
     --remove Microsoft.VisualStudio.Component.Windows81SDK \
     || IF "%ERRORLEVEL%"=="3010" EXIT 0)
+
 ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
-
-
 
 WORKDIR /vcpkg
 # Clone vcpkg repository
 RUN git clone https://github.com/Microsoft/vcpkg.git c:\vcpkg
-
 
 # Bootstrap vcpkg
 RUN .\bootstrap-vcpkg.bat
@@ -101,28 +74,16 @@ RUN .\vcpkg install curl
 # Install jsoncpp
 RUN .\vcpkg install jsoncpp
 
+#
+#RUN choco install -y visualstudio2022-workload-manageddesktopbuildtools
+#RUN choco install -y vcredist-all
+#RUN choco install -y visualcpp-build-tools
+#RUN choco install -y vcredist140
 
+ # Set the PATH environment variable
 ENV PATH="${PATH};C:\Windows\System32\WindowsPowerShell\v1.0"
-# Add npm to the PATH environment variable
-ENV PATH="${PATH};C:\Program Files\nodejs"
-
-# Verify npm installation
-RUN npm --version
-
-
-#RUN npm install --global --force --production windows-build-tools --vs2019
-
-# Set the PATH environment variable
 ENV PATH="${PATH};C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin"
-#ENV VCTargetsPath="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current"
-
-
-ENV PATH ="${PATH};%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0"
-
-
-
-
-
+ENV PATH="${PATH};C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0"
 
 # Set the working directory
 WORKDIR /app
@@ -137,6 +98,7 @@ RUN msbuild /t:Build /p:Configuration=Debug /p:Platform=x64
 WORKDIR C:/app/x64/Debug
 
 # Set the entry point to run the command prompt
-CMD ["cmd.exe", "/C", "C:/app/x64/Debug/LocalRecording.exe"]
+CMD ["powershell.exe", "-Command", "C:/app/x64/Debug/LocalRecording.exe"]
 
+# CMD ["powershell.exe"]
 #docker run -it local-recording-image --volume c:\temp:c:\users\ContainerAdministrator\Documents\zoom
