@@ -28,11 +28,17 @@ void MeetingRecordingCtrlEventListener::onRecordPrivilegeChanged(bool bCanRec) {
 /// \param status Value of request local recording privilege status. For more details, see \link RequestLocalRecordingStatus \endlink enum.
 void MeetingRecordingCtrlEventListener::onLocalRecordingPrivilegeRequestStatus(RequestLocalRecordingStatus status) {}
 
+/// \brief Callback event for when the host responds to a cloud recording permission request
+/// \param status Value of request host to start cloud recording response status. For more details, see \link RequestStartCloudRecordingStatus \endlink enum.
+void MeetingRecordingCtrlEventListener::onRequestCloudRecordingResponse(RequestStartCloudRecordingStatus status) {}
 
 /// \brief Callback event when a user requests local recording privilege.
 /// \param handler A pointer to the IRequestLocalRecordingPrivilegeHandler. For more details, see \link IRequestLocalRecordingPrivilegeHandler \endlink.
 void MeetingRecordingCtrlEventListener::onLocalRecordingPrivilegeRequested(IRequestLocalRecordingPrivilegeHandler* handler) {}
 
+/// \brief Callback event received only by the host when a user requests to start cloud recording.
+/// \param handler A pointer to the IRequestStartCloudRecordingHandler. For more details, see \link IRequestStartCloudRecordingHandler \endlink.
+void MeetingRecordingCtrlEventListener::onStartCloudRecordingRequested(IRequestStartCloudRecordingHandler* handler) {}
 
 /// \brief Callback event of ending the conversion to MP4 format.
 /// \param bsuccess TRUE indicates to convert successfully. FALSE not.
@@ -51,5 +57,7 @@ void MeetingRecordingCtrlEventListener::onRecording2MP4Processing(int iPercentag
 ///The layout_helper won't be released till the call ends. The user needs to complete the related layout before the call ends. 
 void MeetingRecordingCtrlEventListener::onCustomizedLocalRecordingSourceNotification(ICustomizedLocalRecordingLayoutHelper* layout_helper) {}
 
-/// \param gracePeriodDate a point in time, in milliseconds, in UTC. You can use the cloud recording storage until the gracePeriodDate. 
-void MeetingRecordingCtrlEventListener::onCloudRecordingStorageFull(time_t gracePeriodDate) {}
+/// \param gracePeriodDate a point in time, in milliseconds, in UTC. You can use the cloud recording storage until the gracePeriodDate.
+void MeetingRecordingCtrlEventListener::onCloudRecordingStorageFull(time_t gracePeriodDate) {
+}
+

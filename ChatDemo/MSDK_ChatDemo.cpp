@@ -101,7 +101,13 @@ void onInMeeting() {
 	wchar_t wcharArray[1024]; // Choose an appropriate size
 	wcscpy_s(wcharArray, wstr.c_str());
 
-	meetingchatcontroller->SendChatMsgTo(wcharArray, 0, SDKChatMessageType_To_All);
+	
+	IChatMsgInfoBuilder* chatbuilder =  meetingchatcontroller->GetChatMessageBuilder();
+	chatbuilder->SetReceiver(0);
+	chatbuilder->SetMessageType(SDKChatMessageType_To_All);
+	chatbuilder->SetContent(wcharArray);
+	chatbuilder->Build();
+	meetingchatcontroller->SendChatMsgTo(chatbuilder->Build());
 }
 
 

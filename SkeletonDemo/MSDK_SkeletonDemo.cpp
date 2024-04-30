@@ -466,6 +466,10 @@ void SkeletonDemo::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequest
 {
 }
 
+void SkeletonDemo::onAllowParticipantsRequestCloudRecording(bool bAllow) 
+{
+}
+
 void SkeletonDemo::onInMeetingUserAvatarPathUpdated(unsigned int userID)
 {
 }

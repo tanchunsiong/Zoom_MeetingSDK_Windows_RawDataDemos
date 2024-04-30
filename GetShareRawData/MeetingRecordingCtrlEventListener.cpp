@@ -28,10 +28,18 @@ void MeetingRecordingCtrlEventListener::onRecordPrivilegeChanged(bool bCanRec) {
 /// \param status Value of request local recording privilege status. For more details, see \link RequestLocalRecordingStatus \endlink enum.
 void MeetingRecordingCtrlEventListener::onLocalRecordingPrivilegeRequestStatus(RequestLocalRecordingStatus status) {}
 
+void MeetingRecordingCtrlEventListener::onRequestCloudRecordingResponse(RequestStartCloudRecordingStatus status)
+{
+}
+
 
 /// \brief Callback event when a user requests local recording privilege.
 /// \param handler A pointer to the IRequestLocalRecordingPrivilegeHandler. For more details, see \link IRequestLocalRecordingPrivilegeHandler \endlink.
 void MeetingRecordingCtrlEventListener::onLocalRecordingPrivilegeRequested(IRequestLocalRecordingPrivilegeHandler* handler) {}
+
+void MeetingRecordingCtrlEventListener::onStartCloudRecordingRequested(IRequestStartCloudRecordingHandler* handler)
+{
+}
 
 
 /// \brief Callback event of ending the conversion to MP4 format.

@@ -43,6 +43,8 @@ class SkeletonDemo : public IMeetingParticipantsCtrlEvent {
 
 
 	virtual void onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status);
+
+	virtual void onAllowParticipantsRequestCloudRecording(bool bAllow);
 	
 	virtual void onInMeetingUserAvatarPathUpdated(unsigned int userID);
 

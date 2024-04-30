@@ -67,7 +67,7 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 
 		IBOCreator* boCreator = meetingService->GetMeetingBOController()->GetBOCreatorHelper();
 		
-		IBOData* boData = meetingService->GetMeetingBOController()->GetBODataHelper(); = meetingService->GetMeetingBOController()->GetBODataHelper();
+		IBOData* boData = meetingService->GetMeetingBOController()->GetBODataHelper(); 
 		IList<const zchar_t*>* meetingIDList = boData->GetBOMeetingIDList();
 		if (meetingIDList != nullptr) {
 			for (int i = 0; i < meetingIDList->GetCount(); ++i) {
@@ -77,7 +77,7 @@ inline bool IsInMeeting(ZOOM_SDK_NAMESPACE::MeetingStatus status)
 				ibomeeting->GetBOID();
 				ibomeeting->GetBOName();
 				ibomeeting->GetBOUserList();
-				ibomeeting->GetBOUserStatus(userID);
+				ibomeeting->GetBOUserStatus(id);
 			}
 		}
 
@@ -499,6 +499,11 @@ void SkeletonDemo::onAllowParticipantsShareWhiteBoardNotification(bool bAllow)
 void SkeletonDemo::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status)
 {
 }
+
+void SkeletonDemo::onAllowParticipantsRequestCloudRecording(bool bAllow)
+{
+}
+
 
 void SkeletonDemo::onInMeetingUserAvatarPathUpdated(unsigned int userID)
 {

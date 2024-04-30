@@ -73,6 +73,11 @@ void MeetingParticipantsCtrlEventListener::onAllowParticipantsShareWhiteBoardNot
 /// \param status Value of request local recording privilege status. For more details, see \link LocalRecordingRequestPrivilegeStatus \endlink enum.
 void MeetingParticipantsCtrlEventListener::onRequestLocalRecordingPrivilegeChanged(LocalRecordingRequestPrivilegeStatus status) {}
 
+
+
+void MeetingParticipantsCtrlEventListener::onAllowParticipantsRequestCloudRecording(bool bAllow) {}
+
+
 /// \brief Callback event that the user avatar path is updated in the meeting.
 /// \param userID Specify the user ID whose avatar updated. 
 void MeetingParticipantsCtrlEventListener::onInMeetingUserAvatarPathUpdated(unsigned int userID) {}
@@ -87,3 +92,4 @@ void MeetingParticipantsCtrlEventListener::onFocusModeStateChanged(bool bEnabled
 /// \brief Callback event that that focus mode share type changed by host or co-host.
 /// \param type Share type change.
 void MeetingParticipantsCtrlEventListener::onFocusModeShareTypeChanged(FocusModeShareType type) {}
+
