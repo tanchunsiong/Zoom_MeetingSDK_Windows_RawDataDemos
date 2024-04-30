@@ -29,6 +29,15 @@
 
 #include <meeting_service_components/meeting_ui_ctrl_interface.h>
 
+//used to check if encoder is running
+
+#include <windows.h>
+#include <tlhelp32.h>
+
+
+bool encoderHasRan = false;
+bool encoderEnded = false;
+
 using namespace std;
 using namespace Json;
 using namespace ZOOMSDK;
@@ -440,6 +449,70 @@ void InitSDK()
 	std::cout << "NetworkConnectionHandler registered. Detecting proxy." << std::endl;
 }
 
+
+bool IsProcessRunning(const std::wstring& processName) {
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(entry);
+
+	// Create a snapshot of the system processes
+	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (snapshot == INVALID_HANDLE_VALUE) {
+		std::cerr << "Failed to create process snapshot." << std::endl;
+		return false;
+	}
+
+	// Iterate through the processes
+	if (!Process32First(snapshot, &entry)) {
+		CloseHandle(snapshot);
+		std::cerr << "Failed to retrieve the first process." << std::endl;
+		return false;
+	}
+	do {
+		// Compare process name with the target process
+		if (std::wstring(entry.szExeFile) == processName) {
+			CloseHandle(snapshot);
+			return true; // Process found
+		}
+	} while (Process32Next(snapshot, &entry));
+
+	CloseHandle(snapshot);
+	return false; // Process not found
+}
+
+bool RunProcess(const std::wstring& commandLine) {
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+	ZeroMemory(&pi, sizeof(pi));
+
+	// Start the child process
+	if (!CreateProcess(NULL,   // No module name (use command line)
+		const_cast<LPWSTR>(commandLine.c_str()), // Command line
+		NULL,             // Process handle not inheritable
+		NULL,             // Thread handle not inheritable
+		FALSE,            // Set handle inheritance to FALSE
+		0,                // No creation flags
+		NULL,             // Use parent's environment block
+		NULL,             // Use parent's starting directory 
+		&si,              // Pointer to STARTUPINFO structure
+		&pi)              // Pointer to PROCESS_INFORMATION structure
+		) {
+		std::cerr << "CreateProcess failed (" << GetLastError() << ")." << std::endl;
+		return false;
+	}
+
+	// Wait until child process exits.
+	WaitForSingleObject(pi.hProcess, INFINITE);
+
+	// Close process and thread handles. 
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+
+	return true;
+}
+
+
 /// <summary>
 /// main method for entry point
 /// </summary>
@@ -451,6 +524,8 @@ int main()
 
 	int bRet = false;
 	MSG msg;
+	const std::wstring processName = L"zTscoder.exe";
+
 	while (!g_exit && (bRet = GetMessage(&msg, nullptr, 0, 0)) != 0)
 	{
 		if (bRet == -1)
@@ -461,7 +536,36 @@ int main()
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			
+
+			if (IsProcessRunning(processName)) {
+				std::wcout << processName << " is running." << std::endl;
+				encoderHasRan = true;
+			}
+		
+
 		}
+	}
+	//after encoding completed, you can save your files to somewhere else, such as AWS S3
+	while (!encoderEnded)
+
+	{
+		if (encoderHasRan && !IsProcessRunning(processName))
+		{
+			std::wcout << processName << " has finished running." << std::endl;
+			encoderEnded = true;
+
+			//save your files somewhere
+			std::wstring commandLine = L"aws.exe help"; // Replace with the command line of the process you want to run
+			if (RunProcess(commandLine)) {
+				std::wcout << "Process started successfully." << std::endl;
+			}
+			else {
+				std::wcout << "Failed to start process." << std::endl;
+			}
+		}
+
 	}
 	if (meetingService) DestroyMeetingService(meetingService);
 	if (authService) DestroyAuthService(authService);

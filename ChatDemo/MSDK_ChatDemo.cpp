@@ -253,7 +253,7 @@ void JoinMeeting()
 	wchar_t screenName[] = L"Chun";
 	joinMeetingWithoutLoginParam.userName = screenName; 
 	joinMeetingWithoutLoginParam.userZAK = L"";
-	joinMeetingWithoutLoginParam.app_privilege_token = L"lr6qgktey";
+	joinMeetingWithoutLoginParam.app_privilege_token = L"";
 	//joinMeetingWithoutLoginParam.app_privilege_token = NULL;
 	joinMeetingWithoutLoginParam.join_token = NULL;
 	joinMeetingWithoutLoginParam.vanityID = NULL;

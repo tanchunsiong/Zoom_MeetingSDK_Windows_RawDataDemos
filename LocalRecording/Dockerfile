@@ -80,10 +80,13 @@ RUN .\vcpkg install jsoncpp
 #RUN choco install -y visualcpp-build-tools
 #RUN choco install -y vcredist140
 
+RUN choco install -y awscli
+
  # Set the PATH environment variable
 ENV PATH="${PATH};C:\Windows\System32\WindowsPowerShell\v1.0"
 ENV PATH="${PATH};C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin"
 ENV PATH="${PATH};C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0"
+ENV PATH="${PATH};C:\Program Files\Amazon\AWSCLIV2"
 
 # Set the working directory
 WORKDIR /app
@@ -100,5 +103,5 @@ WORKDIR C:/app/x64/Debug
 # Set the entry point to run the command prompt
 CMD ["powershell.exe", "-Command", "C:/app/x64/Debug/LocalRecording.exe"]
 
-# CMD ["powershell.exe"]
-#docker run -it local-recording-image --volume c:\temp:c:\users\ContainerAdministrator\Documents\zoom
+#CMD ["powershell.exe"]
+#docker run -it local-recording-image --volume c:\demo2:c:\users\ContainerAdministrator\Documents\zoom
