@@ -139,5 +139,5 @@ Rebuild and Run, it should resolve both errors above
 
 ./vcpkg install curl
 
-add c++, general, addition include directories "C:\Users\dreamtcs\source\vcpkg\packages\curl_x64-windows\include" 
+add c++, general, addition include directories "C:\Users\$(UserName)\source\vcpkg\packages\curl_x64-windows\include" 
 
