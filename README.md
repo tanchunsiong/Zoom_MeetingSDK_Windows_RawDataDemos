@@ -28,4 +28,3 @@ Within each sample folder you will need 2 addition items
 	- README.md
 	- version.txt
 
-These projects are currently using Zoom Meeting SDK for Windows v5.15.7

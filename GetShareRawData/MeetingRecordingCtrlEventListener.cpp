@@ -62,3 +62,11 @@ void MeetingRecordingCtrlEventListener::onCustomizedLocalRecordingSourceNotifica
 void MeetingRecordingCtrlEventListener::onCloudRecordingStorageFull(time_t gracePeriodDate)
 {
 }
+
+void MeetingRecordingCtrlEventListener::onEnableAndStartSmartRecordingRequested(IRequestEnableAndStartSmartRecordingHandler* handler)
+{
+}
+
+void MeetingRecordingCtrlEventListener::onSmartRecordingEnableActionCallback(ISmartRecordingEnableActionHandler* handler)
+{
+}

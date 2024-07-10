@@ -63,3 +63,11 @@ void MeetingRecordingCtrlEventListener::onRecordingStatus(RecordingStatus status
   void MeetingRecordingCtrlEventListener::onCloudRecordingStorageFull(time_t gracePeriodDate) {
 }
 
+  void MeetingRecordingCtrlEventListener::onEnableAndStartSmartRecordingRequested(IRequestEnableAndStartSmartRecordingHandler* handler)
+  {
+  }
+
+  void MeetingRecordingCtrlEventListener::onSmartRecordingEnableActionCallback(ISmartRecordingEnableActionHandler* handler)
+  {
+  }
+

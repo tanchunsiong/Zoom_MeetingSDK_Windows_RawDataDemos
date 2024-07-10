@@ -28,4 +28,16 @@ public:
 
 	virtual void onShareMeetingChatStatusChanged(bool isStart);
 
+	/// \brief Invoked when start send file.
+	/// \param sender The class to send file object.
+	virtual void onFileSendStart(ISDKFileSender* sender);
+
+	/// \brief Invoked when receiving a file from another user.
+	/// \param receiver The class to receive the file object.
+	virtual void onFileReceived(ISDKFileReceiver* receiver);
+
+	/// \brief Invoked when send or receive file status change.
+	/// \param info The class to basic transfer information.
+	virtual void onFileTransferProgress(SDKFileTransferInfo* info);
+
 };

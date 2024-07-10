@@ -60,5 +60,14 @@ public:
 	/// \param gracePeriodDate a point in time, in milliseconds, in UTC. You can use the cloud recording storage until the gracePeriodDate.
 	virtual void onCloudRecordingStorageFull(time_t gracePeriodDate);
 
+	/// \brief Callback event received only by the host when a user requests to enable and start smart cloud recording.
+/// \param handler A pointer to the IRequestEnableAndStartSmartRecordingHandler. For more details, see \link IRequestEnableAndStartSmartRecordingHandler \endlink.
+	virtual void onEnableAndStartSmartRecordingRequested(IRequestEnableAndStartSmartRecordingHandler* handler);
+
+	/// \brief Callback event received when you call \link EnableSmartRecording \endlink. You can use the handler to confirm or cancel enabling the smart recording.
+	/// \param handler A pointer to the ISmartRecordingEnableActionHandler. For more details, see \link ISmartRecordingEnableActionHandler \endlink.
+	virtual void onSmartRecordingEnableActionCallback(ISmartRecordingEnableActionHandler* handler);
+
+
 };
 

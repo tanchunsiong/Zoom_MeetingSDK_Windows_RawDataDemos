@@ -69,3 +69,7 @@ void IMeetingBOControllerEventListener::onBOSwitchRequestReceived(const zchar_t*
 /// \brief The status of broadcasting voice to BO has been changed.
 /// \param bStart true for start and false for stop.
 void IMeetingBOControllerEventListener::onBroadcastBOVoiceStatus(bool bStart){}
+
+void IMeetingBOControllerEventListener::onShareFromMainSession(const unsigned int iSharingID, SharingStatus status, IShareAction* pShareAction)
+{
+}

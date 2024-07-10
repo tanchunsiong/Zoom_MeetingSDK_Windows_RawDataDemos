@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SkeletonDemo\Dockerfile = SkeletonDemo\Dockerfile
 		SkeletonDemo\readme for docker.md = SkeletonDemo\readme for docker.md
 		README.md = README.md
+		version.txt = version.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkeletonDemo", "SkeletonDemo\MSDK_SkeletonDemo.vcxproj", "{F03EE105-2A12-4C1D-A647-01EC125E809E}"
