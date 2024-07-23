@@ -2,34 +2,33 @@
 
 A Skeleton / Barebone Windows C++ Application demonstrate Zoom Meeting SDK features
 
-# Install vcpkg for adding dependency libs.
+## Additional dependency libs.
+
+This sample requires CURL and Json Parser
+
+We are using vcpkg to install these dependencies on Windows
+
+### Installing vcpkg
 You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
 ```
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-./bootstrap-vcpkg.sh
+./bootstrap-vcpkg.sh 
 ./vcpkg integrate install --vcpkg-root c:\vcpkg
 ```
 
-# Add dependency libs
-opencv might not be necessary if you are not going to do video/image processing before saving.
-opencv might not be necessary if you are just saving raw audio to file..
-opencv will take a while (10 mins) to complete
+### Installing cURL and JSON Parser using vckpg
 
-```
-./vcpkg install jsoncpp
-./vcpkg install opencv 
-```
+`./vcpkg install curl`
 
-# Clone the project source code
+`./vcpkg install jsoncpp`
 
-```
-git clone https://github.com/tanchunsiong/MSDK_RawDataDemos
-```
 
-This project is in the SendVideoRawData folder
+
 
 ## Add a configuration file named `config.json`
+
+This is file which is used to pass in your sdk auth signature (aka jwt token, aka auth signature)
 
 ```
 {
@@ -45,20 +44,52 @@ The app will try to join the meeting follow the Meeting Number you specified in 
 
 ## Add the sdk files into a folder name `SDK`
 
+The folder should look something like this
 
-//To be completed
-
+- SDK
+	- x64
+	- x86
+	- CHANGELOG.MD
+	- OSS-LICENSE.txt
+	- README.md
+	- version.txt
 
 
 
 ## Open and Run Project
 
-
-Open "MSDK_SkeletonDemo.vcxproj" file from Visual Studio 2022.
+Right click on "SkeletonDemo" and "Startup as Project" in Visual Studio
 
 
 Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
 
+
+## Error
+
+if you are getting an error about not being able to open source json/json.h , include this in your
+
+Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include Directories,
+
+
+## Getting Started
+
+The main method, or main entry point of this application is at `MSDK_xxxxxxxDemo.cpp`
+
+From a high level point of view it will do the below.
+- Join a meeting
+- Wait for callback or status update. There are some prerequistes before you can fully run the caption demo. You will need the live translation and transcription service turned on in your account.
+  - You need to have host, co-host or recording permissions
+  - You need to be in-meeting. This is the status when you have fully joined a meeting.
+
+# Upgrading Guide
+
+You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
+
+Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
+
+You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
+
+# Troubleshooting Guide
 
 ## Error
 
@@ -73,71 +104,4 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
 
  ### x86
  C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x86-windows\include
-
-  # Error
-
-  what if i would like to use x64 environment?
-
-  add this to your environment variable before installing openCV from vcpkg
-
-  VCPKG_DEFAULT_TRIPLET = x64-windows
-
-  and reinstall
-
-  ```
-  ./vcpkg install jsoncpp
-  ./vcpkg install opencv
-  ```
-
-  There are some errors about opencv being unable to find certain libraries?
-
-  They should not affect the basic functionality of this sample, but you can do a list of additional opencv libraries to install
-  ```
-  ./cvpkg list opencv
-  ```
-
-  to install addition libraries, do something like this. This might take around 1 hour, depending on the number of libraries you install
-  ```
-  ./vcpkg install opencv[contrib,ffmpeg,nonfree,opengl,openmp,world]
-  ```
-## Getting Started
-
-The main method, or main entry point of this application is at `MSDK_SkeletonDemo.cpp`
-
-From a high level point of view it will do the below.
-This is the base, or skeleton code which all of the other projects in this solution are based on.
-
-
-# Upgrading Guide
-
-You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
-
-Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
-
-You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
-
-Some classes might need additional libraries, depending on your development environment, example...
-```
-#include <cstdint>
-#include <windows.h>
-```
-
-You might encounter these errors
-
-Error	C3646	'GetAudioJoinType': unknown override specifier	
-Error (active)	E0020	identifier "AudioType" is undefined	SkeletonDemo
-
-In your meeting_participants_ctrl_interface.h, ensure you are add an addition reference to #include "meeting_service_components/meeting_audio_interface.h"
-
-Rebuild and Run, it should resolve both errors above
-
-
-# Resolving Errors
-
-#adding curl, needed for webservice.cpp and webservice.h
-
-
-./vcpkg install curl
-
-add c++, general, addition include directories "C:\Users\dreamtcs\source\vcpkg\packages\curl_x64-windows\include" 
-
+ 

@@ -1,32 +1,38 @@
+
 # Meeting SDK for Windows - Send ScreenShare Raw Data
 
 A Windows C++ Application demonstrate Zoom Meeting SDK sending ScrnenShare raw data to a Zoom Meeting.
 
-# Install vcpkg for adding dependency libs.
+## Additional dependency libs.
+
+This sample requires CURL and Json Parser
+This sample also requires opencv
+
+We are using vcpkg to install these dependencies on Windows
+
+### Installing vcpkg
 You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
 ```
-cd ~
-cd source
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-./bootstrap-vcpkg.sh
+./bootstrap-vcpkg.sh 
 ./vcpkg integrate install --vcpkg-root c:\vcpkg
 ```
 
-# Add dependency libs
-opencv might not be necessary if you are not going to do video/image processing before saving.
-opencv might not be necessary if you are just saving raw audio to file..
-opencv will take a while (10 mins) to complete
+### Installing cURL and JSON Parser using vckpg
 
-```
-./vcpkg install jsoncpp
-./vcpkg install opencv 
-```
+`./vcpkg install curl`
 
+`./vcpkg install jsoncpp`
 
-This project is in the SendShareScreenRawData folder
+### Installing opencv 
+
+`./vcpkg install opencv`
+
 
 ## Add a configuration file named `config.json`
+
+This is file which is used to pass in your sdk auth signature (aka jwt token, aka auth signature)
 
 ```
 {
@@ -42,15 +48,58 @@ The app will try to join the meeting follow the Meeting Number you specified in 
 
 ## Add the sdk files into a folder name `SDK`
 
+The folder should look something like this
+
+- SDK
+	- x64
+	- x86
+	- CHANGELOG.MD
+	- OSS-LICENSE.txt
+	- README.md
+	- version.txt
 
 
 
 ## Open and Run Project
 
-Open "MSDK_SendShareScreenRawData.vcxproj" file from Visual Studio 2022.
+Right click on "SendShareScreenRawData" and "Startup as Project" in Visual Studio
+
 
 Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
 
+
+## Error
+
+if you are getting an error about not being able to open source json/json.h , include this in your
+
+Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include Directories,
+
+
+## Getting Started
+
+The main method, or main entry point of this application is at `MSDK_xxxxxxxDemo.cpp`
+
+From a high level point of view it will do the below.
+- Join a meeting
+- Wait for callback or status update. There are some prerequistes before you can get video raw data. The `prereqCheck()` method helps to check if you have fulfilled these requirements
+  - `CanStartShare()` check if no one else is sharing screen, and there are no permissions blocking youf from doing so.
+  - You need to be in-meeting. This is the status when you have fully joined a meeting.
+- Create virtual_share_source, which is an implementation of `IZoomSDKShareSource`
+	- Call `GetRawdataShareSourceHelper` to get `IZoomSDKShareSourceHelper` interface. This `IZoomSDKShareSourceHelper` is needed to assign the share source.
+	- Call `setExternalShareSource(virtual_share_source)` to set the virtual share source.
+- At this stage, the sharing should start to trigger the methods below.
+  - In `VirtualShareSource.cpp`, `onStartSend()`, you can implement your own logic to send video raw data to the meeting. I'm using an additional method `PlayVideoFileToShare` which reads a video file, converts it to YUV420 buffer, and sends it via `sendShareFrame` method.
+  
+
+# Upgrading Guide
+
+You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
+
+Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
+
+You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
+
+# Troubleshooting Guide
 
 ## Error
 
@@ -65,24 +114,8 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
 
  ### x86
  C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x86-windows\include
-
- # Error
-
-  what if i would like to use x64 environment?
-
-  add this to your environment variable before installing openCV from vcpkg
-
-  VCPKG_DEFAULT_TRIPLET = x64-windows
-
-  you can use `setx VCPKG_DEFAULT_TRIPLET "x64-windows"` to set it via command line
-
-  and reinstall by using the command below
-
-
-  ```
-  ./vcpkg install jsoncpp
-  ./vcpkg install opencv
-  ```
+ 
+## openCV errors
 
   There are some errors about opencv being unable to find certain libraries?
 
@@ -95,50 +128,3 @@ Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include 
   ```
   ./vcpkg install opencv[contrib,ffmpeg,nonfree,opengl,openmp,world]
   ```
-## Getting Started
-
-The main method, or main entry point of this application is at `MSDK_SendShareScreenRawData.cpp`
-
-From a high level point of view it will do the below
-
-- Join a meeting
-- Wait for callback or status update. There are some prerequistes before you can get video raw data. The `prereqCheck()` method helps to check if you have fulfilled these requirements
-  - `CanStartShare()` check if no one else is sharing screen, and there are no permissions blocking youf from doing so.
-  - You need to be in-meeting. This is the status when you have fully joined a meeting.
-- Create virtual_share_source, which is an implementation of `IZoomSDKShareSource`
-	- Call `GetRawdataShareSourceHelper` to get `IZoomSDKShareSourceHelper` interface. This `IZoomSDKShareSourceHelper` is needed to assign the share source.
-	- Call `setExternalShareSource(virtual_share_source)` to set the virtual share source.
-- At this stage, the sharing should start to trigger the methods below.
-  - In `VirtualShareSource.cpp`, `onStartSend()`, you can implement your own logic to send video raw data to the meeting. I'm using an additional method `PlayVideoFileToShare` which reads a video file, converts it to YUV420 buffer, and sends it via `sendShareFrame` method.
-  
-# Upgrading Guide
-
-You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
-
-Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
-
-You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
-
-Some classes might need additional libraries, depending on your development environment, example...
-```
-#include <cstdint>
-#include <windows.h>
-```
-
-You might encounter these errors
-
-Error	C3646	'GetAudioJoinType': unknown override specifier	
-Error (active)	E0020	identifier "AudioType" is undefined	SkeletonDemo
-
-In your meeting_participants_ctrl_interface.h, ensure you are add an addition reference to #include "meeting_service_components/meeting_audio_interface.h"
-
-Rebuild and Run, it should resolve both errors above
-
-# Resolving Errors
-
-
-#adding curl, needed for webservice.cpp and webservice.h
-
-./vcpkg install curl
-
-add c++, general, addition include directories "C:\Users\$(UserName)\source\vcpkg\packages\curl_x64-windows\include" 
