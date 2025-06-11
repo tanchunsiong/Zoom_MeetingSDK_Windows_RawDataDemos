@@ -90,6 +90,18 @@ void ClosedCaptionControllerEventListener::onCaptionStatusChanged(bool bEnabled)
 	std::cout << "onCaptionStatusChanged :" << bEnabled << endl;
 }
 
+void ClosedCaptionControllerEventListener::onStartCaptionsRequestReceived(ICCRequestHandler* handler)
+{
+}
+
+void ClosedCaptionControllerEventListener::onStartCaptionsRequestApproved()
+{
+}
+
+
+void ClosedCaptionControllerEventListener::onManualCaptionStatusChanged(bool bEnabled)
+{
+}
 
 std::string ClosedCaptionControllerEventListener::wstringToUtf8(const std::wstring& wstr) {
 	std::string utf8Str;

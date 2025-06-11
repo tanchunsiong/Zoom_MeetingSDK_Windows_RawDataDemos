@@ -91,3 +91,18 @@ void MeetingParticipantsCtrlEventListener::onRequestLocalRecordingPriviligeChang
   void MeetingParticipantsCtrlEventListener::onFocusModeStateChanged(bool bEnabled) {}
 
   void MeetingParticipantsCtrlEventListener::onFocusModeShareTypeChanged(FocusModeShareType type) {}
+
+  void MeetingParticipantsCtrlEventListener::onBotAuthorizerRelationChanged(unsigned int authorizeUserID) {}
+
+  void MeetingParticipantsCtrlEventListener::onVirtualNameTagStatusChanged(bool bOn, unsigned int userID) {}
+
+  void MeetingParticipantsCtrlEventListener::onVirtualNameTagRosterInfoUpdated(unsigned int userID) {}
+
+  void MeetingParticipantsCtrlEventListener::onCreateCompanionRelation(unsigned int parentUserID, unsigned int childUserID)
+  {
+  }
+
+  void MeetingParticipantsCtrlEventListener::onRemoveCompanionRelation(unsigned int childUserID)
+  {
+  }
+

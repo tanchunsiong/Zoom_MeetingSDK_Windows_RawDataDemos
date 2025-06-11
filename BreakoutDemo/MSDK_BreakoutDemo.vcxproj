@@ -219,6 +219,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClInclude Include="WebService.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="config-example.json" />
     <None Include="config.json" />
     <None Include="readme for docker.md" />
     <None Include="README.md" />

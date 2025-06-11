@@ -225,6 +225,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     </Media>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\BreakoutDemo\config-example.json" />
     <None Include="config.json" />
     <None Include="Dockerfile" />
     <None Include="README.md" />

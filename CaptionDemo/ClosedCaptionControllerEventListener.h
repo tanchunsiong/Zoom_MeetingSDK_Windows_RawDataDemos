@@ -66,5 +66,17 @@ public:
 	/// \param bEnabled True means the host enables the captions, otherwise means the host disables the captions.
 	virtual void onCaptionStatusChanged(bool bEnabled);
 
+	/// \brief Sink the event to start captions request.
+	/// \param handler A pointer to the ICCRequestHandler. For more details, see \link ICCRequestHandler \endlink.
+	virtual void onStartCaptionsRequestReceived(ICCRequestHandler* handler);
+
+	/// \brief Sink the event to start captions request was approved.
+	virtual void onStartCaptionsRequestApproved();
+
+
+	/// \brief Sink the event of manual captions enablement status change.
+/// \param bEnabled True means the host enables the manual captions. Otherwise the host disabled the manual captions.
+	virtual void onManualCaptionStatusChanged(bool bEnabled);
+
 	virtual std::string wstringToUtf8(const std::wstring& wstr);
 };

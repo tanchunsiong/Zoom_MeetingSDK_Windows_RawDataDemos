@@ -22,4 +22,4 @@ Some licenses for OSS contained in our products give you the right to access the
 Please see **OSS-LICENSE.pdf** for more information  
 
 ---
-Copyright ©2012-2024 Zoom Video Communications, Inc. All rights reserved.
+Copyright ©2012-2025 Zoom Communications, Inc. All rights reserved.

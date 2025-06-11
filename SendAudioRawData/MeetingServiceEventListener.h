@@ -35,5 +35,14 @@ public:
 	/// \brief Callback event for the AI Companion active status changed. 
 /// \param active Specify whether the AI Companion active or not.
 	virtual void onAICompanionActiveChangeNotice(bool bActive);
+
+	/// \brief Callback event for the meeting topic changed. 
+	/// \param sTopic The new meeting topic.
+	virtual void onMeetingTopicChanged(const zchar_t* sTopic);
+
+	/// \brief Calback event that the meeting users have reached the meeting capacity.
+	/// The new join user can not join meeting, but they can watch the meeting live stream.
+	/// \param sLiveStreamUrl The live stream URL to watch the meeting live stream.
+	virtual void onMeetingFullToWatchLiveStream(const zchar_t* sLiveStreamUrl);
 };
 

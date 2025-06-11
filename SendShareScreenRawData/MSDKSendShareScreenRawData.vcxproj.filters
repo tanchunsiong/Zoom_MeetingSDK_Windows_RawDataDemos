@@ -43,6 +43,7 @@
   <ItemGroup>
     <None Include="config.json" />
     <None Include="README.md" />
+    <None Include="..\BreakoutDemo\config-example.json" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

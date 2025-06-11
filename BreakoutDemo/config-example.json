@@ -1,0 +1,8 @@
+﻿{
+  "sdk_jwt": "xxxxxxx.yyyyyyyyy.zzzzzzzzzzzzzzzzz",
+  "meeting_number": "1234567890",
+  "passcode": "123456",
+  "video_source": "Big_Buck_Bunny_720_10s_1MB.mp4",
+  "zak": "",
+  "webservice_endpoint": "https://asdc.cc/meeting-csdk"
+}

@@ -221,6 +221,7 @@ xcopy /y $(ProjectDir)config.json $(OutDir)</Command>
     <ClInclude Include="WebService.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\BreakoutDemo\config-example.json" />
     <None Include=".gitignore" />
     <None Include="config.json" />
     <None Include="README.md" />

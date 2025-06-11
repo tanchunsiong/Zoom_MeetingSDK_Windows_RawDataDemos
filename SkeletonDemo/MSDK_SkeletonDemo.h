@@ -53,4 +53,15 @@ class SkeletonDemo : public IMeetingParticipantsCtrlEvent {
 	virtual void onFocusModeStateChanged(bool bEnabled);
 
 	virtual void onFocusModeShareTypeChanged(FocusModeShareType type);
+
+	virtual void onBotAuthorizerRelationChanged(unsigned int authorizeUserID);
+
+	virtual void onVirtualNameTagStatusChanged(bool bOn, unsigned int userID);
+
+	virtual void onVirtualNameTagRosterInfoUpdated(unsigned int userID);
+
+	virtual void onCreateCompanionRelation(unsigned int parentUserID, unsigned int childUserID);
+
+	virtual void onRemoveCompanionRelation(unsigned int childUserID);
+
 };

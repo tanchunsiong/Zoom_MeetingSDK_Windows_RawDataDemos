@@ -93,5 +93,22 @@ public:
 	/// \brief Callback event that that focus mode share type changed by host or co-host.
 	/// \param type Share type change.
 	virtual void onFocusModeShareTypeChanged(FocusModeShareType type);
+
+	/// \brief Callback event that the bot relationship changed in the meeting.
+	/// \param authorizeUserID Specify the authorizer user ID.
+	virtual void onBotAuthorizerRelationChanged(unsigned int authorizeUserID);
+
+	/// \brief Notification of virtual name tag status change.
+	/// \param bOn TRUE means virtual name tag is turn on, Otherwise not.
+	/// \param userID The ID of user who virtual name tag status changed.
+	virtual void onVirtualNameTagStatusChanged(bool bOn, unsigned int userID);
+
+	/// \brief Notification of virtual name tag roster info updated.
+	/// \param userID The ID of user who virtual name tag status changed.
+	virtual void onVirtualNameTagRosterInfoUpdated(unsigned int userID);
+
+	virtual void onCreateCompanionRelation(unsigned int parentUserID, unsigned int childUserID);
+
+	virtual void onRemoveCompanionRelation(unsigned int childUserID);
 };
 

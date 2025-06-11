@@ -66,6 +66,7 @@
   <ItemGroup>
     <None Include="config.json" />
     <None Include="README.md" />
+    <None Include="..\BreakoutDemo\config-example.json" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Big_Buck_Bunny_720_10s_1MB.mp4" />

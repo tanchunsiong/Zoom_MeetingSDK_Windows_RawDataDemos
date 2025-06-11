@@ -10,8 +10,7 @@ size_t WriteCallback(char* contents, size_t size, size_t nmemb, std::string* res
     return totalSize;
 }
 
-wchar_t* GetSignatureFromWebService() {
-    std::string url = "https://asdc.cc/meeting-csdk";
+wchar_t* GetSignatureFromWebService(const std::string& url) {
     std::string postData = ""; // Set your POST data if required
 
     // Initialize cURL
@@ -56,6 +55,7 @@ wchar_t* GetSignatureFromWebService() {
     // Retrieve the value of the "signature" key
     std::string signature = root["signature"].asString();
     std::cout << signature << std::endl;
+
     // Convert std::string to wchar_t*
     size_t length = signature.size() + 1;
     wchar_t* wcharSignature = new wchar_t[length];

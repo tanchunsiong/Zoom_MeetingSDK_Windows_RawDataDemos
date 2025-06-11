@@ -79,15 +79,25 @@ void MeetingParticipantsCtrlEventListener::onAllowParticipantsRequestCloudRecord
 /// \param userID Specify the user ID whose avatar updated. 
 void MeetingParticipantsCtrlEventListener::onInMeetingUserAvatarPathUpdated(unsigned int userID) {}
 
-void MeetingParticipantsCtrlEventListener::onParticipantProfilePictureStatusChange(bool bHidden)
+void MeetingParticipantsCtrlEventListener::onParticipantProfilePictureStatusChange(bool bHidden){}
+
+void MeetingParticipantsCtrlEventListener::onFocusModeStateChanged(bool bEnabled){}
+
+void MeetingParticipantsCtrlEventListener::onFocusModeShareTypeChanged(FocusModeShareType type){}
+
+void MeetingParticipantsCtrlEventListener::onBotAuthorizerRelationChanged(unsigned int authorizeUserID) {}
+
+void MeetingParticipantsCtrlEventListener::onVirtualNameTagStatusChanged(bool bOn, unsigned int userID) {}
+
+void MeetingParticipantsCtrlEventListener::onVirtualNameTagRosterInfoUpdated(unsigned int userID) {}
+
+void MeetingParticipantsCtrlEventListener::onCreateCompanionRelation(unsigned int parentUserID, unsigned int childUserID)
 {
 }
 
-void MeetingParticipantsCtrlEventListener::onFocusModeStateChanged(bool bEnabled)
+void MeetingParticipantsCtrlEventListener::onRemoveCompanionRelation(unsigned int childUserID)
 {
 }
 
-void MeetingParticipantsCtrlEventListener::onFocusModeShareTypeChanged(FocusModeShareType type)
-{
-}
+
 

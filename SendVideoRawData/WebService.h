@@ -3,6 +3,6 @@
 
 #include <string>
 
-wchar_t* GetSignatureFromWebService();
+wchar_t* GetSignatureFromWebService(const std::string& url);
 
 #endif

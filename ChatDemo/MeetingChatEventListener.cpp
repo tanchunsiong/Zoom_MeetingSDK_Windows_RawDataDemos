@@ -8,7 +8,7 @@ MeetingChatEventListener::MeetingChatEventListener() {
 
 }
 
-void MeetingChatEventListener::onChatMsgNotifcation(IChatMsgInfo* chatMsg, const zchar_t* content)
+void MeetingChatEventListener::onChatMsgNotification(IChatMsgInfo* chatMsg, const zchar_t* content)
 {
 	std::cout << content << endl;
 }
@@ -18,6 +18,10 @@ void MeetingChatEventListener::onChatStatusChangedNotification(ChatStatus* statu
 }
 
 void MeetingChatEventListener::onChatMsgDeleteNotification(const zchar_t* msgID, SDKChatMessageDeleteType deleteBy)
+{
+}
+
+void MeetingChatEventListener::onChatMessageEditNotification(IChatMsgInfo* chatMsg)
 {
 }
 

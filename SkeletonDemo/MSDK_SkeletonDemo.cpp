@@ -41,11 +41,12 @@ INetworkConnectionHelper* network_connection_helper;
 wstring sdk_jwt;
 UINT64 meeting_number;
 wstring passcode;
+wstring webservice_endpoint;
 string video_source = "";
 constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
-bool isJWTWebService = false;
+bool isJWTWebService = true;
 bool isStartMeeting = false;
 
 
@@ -133,13 +134,15 @@ void LoadConfig() {
 		try {
 			f >> config;
 		}
-		catch (exception) {
+		catch (exception&) {
 			printf("config.json is in wrong format.\n");
 		}
 	}
 	else {
 		printf("Didn't find config.json file.\n");
 	}
+
+	// SDK JWT
 	if (!isConfigFileOpened || config["sdk_jwt"].empty() || config["sdk_jwt"].asString() == "") {
 		sdk_jwt = QuestionInput("SDK JWT: ");
 	}
@@ -147,6 +150,8 @@ void LoadConfig() {
 		sdk_jwt = StringToWString(config["sdk_jwt"].asString());
 		printf("Found \"SDK JWT\" from %s: \n\"%s\"\n", CONFIG_FILE, WStringToString(sdk_jwt).c_str());
 	}
+
+	// Meeting Number
 	bool toQuestionForMeetingNumber = false;
 	if (!isConfigFileOpened || config["meeting_number"].empty() || config["meeting_number"].asString() == "")
 		toQuestionForMeetingNumber = true;
@@ -157,8 +162,7 @@ void LoadConfig() {
 			oss << meeting_number;
 			printf("Found \"Meeting Number\" from %s: \"%s\"\n", CONFIG_FILE, string(oss.str()).c_str());
 		}
-		catch (exception)
-		{
+		catch (exception&) {
 			try {
 				string value = config["meeting_number"].asString();
 				meeting_number = stoull(value, nullptr, 10);
@@ -166,26 +170,26 @@ void LoadConfig() {
 				oss << meeting_number;
 				printf("Found \"Meeting Number\" from %s: \"%s\"\n", CONFIG_FILE, string(oss.str()).c_str());
 			}
-			catch (exception)
-			{
+			catch (exception&) {
 				printf("Failed to read \"meeting_number\" from config.json, it should include only numbers.\n");
 				toQuestionForMeetingNumber = true;
 			}
 		}
 	}
 	while (toQuestionForMeetingNumber) {
-		std::wcout << "Meeting Number: ";
+		std::wcout << L"Meeting Number: ";
 		string input;
 		getline(cin, input);
 		try {
 			meeting_number = stoull(input, nullptr, 10);
 			toQuestionForMeetingNumber = false;
 		}
-		catch (exception)
-		{
+		catch (exception&) {
 			printf("Meeting Number should include numbers.\n");
 		}
 	}
+
+	// Passcode
 	if (!isConfigFileOpened || config["passcode"].empty() || config["passcode"].asString() == "") {
 		passcode = QuestionInput("Passcode: ");
 	}
@@ -193,6 +197,8 @@ void LoadConfig() {
 		passcode = StringToWString(config["passcode"].asString());
 		printf("Found \"Passcode\" from %s: \"%s\"\n", CONFIG_FILE, WStringToString(passcode).c_str());
 	}
+
+	// Video Source
 	if (!isConfigFileOpened || config["video_source"].empty() || config["video_source"].asString() == "") {
 		video_source = WStringToString(QuestionInput("Video Source (file path or URL): "));
 	}
@@ -205,6 +211,14 @@ void LoadConfig() {
 		printf("No video source provided, use the default video source: %s.\n", video_source.c_str());
 	}
 
+	// Webservice Endpoint (new)
+	if (!isConfigFileOpened || config["webservice_endpoint"].empty() || config["webservice_endpoint"].asString() == "") {
+		webservice_endpoint = QuestionInput("Webservice Endpoint (https URL): ");
+	}
+	else {
+		webservice_endpoint = StringToWString(config["webservice_endpoint"].asString());
+		printf("Found \"Webservice Endpoint\" from %s: \"%s\"\n", CONFIG_FILE, WStringToString(webservice_endpoint).c_str());
+	}
 }
 
 /// <summary>
@@ -235,9 +249,9 @@ void JoinMeeting()
 	
 		
 	
-
-	JoinParam joinMeetingParam;
-	JoinParam4WithoutLogin joinMeetingWithoutLoginParam;
+	
+	ZOOM_SDK_NAMESPACE::JoinParam joinMeetingParam;
+	JoinParam4WithoutLogin joinMeetingWithoutLoginParam=joinMeetingParam.param.withoutloginuserJoin;
 	joinMeetingParam.userType = SDK_UT_WITHOUT_LOGIN;
 	joinMeetingWithoutLoginParam.meetingNumber = meeting_number;
 	joinMeetingWithoutLoginParam.psw = passcode.c_str();;
@@ -248,7 +262,7 @@ void JoinMeeting()
 	joinMeetingWithoutLoginParam.join_token = NULL;
 	joinMeetingWithoutLoginParam.vanityID = NULL;
 	//joinMeetingWithoutLoginParam.vanityID = L"magaoay";
-	joinMeetingWithoutLoginParam.customer_key = L"abcdefghijklmnopqrtsuvwxyz1234567890";
+	joinMeetingWithoutLoginParam.customer_key = L"";
 	joinMeetingWithoutLoginParam.webinarToken = NULL;
 	joinMeetingWithoutLoginParam.app_privilege_token = NULL;
 	joinMeetingWithoutLoginParam.hDirectShareAppWnd = NULL;
@@ -256,7 +270,6 @@ void JoinMeeting()
 	joinMeetingWithoutLoginParam.isVideoOff = true;
 	joinMeetingWithoutLoginParam.isDirectShareDesktop = false;
 	joinMeetingParam.param.withoutloginuserJoin = joinMeetingWithoutLoginParam;
-
 	// Set the event listener
 	meetingService->SetEvent(new MeetingServiceEventListener(&onMeetingJoined, &onMeetingEndsQuitApp, &onInMeeting));
 	
@@ -277,7 +290,7 @@ void JoinMeeting()
 		StartParam4WithoutLogin startMeetingWithoutLoginParam = startMeetingParam.param.withoutloginStart;
 		startMeetingParam.userType = ZOOM_SDK_NAMESPACE::SDK_UT_WITHOUT_LOGIN;
 
-		//startMeetingWithoutLoginParam.meetingNumber = 2096270835;
+
 		startMeetingWithoutLoginParam.meetingNumber = meeting_number;
 		startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
 		//startMeetingWithoutLoginParam.vanityID = L"magaoay";
@@ -316,7 +329,7 @@ void SDKAuth()
 	
 	//isJWTWebService
 	if (isJWTWebService) {
-	authContext.jwt_token = GetSignatureFromWebService();
+	authContext.jwt_token = GetSignatureFromWebService(WStringToString(webservice_endpoint));
 	
 	
 	}
@@ -485,3 +498,25 @@ void SkeletonDemo::onFocusModeStateChanged(bool bEnabled)
 void SkeletonDemo::onFocusModeShareTypeChanged(FocusModeShareType type)
 {
 }
+
+
+void SkeletonDemo::onBotAuthorizerRelationChanged(unsigned int authorizeUserID) 
+{
+}
+
+void SkeletonDemo::onVirtualNameTagStatusChanged(bool bOn, unsigned int userID) 
+{
+}
+
+void SkeletonDemo::onVirtualNameTagRosterInfoUpdated(unsigned int userID) 
+{
+}
+
+void SkeletonDemo::onCreateCompanionRelation(unsigned int parentUserID, unsigned int childUserID)
+{
+}
+
+void SkeletonDemo::onRemoveCompanionRelation(unsigned int childUserID)
+{
+}
+
