@@ -329,7 +329,9 @@ void JoinMeeting()
 		startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
 		//startMeetingWithoutLoginParam.vanityID = L"magaoay";
 		startMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
-		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6InBKOFpHa0FFUXNTTDd4eVJpYVpTVkEiLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjEwMSwid2NkIjoidXMwNSIsImNsdCI6MCwiZXhwIjoxNjk1ODc4NTMwLCJpYXQiOjE2OTU4NzEzMzAsImFpZCI6IjlzU19QQjJ5UjgyN25tdHNzZzl3Z1EiLCJjaWQiOiIifQ.n38PrCFE8CxAQK8_6TaN3HS8Snql0I0z4i6hQJn2HgI";
+		
+		startMeetingWithoutLoginParam.userZAK = L"";
+		//startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6InBKOFpHa0FFUXNTTDd4eVJpYVpTVkEiLCJpc3MiOiJ3ZWIiLCJzayI6IjAiLCJzdHkiOjEwMSwid2NkIjoidXMwNSIsImNsdCI6MCwiZXhwIjoxNjk1ODc4NTMwLCJpYXQiOjE2OTU4NzEzMzAsImFpZCI6IjlzU19QQjJ5UjgyN25tdHNzZzl3Z1EiLCJjaWQiOiIifQ.n38PrCFE8CxAQK8_6TaN3HS8Snql0I0z4i6hQJn2HgI";
 		//startMeetingWithoutLoginParam.join_token = NULL;
 		startMeetingWithoutLoginParam.customer_key = NULL;
 		//startMeetingWithoutLoginParam.webinarToken = NULL;
@@ -390,7 +392,7 @@ void InitSDK()
 
 
 	InitParam initParam;
-	//initParam.strWebDomain = L"https://dev-integration.zoomdev.us/";
+	
 	initParam.strWebDomain = L"https://zoom.us/";
 	initParam.enableLogByDefault = true;
 	initParam.obConfigOpts.sdkPathPostfix = random;

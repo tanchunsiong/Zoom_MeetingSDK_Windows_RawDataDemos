@@ -372,8 +372,9 @@ void JoinMeeting()
 		startMeetingWithoutLoginParam.meetingNumber = meeting_number;
 		startMeetingWithoutLoginParam.zoomuserType = ZoomUserType_APIUSER;
 		//startMeetingWithoutLoginParam.vanityID = L"magaoay";
-		startMeetingWithoutLoginParam.userName = L"RawDataSender(VirtualCam)";
-		startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6IktvMGtIb2tUU2t1NXpTVy1GU2RIMEEiLCJpc3MiOiJ3ZWIiLCJzayI6IjYyOTkzMTI0OTc4MDkwNjIwNTkiLCJzdHkiOjEwMCwid2NkIjoiYXcxIiwiY2x0IjowLCJleHAiOjE2ODk4Mzk4NzAsImlhdCI6MTY4OTgzMjY3MCwiYWlkIjoiMnlkN0JNbFRSR3VHbktyazd2QXpmUSIsImNpZCI6IiJ9.-y7lRG5o3sDt9xgQm_uaW1dZL1wOC8Pu2IS0YBV5x54";
+		startMeetingWithoutLoginParam.userName =  L"";"RawDataSender(VirtualCam)";
+		startMeetingWithoutLoginParam.userZAK = L"";
+		//startMeetingWithoutLoginParam.userZAK = L"eyJ0eXAiOiJKV1QiLCJzdiI6IjAwMDAwMSIsInptX3NrbSI6InptX28ybSIsImFsZyI6IkhTMjU2In0.eyJhdWQiOiJjbGllbnRzbSIsInVpZCI6IktvMGtIb2tUU2t1NXpTVy1GU2RIMEEiLCJpc3MiOiJ3ZWIiLCJzayI6IjYyOTkzMTI0OTc4MDkwNjIwNTkiLCJzdHkiOjEwMCwid2NkIjoiYXcxIiwiY2x0IjowLCJleHAiOjE2ODk4Mzk4NzAsImlhdCI6MTY4OTgzMjY3MCwiYWlkIjoiMnlkN0JNbFRSR3VHbktyazd2QXpmUSIsImNpZCI6IiJ9.-y7lRG5o3sDt9xgQm_uaW1dZL1wOC8Pu2IS0YBV5x54";
 		//startMeetingWithoutLoginParam.join_token = NULL;
 		startMeetingWithoutLoginParam.customer_key = NULL;
 		//startMeetingWithoutLoginParam.webinarToken = NULL;
