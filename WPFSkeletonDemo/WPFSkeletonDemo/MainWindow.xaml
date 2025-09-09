@@ -1,0 +1,126 @@
+<Window x:Class="WPFSkeletonDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace=WPFSkeletonDemo"
+        mc:Ignorable="d"
+        Title="Zoom Meeting SDK WPF Demo" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Configuration Section -->
+        <GroupBox Header="Configuration" Grid.Row="0" Margin="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- JWT Token -->
+                <Label Content="JWT Token:" Grid.Row="0" Grid.Column="0" Margin="5"/>
+                <TextBox x:Name="txtJwtToken" Grid.Row="0" Grid.Column="1" Margin="5"
+                        Text=""/>
+
+                <!-- Meeting Number -->
+                <Label Content="Meeting Number:" Grid.Row="1" Grid.Column="0" Margin="5"/>
+                <TextBox x:Name="txtMeetingNumber" Grid.Row="1" Grid.Column="1" Margin="5"
+                        Text=""/>
+
+                <!-- Passcode -->
+                <Label Content="Passcode:" Grid.Row="2" Grid.Column="0" Margin="5"/>
+                <TextBox x:Name="txtPasscode" Grid.Row="2" Grid.Column="1" Margin="5"
+                        Text=""/>
+
+                <!-- User Name -->
+                <Label Content="User Name:" Grid.Row="3" Grid.Column="0" Margin="5"/>
+                <TextBox x:Name="txtUserName" Grid.Row="3" Grid.Column="1" Margin="5"
+                        Text=""/>
+
+                <!-- Buttons -->
+                <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" Orientation="Vertical" Margin="5">
+                    <Button x:Name="btnInitialize" Content="Initialize SDK" Margin="0,0,0,5"
+                            Click="btnInitialize_Click" Width="120"/>
+                    <Button x:Name="btnAuthenticate" Content="Authenticate" Margin="0,0,0,5"
+                            Click="btnAuthenticate_Click" Width="120"/>
+                    <Button x:Name="btnJoinMeeting" Content="Join Meeting" Margin="0,0,0,5"
+                            Click="btnJoinMeeting_Click" Width="120"/>
+                    <Button x:Name="btnStartMeeting" Content="Start Meeting" Margin="0,0,0,5"
+                            Click="btnStartMeeting_Click" Width="120"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- Meeting Control Section -->
+        <GroupBox Header="Meeting Controls" Grid.Row="1" Margin="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Audio/Video Controls -->
+                <GroupBox Header="Audio/Video" Grid.Row="0" Grid.Column="0" Margin="5">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Button x:Name="btnMuteAudio" Content="Mute Audio" Margin="0,0,5,0"
+                                Click="btnMuteAudio_Click" Width="80"/>
+                        <Button x:Name="btnMuteVideo" Content="Mute Video" Margin="0,0,5,0"
+                                Click="btnMuteVideo_Click" Width="80"/>
+                        <CheckBox x:Name="chkAudioMuted" Content="Audio Muted" Margin="10,0,0,0" IsEnabled="False"/>
+                        <CheckBox x:Name="chkVideoMuted" Content="Video Muted" Margin="10,0,0,0" IsEnabled="False"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Meeting Actions -->
+                <GroupBox Header="Actions" Grid.Row="0" Grid.Column="1" Margin="5">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Button x:Name="btnLeaveMeeting" Content="Leave Meeting" Margin="0,0,5,0"
+                                Click="btnLeaveMeeting_Click" Width="100"/>
+                        <Button x:Name="btnEndMeeting" Content="End Meeting" Margin="0,0,5,0"
+                                Click="btnEndMeeting_Click" Width="100"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Participants List -->
+                <GroupBox Header="Participants" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+                    <ListBox x:Name="lstParticipants" Height="150" Margin="5"/>
+                </GroupBox>
+
+                <!-- Status and Log -->
+                <GroupBox Header="Status and Log" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+                    <TextBox x:Name="txtLog" IsReadOnly="True" VerticalScrollBarVisibility="Auto"
+                            HorizontalScrollBarVisibility="Auto" Margin="5"
+                            Text=""/>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
+        <!-- Status Bar -->
+        <!--<StatusBar Grid.Row="2">
+            <StatusBarItem>
+            <TextBlock x:Name="txtStatus" Text=""/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock x:Name="txtMeetingInfo" Text=""/>
+            </StatusBarItem>
+        </StatusBar>-->
+    </Grid>
+</Window>

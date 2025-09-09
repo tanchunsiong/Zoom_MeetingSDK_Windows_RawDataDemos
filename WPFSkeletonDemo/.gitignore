@@ -1,0 +1,71 @@
+# Build outputs
+bin/
+obj/
+Debug/
+Release/
+x64/
+Win32/
+
+# DLL files (including Zoom SDK DLLs)
+*.dll
+*.DLL
+
+
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.tmp
+*.temp
+*.cache
+*.log
+
+# WPF specific
+*.g.cs
+*.g.i.cs
+*.xaml.cs~
+
+# NuGet packages
+packages/
+*.nupkg
+
+# Windows specific
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and temporary files
+*.log
+logs/
+temp/
+tmp/
+
+# Zoom SDK specific (if you have local copies)
+SDK/
+sdk/
+zoom_sdk/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific excludes
+WPFSkeletonDemo.sln.DotSettings.user
+ZoomSDKWrapper.def
