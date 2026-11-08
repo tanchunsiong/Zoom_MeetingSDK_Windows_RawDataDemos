@@ -1,4 +1,4 @@
-﻿# PKCEAuthDemo
+# PKCEAuthDemo
 
 Meeting SDK for Windows demo that authenticates with OAuth Authorization Code + PKCE using a Zoom public client - no JWT and no SDK key/secret anywhere in the flow.
 
@@ -19,7 +19,7 @@ redirect_uri must be byte-identical - including any query string - between the a
 ## Callback modes
 
 - manual (default, verified): opens the Zoom authorize page; paste the code= value (or the whole redirect URL) into the console.
-- loopback: the app listens on http://127.0.0.1:<loopback_port>/callback and captures the code automatically. Requires the loopback redirect to be whitelisted on the app; activate with "callback_mode": "loopback".
+- loopback: set "callback_mode": "loopback" and the app listens on http://127.0.0.1:<loopback_port>/callback, capturing the code automatically - no pasting. For this, the redirect must actually go to loopback: add http://127.0.0.1:<loopback_port>/callback (exact, including any path) to the allow list on the Marketplace app. In this mode the redirect_uri config value is not used for the browser redirect; the loopback URL is used instead, and it is also what the token exchange sends, keeping the byte-identical rule intact.
 
 ## Config keys (config.json, copy from config-example.json)
 
