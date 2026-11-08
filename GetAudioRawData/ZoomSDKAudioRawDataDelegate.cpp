@@ -16,7 +16,7 @@ void ZoomSDKAudioRawDataDelegate::onOneWayAudioRawDataReceived(AudioRawData* aud
 	//std::cout << "Received onOneWayAudioRawDataReceived" << std::endl;
 	//add your code here
 }
-void ZoomSDKAudioRawDataDelegate::onShareAudioRawDataReceived(AudioRawData* data_)
+void ZoomSDKAudioRawDataDelegate::onShareAudioRawDataReceived(AudioRawData* data_, uint32_t user_id)
 {
 }
 void ZoomSDKAudioRawDataDelegate::onOneWayInterpreterAudioRawDataReceived(AudioRawData* data_, const zchar_t* pLanguageName)

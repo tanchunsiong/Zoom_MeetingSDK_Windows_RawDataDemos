@@ -17,6 +17,6 @@ class ZoomSDKAudioRawDataDelegate :
 public:
 	virtual void onMixedAudioRawDataReceived(AudioRawData* data_);
 	virtual void onOneWayAudioRawDataReceived(AudioRawData* data_, uint32_t node_id);
-	virtual void onShareAudioRawDataReceived(AudioRawData* data_);
+	virtual void onShareAudioRawDataReceived(AudioRawData* data_, uint32_t user_id);
 	virtual void onOneWayInterpreterAudioRawDataReceived(AudioRawData* data_, const zchar_t* pLanguageName);
 };

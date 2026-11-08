@@ -1,7 +1,8 @@
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
+#include "..\SDKCompatEventAdapters.h"
 
 using namespace ZOOMSDK;
-class SkeletonDemo : public IMeetingParticipantsCtrlEvent {
+class SkeletonDemo : public MeetingParticipantsCtrlEventAdapter {
 
 	
 	virtual void onUserJoin(IList<unsigned int >* lstUserID, const zchar_t* strUserList = NULL);

@@ -1,128 +1,72 @@
-
 # Meeting SDK for Windows - Get Video Raw Data
 
-A Windows C++ Application demonstrate Zoom Meeting SDK receiving Video raw data from a Zoom Meeting.
+This sample shows how to start raw recording, create a renderer, and subscribe to a participant's video stream.
 
-## Additional dependency libs.
+## Prerequisites
 
-This sample requires CURL and Json Parser
+- Visual Studio 2022
+- Zoom Meeting SDK for Windows unpacked to `SDK/` at the repository root
+- `vcpkg` with `curl` and `jsoncpp`
+- A `config.json` file in this folder
+- Host, co-host, or raw-recording permission in the target meeting
 
-We are using vcpkg to install these dependencies on Windows
+### Install dependencies
 
-### Installing vcpkg
-You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
+```powershell
+git clone https://github.com/microsoft/vcpkg C:\vcpkg
+cd C:\vcpkg
+.\bootstrap-vcpkg.bat
+.\vcpkg integrate install
+.\vcpkg install curl jsoncpp
 ```
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-./bootstrap-vcpkg.sh 
-./vcpkg integrate install --vcpkg-root c:\vcpkg
-```
 
-### Installing cURL and JSON Parser using vckpg
+## config.json
 
-`./vcpkg install curl`
+Create `GetVideoRawData/config.json`:
 
-`./vcpkg install jsoncpp`
-
-## Add a configuration file named `config.json`
-
-This is file which is used to pass in your sdk auth signature (aka jwt token, aka auth signature)
-
-```
+```json
 {
-  "sdk_jwt": "<your_sdk_jwt>",
-  "meeting_number": <meeting_number_to_join>,
-  "passcode": "<passcode>",
+  "sdk_jwt": "<sdk_auth_token>",
+  "meeting_number": "1234567890",
+  "passcode": "123456",
   "video_source": "Big_Buck_Bunny_1080_10s_1MB.mp4",
-  "zak":""
+  "webservice_endpoint": "https://your-auth-endpoint.example.com"
 }
 ```
 
-The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
+This sample uses `sdk_jwt` directly by default because `isJWTWebService = false` in `MSDK_GetVideoRawData.cpp`.
 
-## Add the sdk files into a folder name `SDK`
+## Build and run
 
-The folder should look something like this
+- Open `Zoom_MeetingSDK_Windows_RawDataDemos.sln`.
+- Set `GetVideoRawData` as the startup project.
+- Select `x64`.
+- Press `F5`.
 
-- SDK
-	- x64
-	- x86
-	- CHANGELOG.MD
-	- OSS-LICENSE.txt
-	- README.md
-	- version.txt
+## Entry point
 
+The sample starts in `MSDK_GetVideoRawData.cpp`.
 
+## What the sample does
 
-## Open and Run Project
+- Joins the configured meeting.
+- Waits until `CanIStartRecording()` succeeds.
+- Calls `StartRawRecording()`.
+- Creates a renderer with `createRenderer(...)`.
+- Subscribes that renderer to a user's video stream with `subscribe(userID, RAW_DATA_TYPE_VIDEO)`.
+- Receives YUV420 frames in `ZoomSDKRendererDelegate.cpp`.
 
-Right click on "GetVideoRawData" and "Startup as Project" in Visual Studio
+The sample saves raw frames for inspection. If you convert them later, keep resolutions separated or normalize them first.
 
+## Troubleshooting
 
-Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
+- If `subscribe()` fails, verify the meeting is fully connected and raw recording has started.
+- If you see corrupted output, make sure you are not mixing frames from different resolutions into the same file.
+- If `json/json.h` is missing, verify your `vcpkg` integration.
 
+## Upgrading the SDK
 
-## Error
-
-if you are getting an error about not being able to open source json/json.h , include this in your
-
-Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include Directories,
-
-
-## Getting Started
-
-The main method, or main entry point of this application is at `MSDK_xxxxxxxDemo.cpp`
-
-From a high level point of view it will do the below.
-- Join a meeting
-- Wait for callback or status update. There are some prerequistes before you can get video raw data. The `CanIStartRecording()` method helps to check if you have fulfilled these requirements
-  - You need to have host, co-host or recording permissions
-  - You need to be in-meeting. This is the status when you have fully joined a meeting.
-- Get the Meeting Recording Controller
-  - Use the Meeting Recording Controller to call `StartRawRecording()`. Do note that you can only either run `StartRecording()` or `StartRawRecording()`. You cannot run them both at once.
-- Thereafter, you should be able to `createRenderer()`, which we will later use to subscribe a specific user's video stream. You will need to put in a videoHelper (implementation of IZoomSDKRenderer) and videoSource (implementation of IZoomSDKRendererDelegate). Thereafter use your videoHelper to subscribe to a user by their userID. If you encounter error calling `subscribe()`, you might be calling it without the prequisites. Note that there is a limit of number of users you can subscribe to. This is dependent on the resolution subscribed. //to be completed
-  - In the implementation(`ZoomSDKRendererDelegate.cpp`), `onRawDataFrameReceived` will start to receive callbacks.
-  - I'm using `onRawDataFrameReceived` to save the YUV420 buffer into a file. You will need to use a converter such as ffmpeg to convert this YUV file into a playable mp4 or other playable video file. Do note that if you encounter corruption in your playable file, you might not be processing the YUV420 buffer according to standards. Do note that there might be varied resolution returned from the callback. Do not mixed them into the same saved file without processing. You will encounter corrupted file in playback. YUV processing is out of scope for this sample app.
-
-
-# Upgrading Guide
-
-You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
-
-Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
-
-You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
-
-# Troubleshooting Guide
-
-## Error
-
-if you are getting an error about not being able to open source json/json.h , include this in your
-
-Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include Directories,
-
- ### x64
- C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x64-windows\include
- 
- or
-
- ### x86
- C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x86-windows\include
- 
-
-## Resolving Conversion Errors
-
-ffmpeg -f rawvideo -pix_fmt yuv420p -video_size 1280*720 -framerate 25 -i output.yuv -f mp4 output.mp4
-
-What are the specs of the returned YUV buffer?
-The resolution can range from 1920x1080, 1280x720, 640x360 etc....
-
-What are some libraries I need to include in the main class? 
-you will need to `#include <meeting_recording_interface.h>`
-
-What can i use to playback or convert the YUV file into something playable?
-
-Why does my app crash after running for a while?
-
-Do note that YUV raw buffers are huge in size, it is not recommended to save these raw buffer directly to disk. Do look up on how to use ffmpeg or opencv to convert these raw buffers into decently sized, playable video files.
+- Download the latest Windows Meeting SDK.
+- Replace the contents of the repository-root `SDK/` folder.
+- Rebuild the solution and update any code impacted by SDK API changes.
 

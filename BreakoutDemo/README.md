@@ -1,106 +1,77 @@
 # Meeting SDK for Windows - Breakout Demo
 
-A Windows C++ Application demonstrate Zoom Meeting SDK Breakout Room features
+This sample shows the basic wiring for the Meeting SDK breakout-room controller APIs.
 
-## Additional dependency libs.
+## Prerequisites
 
-This sample requires CURL and Json Parser
+- Visual Studio 2022
+- Zoom Meeting SDK for Windows unpacked to `SDK/` at the repository root
+- `vcpkg` with `curl` and `jsoncpp`
+- A `config.json` file in this folder
+- Breakout rooms enabled for the account and meeting you are testing
+- Host or co-host permissions for breakout-room management
 
-We are using vcpkg to install these dependencies on Windows
+### Install dependencies
 
-### Installing vcpkg
-You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
+```powershell
+git clone https://github.com/microsoft/vcpkg C:\vcpkg
+cd C:\vcpkg
+.\bootstrap-vcpkg.bat
+.\vcpkg integrate install
+.\vcpkg install curl jsoncpp
 ```
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-./bootstrap-vcpkg.sh 
-./vcpkg integrate install --vcpkg-root c:\vcpkg
-```
 
-### Installing cURL and JSON Parser using vckpg
+## config.json
 
-`./vcpkg install curl`
+Create `BreakoutDemo/config.json`:
 
-`./vcpkg install jsoncpp`
-
-## Add a configuration file named `config.json`
-
-This is file which is used to pass in your sdk auth signature (aka jwt token, aka auth signature)
-
-```
+```json
 {
-  "sdk_jwt": "<your_sdk_jwt>",
-  "meeting_number": <meeting_number_to_join>,
-  "passcode": "<passcode>",
+  "sdk_jwt": "<sdk_auth_token>",
+  "meeting_number": "1234567890",
+  "passcode": "123456",
   "video_source": "Big_Buck_Bunny_1080_10s_1MB.mp4",
-  "zak":""
+  "webservice_endpoint": "https://your-auth-endpoint.example.com"
 }
 ```
 
-The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
+This sample uses `sdk_jwt` directly by default because `isJWTWebService = false` in `MSDK_BreakoutDemo.cpp`.
 
-## Add the sdk files into a folder name `SDK`
+## Build and run
 
-The folder should look something like this
+- Open `Zoom_MeetingSDK_Windows_RawDataDemos.sln`.
+- Set `BreakoutDemo` as the startup project.
+- Select `x64`.
+- Press `F5`.
 
-- SDK
-	- x64
-	- x86
-	- CHANGELOG.MD
-	- OSS-LICENSE.txt
-	- README.md
-	- version.txt
+## Entry point
 
+The sample starts in `MSDK_BreakoutDemo.cpp`.
 
+## What the sample does
 
-## Open and Run Project
+- Authenticates with the Meeting SDK.
+- Starts a meeting by default because `isStartMeeting = true` in the current code.
+- Attaches `IMeetingBOControllerEventListener`.
+- Accesses breakout helpers such as `GetBOAdminHelper()`, `GetBOCreatorHelper()`, and `GetBODataHelper()`.
+- Enumerates breakout meetings and unassigned users once the client is in meeting.
 
-Right click on "BreakoutDemo" and "Startup as Project" in Visual Studio
+## Notes
 
+- This sample is still a starter project rather than a complete breakout workflow.
+- If you want to join an existing meeting instead of starting one, review the `isStartMeeting` branch in `MSDK_BreakoutDemo.cpp`.
+- Depending on your account setup, you may need additional start-meeting parameters for your host flow.
 
-Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
+## Troubleshooting
 
+- If breakout helpers return empty data, verify breakout rooms are enabled and you are testing with host-level permissions.
+- If authentication fails, confirm `sdk_jwt` matches the Meeting SDK app you are using.
+- If `json/json.h` is missing, verify your `vcpkg` integration.
 
-## Error
+## Upgrading the SDK
 
-if you are getting an error about not being able to open source json/json.h , include this in your
+- Download the latest Windows Meeting SDK.
+- Replace the contents of the repository-root `SDK/` folder.
+- Rebuild the solution and update any code impacted by SDK API changes.
 
-Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include Directories,
-
-
-## Getting Started
-
-The main method, or main entry point of this application is at `MSDK_xxxxxxxDemo.cpp`
-
-From a high level point of view it will do the below.
-- Join a meeting
-- Wait for callback or status update. There are some prerequistes before you can fully run the caption demo. You will need the live translation and transcription service turned on in your account.
-  - You need to have host, co-host or recording permissions
-  - You need to be in-meeting. This is the status when you have fully joined a meeting.
-- to be finished
-
-
-# Upgrading Guide
-
-You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
-
-Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
-
-You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
-
-# Troubleshooting Guide
-
-## Error
-
-if you are getting an error about not being able to open source json/json.h , include this in your
-
-Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include Directories,
-
- ### x64
- C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x64-windows\include
- 
- or
-
- ### x86
- C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x86-windows\include
 

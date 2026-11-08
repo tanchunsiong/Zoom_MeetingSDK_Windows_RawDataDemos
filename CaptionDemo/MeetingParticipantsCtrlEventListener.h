@@ -4,10 +4,11 @@
 #include <meeting_service_interface.h>
 #include <meeting_service_components/meeting_audio_interface.h>
 #include <meeting_service_components/meeting_participants_ctrl_interface.h>
+#include "..\SDKCompatEventAdapters.h"
 using namespace ZOOMSDK;
 
 class MeetingParticipantsCtrlEventListener :
-	public IMeetingParticipantsCtrlEvent
+	public MeetingParticipantsCtrlEventAdapter
 {
 	void (*onIsHost_)();
 	void (*onIsCoHost_)();

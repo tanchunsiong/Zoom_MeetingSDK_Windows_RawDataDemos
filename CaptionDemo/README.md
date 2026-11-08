@@ -1,117 +1,70 @@
-
 # Meeting SDK for Windows - Caption Demo
 
-A Windows C++ Application demonstrate Zoom Meeting SDK Live Caption and Transcription features
+This sample shows how to work with live captions and live transcription features from the Windows Meeting SDK.
 
-## Additional dependency libs.
+## Prerequisites
 
-This sample requires CURL and Json Parser
+- Visual Studio 2022
+- Zoom Meeting SDK for Windows unpacked to `SDK/` at the repository root
+- `vcpkg` with `curl` and `jsoncpp`
+- A `config.json` file in this folder
+- Captions and transcription enabled for the account and meeting you are testing
+- Appropriate meeting privileges for the caption actions you want to invoke
 
-We are using vcpkg to install these dependencies on Windows
+### Install dependencies
 
-### Installing vcpkg
-You might need to use Powershell (as administrator) or Windows Terminal to execute the sh script files
+```powershell
+git clone https://github.com/microsoft/vcpkg C:\vcpkg
+cd C:\vcpkg
+.\bootstrap-vcpkg.bat
+.\vcpkg integrate install
+.\vcpkg install curl jsoncpp
 ```
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-./bootstrap-vcpkg.sh 
-./vcpkg integrate install --vcpkg-root c:\vcpkg
-```
 
-### Installing cURL and JSON Parser using vckpg
+## config.json
 
-`./vcpkg install curl`
+Create `CaptionDemo/config.json`:
 
-`./vcpkg install jsoncpp`
-
-## Add a configuration file named `config.json`
-
-This is file which is used to pass in your sdk auth signature (aka jwt token, aka auth signature)
-
-```
+```json
 {
-  "sdk_jwt": "<your_sdk_jwt>",
-  "meeting_number": <meeting_number_to_join>,
-  "passcode": "<passcode>",
+  "sdk_jwt": "<sdk_auth_token>",
+  "meeting_number": "1234567890",
+  "passcode": "123456",
   "video_source": "Big_Buck_Bunny_1080_10s_1MB.mp4",
-  "zak":""
+  "webservice_endpoint": "https://your-auth-endpoint.example.com"
 }
 ```
 
-The app will try to join the meeting follow the Meeting Number you specified in the config.json. 
+This sample uses `sdk_jwt` directly by default because `isJWTWebService = false` in `MSDK_CaptionDemo.cpp`.
 
-## Add the sdk files into a folder name `SDK`
+## Build and run
 
-The folder should look something like this
+- Open `Zoom_MeetingSDK_Windows_RawDataDemos.sln`.
+- Set `CaptionDemo` as the startup project.
+- Select `x64`.
+- Press `F5`.
 
-- SDK
-	- x64
-	- x86
-	- CHANGELOG.MD
-	- OSS-LICENSE.txt
-	- README.md
-	- version.txt
+## Entry point
 
+The sample starts in `MSDK_CaptionDemo.cpp`.
 
+## What the sample does
 
-## Open and Run Project
+- Joins the configured meeting.
+- Gets `IClosedCaptionController` from the meeting service.
+- Attaches `ClosedCaptionControllerEventListener`.
+- Demonstrates manual caption operations such as `EnableMeetingManualCaption`, `AssignCCPrivilege`, and `SendClosedCaption`.
+- Demonstrates live transcription operations such as `StartLiveTranscription`, `SetTranslationLanguage`, and `EnableReceiveSpokenLanguageContent`.
 
-Right click on "CaptionDemo" and "Startup as Project" in Visual Studio
+## Troubleshooting
 
+- If callbacks never fire, verify captions or transcription are enabled for the meeting and account.
+- Some caption actions require host, co-host, or explicitly assigned caption privilege.
+- If `json/json.h` is missing, verify your `vcpkg` integration.
 
-Hit F5 or click from menu "Debug" -> "Start Debugging" in x86 or x64 to launch the application.
+## Upgrading the SDK
 
-
-## Error
-
-if you are getting an error about not being able to open source json/json.h , include this in your
-
-Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include Directories,
-
-
-## Getting Started
-
-The main method, or main entry point of this application is at `MSDK_xxxxxxxDemo.cpp`
-
-From a high level point of view it will do the below.
-- Join a meeting
-- Wait for callback or status update. There are some prerequistes before you can fully run the caption demo. You will need the live translation and transcription service turned on in your account.
-  - You need to have host, co-host or recording permissions
-  - You need to be in-meeting. This is the status when you have fully joined a meeting.
-- Get the IClosedCaption Controller
-  - Use the IClosedCaption Controller to setEvent to an instance of  ClosedCaptionControllerEventListener. ClosedCaptionControllerEventListener is an implementation of IClosedCaptionControllerEvent
-- Thereafter, there are 2 main functionalities which you can test out.
-  - closed caption demo: To trigger the `onClosedCaptionMsgReceived` callback, these are the related methods
-    - EnableMeetingManualCaption
-	- AssignCCPriviledge
-	- SendClosedCaption
-  - transcription demo: To trigger the `onLiveTranscriptionStatus` , `onLiveTranscriptionMsgInfoReceived`, `onLiveTranscriptionMsgError`, `onOriginalLanguageMsgReceived`
-    - StartLiveTranscription
-    - SetTranslationLanguage
-    - EnableReceiveSpokenLanguageContent
-
-# Upgrading Guide
-
-You will need to download the latest Meeting SDK Windows for c++ from marketplace.zoom.us
-
-Replace the files in the folder `SDK` with those found in the downloaded files from marketplace.zoom.us
-
-You will need to ensure any missing abstract classes are implemented etc... before you can compile and upgrade to a newer SDK version.
-
-# Troubleshooting Guide
-
-## Error
-
-if you are getting an error about not being able to open source json/json.h , include this in your
-
-Visual Studio Project -> Properties. Under C/C++ ->General ->Additional Include Directories,
-
- ### x64
- C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x64-windows\include
- 
- or
-
- ### x86
- C:\yourpath\whereyouinstalled\vcpkg\packages\jsoncpp_x86-windows\include
-
+- Download the latest Windows Meeting SDK.
+- Replace the contents of the repository-root `SDK/` folder.
+- Rebuild the solution and update any code impacted by SDK API changes.
 

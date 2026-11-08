@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "zoom_sdk.h"
 #include <meeting_service_components/meeting_closedcaption_interface.h> //CaptionDemo
+#include "..\SDKCompatEventAdapters.h"
 #include <string>
 
 using namespace std;
@@ -9,7 +10,7 @@ using namespace ZOOMSDK;
 
 
 class ClosedCaptionControllerEventListener :
-	public IClosedCaptionControllerEvent
+	public ClosedCaptionControllerEventAdapter
 {
 	void (*onLiveTransMsgInfoRec_)();
 	void (*onClosedCaptionMsgRec_)();

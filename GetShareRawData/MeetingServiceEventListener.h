@@ -2,11 +2,12 @@
 #include <windows.h>
 #include "zoom_sdk.h"
 #include <meeting_service_interface.h>
+#include "..\SDKCompatEventAdapters.h"
 
 using namespace ZOOMSDK;
 
 class MeetingServiceEventListener :
-	public IMeetingServiceEvent
+    public MeetingServiceEventAdapter
 {
 	void (*onMeetingEnds_)();
 	void (*onMeetingStarts_)();

@@ -30,7 +30,7 @@
 
   <Target Name="CopyZoomSDKDependencies" AfterTargets="Build">
     <ItemGroup>
-      <ZoomSDKDlls Include="..\SDK\x64\bin\*.dll" />
+      <ZoomSDKDlls Include="..\..\SDK\x64\bin\*.dll" />
       <ZoomSDKWrapperDll Include="..\bin\$(Configuration)\ZoomSDKWrapper.dll" />
     </ItemGroup>
     <Copy SourceFiles="@(ZoomSDKDlls)" DestinationFolder="$(OutDir)" />

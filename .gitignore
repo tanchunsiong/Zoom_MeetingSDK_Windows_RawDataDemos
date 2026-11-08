@@ -18,3 +18,7 @@ Debug
 *.yuv
 #*.mp4
 /MSDK_RawDataDemos.sln
+vcpkg_installed/
+SDK/_extracted/
+SDK/zoom-sdk-windows-*.zip
+native-build.log

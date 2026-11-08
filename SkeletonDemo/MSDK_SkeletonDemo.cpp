@@ -39,6 +39,7 @@ IAuthService* authService;
 INetworkConnectionHelper* network_connection_helper;
 //references for send raw video data
 wstring sdk_jwt;
+wstring public_app_key;
 UINT64 meeting_number;
 wstring passcode;
 wstring webservice_endpoint;
@@ -47,6 +48,7 @@ constexpr auto DEFAULT_VIDEO_SOURCE = "Big_Buck_Bunny_1080_10s_1MB.mp4";
 constexpr auto CONFIG_FILE = "config.json";
 
 bool isJWTWebService = true;
+bool usePublicAppKey = false;
 bool isStartMeeting = false;
 
 
@@ -149,6 +151,16 @@ void LoadConfig() {
 	else {
 		sdk_jwt = StringToWString(config["sdk_jwt"].asString());
 		printf("Found \"SDK JWT\" from %s: \n\"%s\"\n", CONFIG_FILE, WStringToString(sdk_jwt).c_str());
+	}
+
+	// Public app key. When present, use public-client SDK authentication instead of JWT.
+	if (!isConfigFileOpened || config["public_app_key"].empty() || config["public_app_key"].asString() == "") {
+		public_app_key = L"";
+	}
+	else {
+		public_app_key = StringToWString(config["public_app_key"].asString());
+		usePublicAppKey = true;
+		printf("Found \"Public App Key\" from %s: \"%S\"\n", CONFIG_FILE, public_app_key.c_str());
 	}
 
 	// Meeting Number
@@ -326,16 +338,19 @@ void SDKAuth()
 	AuthContext authContext;
 	if ((err = authService->SetEvent(new AuthServiceEventListener(JoinMeeting))) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);
 	std::cout << "AuthServiceEventListener added." << std::endl;
-	//authContext.jwt_token = sdk_jwt.c_str();
-	
-	//isJWTWebService
-	if (isJWTWebService) {
-	authContext.jwt_token = GetSignatureFromWebService(WStringToString(webservice_endpoint));
-	
-	
+
+	if (usePublicAppKey && !public_app_key.empty()) {
+		authContext.publicAppKey = public_app_key.c_str();
+		std::cout << "Using public app key authentication." << std::endl;
 	}
 	else {
-		authContext.jwt_token = sdk_jwt.c_str();
+		//isJWTWebService
+		if (isJWTWebService) {
+			authContext.jwt_token = GetSignatureFromWebService(WStringToString(webservice_endpoint));
+		}
+		else {
+			authContext.jwt_token = sdk_jwt.c_str();
+		}
 	}
 	
 	if ((err = authService->SDKAuth(authContext)) != SDKError::SDKERR_SUCCESS) ShowErrorAndExit(err);

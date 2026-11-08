@@ -1,0 +1,20 @@
+{
+  "sdk_jwt": "<sdk_auth_token>",
+  "meeting_number": "1234567890",
+  "passcode": "123456",
+  "user_name": "Talkback Demo",
+  "use_webservice_for_auth": false,
+  "webservice_endpoint": "https://your-auth-endpoint.example.com",
+  "start_meeting": false,
+  "channel_count": 1,
+  "background_volume": 0.3,
+  "invite_user_ids": [
+    12345678,
+    23456789
+  ],
+  "auto_send_demo_audio": true,
+  "sample_rate": 48000,
+  "audio_channel": "mono",
+  "tone_frequency_hz": 660,
+  "tone_duration_seconds": 5
+}

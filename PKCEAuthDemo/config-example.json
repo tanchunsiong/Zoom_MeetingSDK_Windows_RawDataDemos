@@ -1,0 +1,10 @@
+﻿{
+	"public_client_id": "OSIBc76TMirHR5upgkVw",
+	"redirect_uri": "https://nodejs.asdc.cc/redirecturlforoauth?type=user",
+	"callback_mode": "manual",
+	"loopback_port": 53390,
+	"meeting_number": 1234567890,
+	"user_name": "PKCE Demo",
+	"video_off": false,
+	"audio_off": false
+}
